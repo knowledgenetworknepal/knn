@@ -7,6 +7,7 @@ User = get_user_model()
 class Category(models.Model):
     category_name = models.CharField(max_length=50)
     added_by = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
+    featured = models.BooleanField(default=False)    
 
 
 class Author(models.Model):
@@ -25,12 +26,12 @@ class Book(models.Model):
     price = models.FloatField()
     slug = models.SlugField(unique=True, blank=True)
     featured = models.BooleanField(default=False)    
+    image = models.ImageField(upload_to='upload/%Y/%M', null=True, blank=True)
 
 
 class BookImage(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='book_image')
     image = models.ImageField(upload_to='upload/%Y/%M')
-    main_image = models.BooleanField(default=False)
 
 
 class BookUpload(models.Model):
@@ -51,7 +52,28 @@ class Review(models.Model):
     review = models.CharField(max_length=200)
     review_date = models.DateTimeField(auto_now=True)
     edited_date = models.DateTimeField(auto_now_add=True)
-    
+
+
+# COULD: this could be used
+class Favourite(models.Model):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='favourite_book')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_favourite')
+
+
+# COULD: this cound be used
+class Rating(models.Model):
+    STAR = (
+        ('none','none'),
+        ('1','1'),
+        ('2','2'),
+        ('3','3'),
+        ('4','4'),
+        ('5','5')
+    )
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='book_rating')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_rating')
+    rating = models.CharField(choices=STAR, max_length=20)
+
 
 class CartItem(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='cart_book')
@@ -79,4 +101,18 @@ class Order(models.Model):
     ordered = models.BooleanField(default=False)
     dispatched = models.BooleanField(default=False)
     delivery_status = models.CharField(choices=DELIVERY_STATUS, max_length=20, default='none')
+
+
+class Featured(models.Model):
+    AD_TYPE = (
+        ('none','none'),
+        ('main','mani'),
+        ('footer','footer')
+    )
+    image = models.ImageField(upload_to='upload/%Y/%M')
+    title = models.CharField(max_length=100)
+    url = models.URLField()
+    sub_title = models.CharField(max_length=100)
+    type = models.CharField(choices=AD_TYPE, max_length=50)
+    status = models.BooleanField(default=True)
 

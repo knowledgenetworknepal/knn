@@ -1,4 +1,3 @@
-from knn.userapp.models import Notification
 from django.urls import path
 from .views import *
 

@@ -14,7 +14,7 @@ User = get_user_model()
 class UserRegistrationView(CreateView):
     model = User
     form_class = RegistrationForm
-    template_name = ''
+    template_name = 'userapp/register.html'
 
     def get_success_url(self):
         pass

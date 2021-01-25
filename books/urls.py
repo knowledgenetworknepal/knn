@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import AddCheckoutLoction, AddNewBookView, AddReview, AddToCart, BookDetailView, CartView, ConfirmOrderView, ListBooksView, OrderBooks
 
-urlpattern = [
+urlpatterns = [
     path('', ListBooksView.as_view(), name='list_books'),
     path('book/add/', AddNewBookView.as_view(), name='add_new_book'),
     path('book/<str:slug>/', BookDetailView.as_view(), name='book_details'),

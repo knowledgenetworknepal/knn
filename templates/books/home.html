@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}  Knowledge Network Nepal {% endblock %}
+
+{% block content %} 
+    
+    <h2>latest book</h2><br>
+
+    {% for book in books %}
+        {{book.book_name }}<br>
+        {{book.image.url}}
+        <img src="{{ book.image.url }}"/>
+    
+    {% endfor %}
+
+
+    <h2>famous book</h2><br>
+    {% for book in famous_books %}
+    {{book.book_name }}<br>
+    {{book.image.url}}
+
+    {% endfor %}
+
+    <h2>featured book</h2><br>
+    {% for book in featured_books %}
+    {{book.book_name }}<br>
+    {{book.image.url}}
+
+    {% endfor %}
+
+{% endblock %}
