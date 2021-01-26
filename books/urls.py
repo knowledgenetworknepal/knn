@@ -14,6 +14,6 @@ urlpatterns = [
     path('order/confirm/', ConfirmOrderView.as_view(), name='confirm_order'),
     path('order/checkout/location/', AddCheckoutLoction.as_view(), name='add_checkout_location'),
 
-    path('order/', OrderBooks.as_view(), name='order'),
+    path('order/<int:location_id>/', OrderBooks.as_view(), name='order'),
 
 ]

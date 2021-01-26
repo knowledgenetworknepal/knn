@@ -27,6 +27,7 @@ class Book(models.Model):
     slug = models.SlugField(unique=True, blank=True)
     featured = models.BooleanField(default=False)    
     image = models.ImageField(upload_to='upload/%Y/%M', null=True, blank=True)
+    count = models.IntegerField(default=0)
 
 
 class BookImage(models.Model):
@@ -96,7 +97,8 @@ class Order(models.Model):
 
     )
     order_date = models.DateTimeField(auto_now_add=True)
-    books = models.ManyToManyField(CartItem)
+    books = models.ManyToManyField(Book)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_order')
     address = models.ForeignKey(CheckoutAddress, null=True, blank=True, on_delete=models.SET_NULL)
     ordered = models.BooleanField(default=False)
     dispatched = models.BooleanField(default=False)

@@ -6,6 +6,27 @@
 
 {% block content %}
 
-{{object.book_name}}
+{{object.book_name}}<br>
+{{object.category}}<br>
+{{object.author}}<br>
+ISBN: {{object.isbn}}<br>
+Pages: {{object.book_pages}}<br>
+{{object.book_description}}<br>
 
+<a href="{% url 'add_to_cart' object.slug %}">Add to Cart</a><br>
+
+<img src="{{ object.image.url }}" height="200px" width="200px"/> <br>
+"Reviews"<br>
+
+<form method="POST" action="{% url 'add_review' object.slug %}">
+    {% csrf_token %}
+    Write a review<br>
+    {{review_form.review}} <br>
+    <br>
+    <button type="submit">Add Review</button>
+</form> 
+
+{% for review in reviews %}
+    {{review.review}} | {{review.added_by}} | {{review.review_date}} <br>
+{% endfor %}
 {% endblock %}

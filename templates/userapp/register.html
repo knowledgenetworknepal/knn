@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2 class="h2">Register user</h2>
+    <form method='POST'>
+        {% csrf_token %}
+        {{ form.username.label }}
+        {{ form.username }}
+        {{ form.email.label }}
+        {{ form.email }}        
+        {{ form.password1.label }}
+        {{ form.password1 }}
+        {{ form.password2.label }}
+        {{ form.password2 }}
+
+        <button type="submit" class='btn btn-success mt-2'>Register</button>
+    </form>
+
+    <form method='POST' action="{% url 'login' %}">
+        {% csrf_token %}
+
+        Username:
+    {{login_form.username}} <br>
+    Password:
+    {{login_form.password}} <br>
+    <button type="submit" class='btn btn-success mt-2'>Login</button>
+    </form>
+
+</div>
+{% endblock %}

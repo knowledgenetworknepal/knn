@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}  Knowledge Network Nepal {% endblock %}
+
+
+{% block content %} 
+
+{% for location in locations %}
+    {{location.city}} : {{location.street}} : {{location.phone_number}} 
+    <form method="POST" action="{% url 'order' location.id %}">
+        {% csrf_token %}
+        <button type="submit">Place Order in this location</button>
+    </form><br>
+{% endfor %}
+
+<h2>Cart Item</h2>
+
+{% for object in cart_items %}
+    {{object.book.book_name}} <br>
+{% endfor %}
+
+
+<form method="POST" action="{% url 'add_checkout_location' %}">
+    {% csrf_token %}
+    City: 
+    {{location_form.city}} <br>
+    Street:
+    {{location_form.street}} <br>
+    Phone Number:
+    {{location_form.phone_number}} <br>
+    <button type="submit">Add Location</button>
+</form>
+
+{% endblock %}
