@@ -20,5 +20,7 @@ class Deposit(models.Model):
     amount = models.FloatField()
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='deposited_by', null=True, blank=True)
     deposit_date = models.DateTimeField(auto_now=True)
-
+    verified = models.BooleanField(default=False)
     
+    def __str__(self):
+        return self.user.username 

@@ -2,6 +2,8 @@ from django.contrib.auth.forms import UserCreationForm, PasswordResetForm, Passw
 from django.contrib.auth import get_user_model
 from django import forms
 
+from .models import Deposit
+
 User = get_user_model()
 
 
@@ -19,5 +21,11 @@ class RegistrationForm(UserCreationForm):
 class Loginform(forms.Form):
     username = forms.CharField(required=True)
     password = forms.CharField(widget=forms.PasswordInput(), required=True)
+
+
+class DepositForm(forms.ModelForm):
+    class Meta:
+        model = Deposit
+        fields = ('image','amount')
 
 

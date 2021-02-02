@@ -4,8 +4,8 @@ from django.contrib.auth import get_user_model
 from django.views import View
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
-from .forms import RegistrationForm, Loginform
-
+from .forms import DepositForm, RegistrationForm, Loginform
+from .models import Deposit
 
 User = get_user_model()
 
@@ -50,3 +50,15 @@ class LogoutView(View):
 class NotificationView(View):
     pass
 
+
+class AddDeposit(View):
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        form = DepositForm(request.POST, request.FILES)
+        if form.is_valid():
+            deposit = form.save(commit=False)
+            deposit.user = user
+            deposit.save()
+        else:
+            print(form.errors)
+        return redirect(request.META.get('HTTP_REFERER'))

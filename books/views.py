@@ -7,6 +7,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Book, BookUpload, CartItem, Category, Review, CheckoutAddress, Order
 from .forms import ReviewForm, CheckoutAddressForm, BookForm
 
+from userapp.forms import DepositForm
+from userapp.models import Deposit
+
 # if something is needed all over the palce, use this mixin
 class BaseMixin():
 
@@ -14,6 +17,17 @@ class BaseMixin():
         context_data = super().get_context_data(**kwargs)
         context_data['category'] = Category.objects.all()
         return context_data
+
+
+# checks if the account is approved or not
+class AccountAccessMixin():
+
+    def dispatch(self, request, *args, **kwargs):
+        dispatch = super().dispatch(request, *args, **kwargs)
+        user = request.user
+        if user.approved:
+            return dispatch
+        return redirect(reverse_lazy('unverified'))
 
 
 # add new book
@@ -99,7 +113,7 @@ class AddToCart(LoginRequiredMixin, View):
 
 
 # view the books in cart
-class CartView(BaseMixin, ListView):
+class CartView(BaseMixin, AccountAccessMixin, ListView):
     model = CartItem
     queryset = CartItem.objects.all()
     template_name = 'books/cart.html'
@@ -133,7 +147,7 @@ class ConfirmOrderView(LoginRequiredMixin, BaseMixin, ListView):
 
 # order the books
 # users can only order 2 books at a time
-class OrderBooks(LoginRequiredMixin, BaseMixin, View):
+class OrderBooks(LoginRequiredMixin, AccountAccessMixin, BaseMixin, View):
     def post(self, request, *args, **kwargs):
         location = get_object_or_404(CheckoutAddress, id=self.kwargs.get('location_id'))
         cart_items = CartItem.objects.filter(user=request.user, ordered=False)
@@ -144,7 +158,7 @@ class OrderBooks(LoginRequiredMixin, BaseMixin, View):
         order.address = location
         order.save()
         cart_items.update(ordered=True)
-        books.update(available=F('available')-1)
+        # books.update(available=F('available')-1)
         return redirect(reverse_lazy("list_books"))
 
 
@@ -173,14 +187,19 @@ class AddCheckoutLoction(LoginRequiredMixin, BaseMixin, View):
         return redirect(request.META.get('HTTP_REFERER'))
 
 
+# new user needs to add 3 books and deposit 200 before being approved
 class NewUserView(ListView):
     model = Book
     template_name = 'userapp/new_user.html'
 
     def get_context_data(self, *args, **kwargs):
         context_data = super().get_context_data(*args, **kwargs)
+        user = self.request.user
         if self.get_queryset().count() < 3:
             context_data['book_form'] = BookForm
+        context_data['deposit_form'] = DepositForm
+        context_data['deposits'] = Deposit.objects.filter(user=user)
+
         return context_data
     
     def get_queryset(self):
