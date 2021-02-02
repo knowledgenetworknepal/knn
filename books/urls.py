@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import AddCheckoutLoction, AddNewBookView, AddReview, AddToCart, BookDetailView, CartView, ConfirmOrderView, ListBooksView, OrderBooks
+from .views import NewUserView, AddCheckoutLoction, AddNewBookView, AddReview, AddToCart, BookDetailView, CartView, ConfirmOrderView, ListBooksView, OrderBooks
 
 urlpatterns = [
     path('', ListBooksView.as_view(), name='list_books'),
@@ -15,5 +15,6 @@ urlpatterns = [
     path('order/checkout/location/', AddCheckoutLoction.as_view(), name='add_checkout_location'),
 
     path('order/<int:location_id>/', OrderBooks.as_view(), name='order'),
+    path('user/unverified/', NewUserView.as_view(), name='unverified'),
 
 ]

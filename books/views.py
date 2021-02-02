@@ -4,9 +4,8 @@ from django.views.generic import ListView, DetailView, CreateView
 from django.views import View
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
-
-from .models import Book, CartItem, Category, Review, CheckoutAddress, Order
-from .forms import ReviewForm, CheckoutAddressForm
+from .models import Book, BookUpload, CartItem, Category, Review, CheckoutAddress, Order
+from .forms import ReviewForm, CheckoutAddressForm, BookForm
 
 # if something is needed all over the palce, use this mixin
 class BaseMixin():
@@ -21,12 +20,28 @@ class BaseMixin():
 # added by the user
 class AddNewBookView(BaseMixin, CreateView):
     model = Book
-    template_name = ''
-    queryset = Book.objects.all()
+    queryset = Book.objects.none()
+    form_class = BookForm
 
     # if the isbn already exists, use existing book to keep track, only increase the quantity
     def post(self, request, *args, **kwargs):
-        pass
+        form = BookForm(request.POST, request.FILES)        
+        if form.is_valid():
+            isbn = form.cleaned_data.get('isbn_number')
+            print(isbn)
+            if Book.objects.filter(isbn=isbn).exists():
+                book = get_object_or_404(Book, isbn=isbn)
+            else:
+                book = form.save(commit=False)
+                book.isbn = isbn
+                book.save()
+            BookUpload.objects.create(book=book, added_by=request.user, status='new')
+            book.available += 1
+            book.save()
+            return redirect(request.META.get('HTTP_REFERER'))
+        else:
+            print(form.errors)
+        return redirect(request.META.get('HTTP_REFERER'))
 
 
 # book list
@@ -61,6 +76,7 @@ class BookDetailView(BaseMixin, DetailView):
         book.count += 1
         book.save()
         context_data = super().get_context_data(**kwargs)
+        context_data['count'] = BookUpload.objects.filter(book=self.get_object()).count()
         context_data['reviews'] = Review.objects.filter(book=self.get_object()).order_by('-id')
         context_data['review_form'] = ReviewForm
         return context_data
@@ -72,7 +88,7 @@ class AddToCart(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         user = self.request.user
         book = get_object_or_404(Book, slug=self.kwargs.get('slug'))
-        if not CartItem.objects.filter(user=user, ordered=False).count() < 3:
+        if not CartItem.objects.filter(user=user, ordered=False).count() < 2:
             # count not greater than 2
             return redirect(request.META.get('HTTP_REFERER'))
         if CartItem.objects.filter(book=book, user=user, ordered=False).exists():
@@ -127,9 +143,8 @@ class OrderBooks(LoginRequiredMixin, BaseMixin, View):
         order.books.add(*books)
         order.address = location
         order.save()
-        for item in cart_items:
-            item.ordered = True
-            item.save()
+        cart_items.update(ordered=True)
+        books.update(available=F('available')-1)
         return redirect(reverse_lazy("list_books"))
 
 
@@ -157,4 +172,18 @@ class AddCheckoutLoction(LoginRequiredMixin, BaseMixin, View):
             loc.save()
         return redirect(request.META.get('HTTP_REFERER'))
 
+
+class NewUserView(ListView):
+    model = Book
+    template_name = 'userapp/new_user.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context_data = super().get_context_data(*args, **kwargs)
+        if self.get_queryset().count() < 3:
+            context_data['book_form'] = BookForm
+        return context_data
+    
+    def get_queryset(self):
+        user_book = BookUpload.objects.filter(added_by=self.request.user)
+        return Book.objects.filter(book_quantity__in=user_book)
 

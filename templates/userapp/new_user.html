@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for object in object_list %}
+    {{object.book_name}} <br>
+{% endfor %}
+
+{% if object_list|length < 3 %}
+<form method="POST" action="{% url 'add_new_book' %}">
+    {% csrf_token %}
+    {{book_form}}
+    <button type="submit">Add Book</button>
+</form>
+{% endif %}
+{% endblock %}

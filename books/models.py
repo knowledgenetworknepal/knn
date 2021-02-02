@@ -1,5 +1,8 @@
+import random
+
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.utils.text import slugify
 
 User = get_user_model()
 
@@ -28,6 +31,17 @@ class Book(models.Model):
     featured = models.BooleanField(default=False)    
     image = models.ImageField(upload_to='upload/%Y/%M', null=True, blank=True)
     count = models.IntegerField(default=0)
+    available = models.IntegerField(default=0)
+
+    def save(self, *args, **kwargs):
+        try:
+            self.slug = slugify(self.book_name)
+        except:
+            self.slug = slugify(self.book_name)+random.randint(0,99999999)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.book_name
 
 
 class BookImage(models.Model):
@@ -45,6 +59,9 @@ class BookUpload(models.Model):
     added_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_books')
     added_date = models.DateTimeField(auto_now=True)
     status = models.CharField(choices=BOOK_STATUS, default='none', max_length=20)
+
+    def __str__(self):
+        return self.book.book_name
 
 
 class Review(models.Model):

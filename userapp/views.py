@@ -50,4 +50,3 @@ class LogoutView(View):
 class NotificationView(View):
     pass
 
-
