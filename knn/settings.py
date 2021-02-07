@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'books',
     'events',
     'userapp',
+    'base',
 ]
 
 MIDDLEWARE = [

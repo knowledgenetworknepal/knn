@@ -9,13 +9,18 @@ from .forms import ReviewForm, CheckoutAddressForm, BookForm
 
 from userapp.forms import DepositForm
 from userapp.models import Deposit
+from base.models import Ads
 
 # if something is needed all over the palce, use this mixin
 class BaseMixin():
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
-        context_data['category'] = Category.objects.all()
+        user = self.request.user
+        context_data['categories'] = Category.objects.all()
+        if user.is_authenticated:
+            context_data['cart_items'] = CartItem.objects.select_related('book').filter(user=user, ordered=False)
+
         return context_data
 
 
@@ -71,9 +76,7 @@ class ListBooksView(BaseMixin, ListView):
         context_data = super().get_context_data(**kwargs)
         context_data['famous_books'] = Book.objects.all().order_by('-count')[0:12]
         context_data['featured_books'] = Book.objects.filter(featured=True).order_by('-id')[0:12]
-        category = Category.objects.filter(featured=True)
-        for cat in category:
-            print(cat)
+        context_data['hero_ads'] = Ads.objects.filter(ad_type='Hero', status=True)
         return context_data
 
 
@@ -191,6 +194,13 @@ class AddCheckoutLoction(LoginRequiredMixin, BaseMixin, View):
 class NewUserView(ListView):
     model = Book
     template_name = 'userapp/new_user.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        dispatch = super().dispatch(request, *args, **kwargs)
+        user = request.user
+        if user.approved:
+            return redirect(reverse_lazy('cart'))
+        return dispatch
 
     def get_context_data(self, *args, **kwargs):
         context_data = super().get_context_data(*args, **kwargs)

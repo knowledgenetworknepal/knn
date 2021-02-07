@@ -21,6 +21,7 @@ class UserRegistrationView(CreateView):
     def get_context_data(self, *args, **kwargs):
         context_data = super().get_context_data(*args, **kwargs)
         context_data['login_form'] = Loginform
+        context_data['base_rate'] = 50
         return context_data
 
 
