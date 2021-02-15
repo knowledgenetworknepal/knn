@@ -1,13 +1,15 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {% block content %}
 <div class="login-box">
   <div class="card">
 
     <div class="card-body login-card-body rounded">
-      <img class="mx-auto d-block" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/New_Emblem_of_Nepal.svg/1200px-New_Emblem_of_Nepal.svg.png" height="100px">
+      <img class="mx-auto d-block" src="{% static 'image/logo.png' %}" alt="" height="100px">
  <br>
-      <h4 class="d-flex justify-content-center">गोर्खा नगरपालिका</h4>
-      <p class="login-box-msg">नयाँ पस्स्वर्ड हान्नुहोस </p>
+ <h4 class="d-flex justify-content-center">Knowledge Network Nepal</h4>
+ <p class="login-box-msg">Set New Password </p>
        
       
       <form action="#" method="post">

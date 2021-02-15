@@ -58,7 +58,7 @@ MIDDLEWARE = [
 ]
 
 AUTHENTICATION_BACKENDS = [
-    'account.backends.EmailOrUsernameModelBackend',
+    'userapp.backends.EmailOrUsernameModelBackend',
 ]
 
 
@@ -143,3 +143,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static_cdn')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+
+try:
+    from .local_settings import *
+except FileNotFoundError:
+    pass
+
+

@@ -58,7 +58,6 @@ class AddNewBookView(BaseMixin, CreateView):
                 book.isbn = isbn
                 book.save()
             BookUpload.objects.create(book=book, added_by=request.user, status='new')
-            book.available += 1
             book.save()
             return redirect(request.META.get('HTTP_REFERER'))
         else:
@@ -248,7 +247,7 @@ class NewUserView(ListView):
         return Book.objects.filter(book_quantity__in=user_book)
 
 
-class SearchView(ListView):
+class SearchView(BaseMixin, ListView):
     model = Book
     template_name = 'books/category.html'
     paginate_by = 12

@@ -76,11 +76,19 @@ class BookUpload(models.Model):
 
 
 class Review(models.Model):
+    STAR = (
+        ('1','1'),
+        ('2','2'),
+        ('3','3'),
+        ('4','4'),
+        ('5','5')
+    )
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='book_review')
     added_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_reviews')
     review = models.CharField(max_length=200)
     review_date = models.DateTimeField(auto_now=True)
     edited_date = models.DateTimeField(auto_now_add=True)
+    rating = models.CharField(choices=STAR, max_length=20, null=True, blank=True)
 
     def __str__(self):
         return self.book.book_name
@@ -90,21 +98,6 @@ class Review(models.Model):
 class Favourite(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='favourite_book')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_favourite')
-
-
-# COULD: this cound be used
-class Rating(models.Model):
-    STAR = (
-        ('none','none'),
-        ('1','1'),
-        ('2','2'),
-        ('3','3'),
-        ('4','4'),
-        ('5','5')
-    )
-    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='book_rating')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_rating')
-    rating = models.CharField(choices=STAR, max_length=20)
 
 
 class CartItem(models.Model):

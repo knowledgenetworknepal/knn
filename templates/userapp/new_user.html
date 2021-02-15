@@ -1,32 +1,84 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="container">
+
 <h2>Books</h2>
+<div class="row">
+<div class="col-6">
+<div class="row">
+
+<div class="col-12">
+{% if object_list in None %}
+    You have to upload 3 books.
+{% endif %}
+<div class="row">
 {% for object in object_list %}
-    {{object.book_name}} <br>
+    <div class="col-4 text-center">
+        <h6><a href="{% url 'book_details' object.slug %}">{{object.book_name}}</a></h6>
+
+    <div class="card-image">
+        <img src="{{ object.image.url }}" alt="">
+        <div class="hover-contents">
+            <a href="{% url 'book_details' object.slug %}" class="hover-image">
+                <img src="{{ object.image.url }}" alt="">
+            </a>
+
+        </div>
+    </div>
+    </div>
+
 {% endfor %}
+</div>
+</div>
 
 {% if object_list|length < 3 %}
+
+<div class="col-12 mt-5">
+<p class="h2">Upload Book</p>
 <form method="POST" action="{% url 'add_new_book' %}">
     {% csrf_token %}
     {{book_form}}
-    <button type="submit">Add Book</button>
+    <button type="submit" class='btn btn-outlined mt-3'>Add Book</button>
 </form>
+</div>
+
 {% endif %}
+</div>
 
-<br>    
-<h2>Deposit</h2>
-{% for deposit in deposits %}
-    {{deposit.deposit_date}}<br>
-    Rs {{deposit.amount}}<br>
-    Status: {{deposit.verified}}<br>
+</div>
 
-{% endfor %}
-<br>
-<form method="POST" action="{% url 'add_deposit' %}" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{deposit_form}}
-    <button type="submit">Deposit</button>
+<div class="col-6">
+    <div class="row">
+        <div class="col-12">
+            <h2>Deposits</h2>
 
-</form>
+        </div>
+        <div class="col-12">
+
+            {% for deposit in deposits %}
+                {{deposit.deposit_date}}<br>
+                Rs {{deposit.amount}} : Status: {{deposit.verified}} <br>
+            
+            {% endfor %}
+            </div>
+        <div class="col-12 mt-5">
+            <h2>Upload Deposit Slip</h2>
+
+            <form method="POST" action="{% url 'add_deposit' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{deposit_form}}
+                <button type="submit" class='btn btn-outlined mt-3'>Deposit</button>
+
+            </form>
+        </div>
+    </div>
+
+
+</div>
+</div>
+
+
+</div>
+
 {% endblock %}

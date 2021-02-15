@@ -27,9 +27,14 @@ class Loginform(forms.Form):
         for field in self.fields:
             self.fields[field].widget.attrs['class'] = 'mb-0 form-control'
 
+
 class DepositForm(forms.ModelForm):
     class Meta:
         model = Deposit
         fields = ('image','amount')
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs['class'] = 'mb-0 form-control'
 

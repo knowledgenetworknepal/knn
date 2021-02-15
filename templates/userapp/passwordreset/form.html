@@ -1,35 +1,43 @@
-{% extends 'base.html' %}
+{% extends 'settings.html' %}
+{% load static %}
 {% block content %}
-<div class="login-box">
+<div class="mt-5">
   <div class="card">
 
     <div class="card-body login-card-body rounded">
-      <img class="mx-auto d-block" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/New_Emblem_of_Nepal.svg/1200px-New_Emblem_of_Nepal.svg.png" height="100px">
+      <img class="mx-auto d-block" src="{% static 'image/logo.png' %}" alt="" height="100px">
+
  <br>
-      <h4 class="d-flex justify-content-center">गोर्खा नगरपालिका</h4>
-      <p class="login-box-msg">ईमेल हल्नुस </p>
+      <h4 class="d-flex justify-content-center">Knowledge Network Nepal</h4>
+      <div class="mx-auto container text-center row">
+        <div class="col-6 mx-auto">
+
+      <p class="login-box-msg ">Email Address</p>
        
-      
-      <form method="post">
+
+      <form method="post" class="mx-auto">
         
         {% csrf_token %}
-        <div class="input-group mb-3 ml-5">
-          {{ form.email }}
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-envelope"></span>
+        <div class="col-10 input-group mb-3 ml-5">
+          <input type="email" class="form-control" name="email" autocomplete="email" maxlength="254" required id="id_email">
+          <div class="input-group-append ">
+            <div class="input-group-text form-control">
+              <span class="fas fa-envelope "></span>
             </div>
           </div>
         </div>
         <div>
           <div class="col-12">
-            <button type="submit" class="btn btn-primary btn-block btn-flat rounded">Send Reset Link</button>
+            <button type="submit" class="btn btn-outlined">Send Reset Link</button>
           </div>
         </div>
         {% if error %}
 						<li class="text-black ml-5"><b>{{error}}</b></li>
 						{% endif %}
       </form>
+    </div>
+
+    </div>
 
     </div>
     <!-- /.login-card-body -->
