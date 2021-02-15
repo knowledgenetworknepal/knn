@@ -85,12 +85,11 @@ class ListBooksView(BaseMixin, ListView):
 class CategoryView(BaseMixin, ListView):
     model = Book
     template_name = 'books/category.html'
-    paginate_by = 12
+    paginate_by = 1
     context_object_name = 'books'
 
     def get_object(self, *args, **kwargs):
         return get_object_or_404(Category, slug=self.kwargs.get('slug'))
-
     
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)

@@ -63,6 +63,7 @@ class BookImage(models.Model):
 class BookUpload(models.Model):
     BOOK_STATUS = (
         ('new','new'),
+        ('approved','approved'),
         ('lost','lost'),
         ('none','none')
     )
