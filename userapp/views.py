@@ -5,7 +5,7 @@ from django.views import View
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
 from .forms import DepositForm, RegistrationForm, Loginform
-from .models import Deposit
+from .models import Deposit, Request
 
 from books.views import BaseMixin
 
@@ -65,3 +65,11 @@ class AddDeposit(BaseMixin, View):
         else:
             print(form.errors)
         return redirect(request.META.get('HTTP_REFERER'))
+
+
+class RequestReviewView(BaseMixin, View):
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        Request.objects.get_or_create(user=user, status=False)
+        return redirect(request.META.get('HTTP_REFERER'))   
+

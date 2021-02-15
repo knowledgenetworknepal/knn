@@ -26,3 +26,11 @@ class Deposit(models.Model):
         return self.user.username 
 
 
+class Request(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='requested_by', null=True, blank=True)
+    date = models.DateTimeField(auto_now=True)
+    status = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.user.username
+

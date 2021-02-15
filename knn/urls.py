@@ -24,6 +24,7 @@ urlpatterns = [
     path('', include('userapp.urls')),
     path('', include('base.urls')),
     path('', include('books.urls')),
+    path('', include('dashboard.urls')),
     path('__debug__/', include(debug_toolbar.urls)),
 
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
