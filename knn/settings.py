@@ -56,6 +56,12 @@ MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 
 ]
+
+AUTHENTICATION_BACKENDS = [
+    'account.backends.EmailOrUsernameModelBackend',
+]
+
+
 INTERNAL_IPS = [
     '127.0.0.1',
 ]

@@ -1,0 +1,39 @@
+{% extends 'adminlte3/dashboard_base.html' %}
+
+{% load static %}
+
+{% block title %}Password Set{% endblock %}
+
+{% block style %}
+{% endblock %}
+
+{% block content %}
+<div class="card">
+	<div class="card-header">
+		
+		<h2 class="card-title">Password Set</h2>
+	</div>
+	<!-- /.card-header -->
+	<div class="card-body">
+		<form method="POST" class="cms-form" enctype='multipart/form-data'>
+            {% csrf_token %}
+
+            {% for field in form %}
+            <div class="form-group">
+                <label>{{ field.label }} {% if field.field.required %}*{% endif %}</label>
+                {{ field }}
+                <small style="color: red">{{ field.errors }}</small>
+            </div>
+            {% endfor %}
+
+            <button class="btn btn-primary">Save</button>
+        </form>
+	</div>
+	<!-- /.card-body -->
+</div>
+{% endblock %}
+
+{% block script %}
+
+
+{% endblock %}

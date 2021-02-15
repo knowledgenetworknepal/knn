@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="login-box">
+  <div class="card">
+
+    <div class="card-body login-card-body rounded">
+      <img class="mx-auto d-block" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/New_Emblem_of_Nepal.svg/1200px-New_Emblem_of_Nepal.svg.png" height="100px">
+ <br>
+      <h4 class="d-flex justify-content-center">गोर्खा नगरपालिका</h4>
+      <p class="login-box-msg">नयाँ पस्स्वर्ड हान्नुहोस </p>
+       
+      
+      <form action="#" method="post">
+        
+        {% csrf_token %}
+        <div class="ml-5">
+            {{form.new_password1.label}}
+
+        </div>
+        <div class="input-group mb-3 ml-5">
+           
+            <div class="">
+                {{ form.new_password1 }}
+
+            </div>
+          
+        </div>
+        <div class="ml-5">
+            {{form.new_password2.label}}
+
+        </div>
+        <div class="input-group mb-3 ml-5">
+            {{ form.new_password2 }}
+            
+          </div>
+        <div>
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary btn-block btn-flat rounded">Reset Password</button>
+          </div>
+        </div>
+        {% if error %}
+						<li class="text-black ml-5"><b>{{error}}</b></li>
+						{% endif %}
+      </form>
+
+    </div>
+    <!-- /.login-card-body -->
+  </div>
+</div>
+{% endblock content %}
+
+
+
+
+    <form method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit"> Reset Password </button>
+    </form>
+
+</body>
+</html>
