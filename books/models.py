@@ -11,6 +11,17 @@ class Category(models.Model):
     category_name = models.CharField(max_length=50)
     added_by = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
     featured = models.BooleanField(default=False)    
+    slug = models.SlugField(unique=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        try:
+            self.slug = slugify(self.category_name)
+        except:
+            self.slug = slugify(self.category_name)+random.randint(0,99999999)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.category_name
 
 
 class Author(models.Model):
@@ -71,7 +82,10 @@ class Review(models.Model):
     review_date = models.DateTimeField(auto_now=True)
     edited_date = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return self.book.book_name
 
+        
 # COULD: this could be used
 class Favourite(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='favourite_book')

@@ -44,13 +44,12 @@
                                 <tbody>
                                     {% for object in object_list %}
                                     <tr>
-                                        <td class="pro-remove"><a href="{%url 'book_details' object.book.slug %}"><i class="far fa-trash-alt"></i></a>
+                                        <td class="pro-remove"><a href="{%url 'delete_cart_item' object.pk %}"><i class="far fa-trash-alt"></i></a>
                                         </td>
                                         <td class="pro-thumbnail"><a href="{%url 'book_details' object.book.slug %}"><img
                                                     src="{{ object.book.image.url }}" alt="Product"></a></td>
-                                        <td class="pro-title"><a href="#"> {{object.book.book_name}}</a></td>
+                                        <td class="pro-title"><a href="{% url 'book_details' object.book.slug %}"> {{object.book.book_name}}</a></td>
                                         <td class="pro-price"><span>Rs 50.00</span></td>
-        
                                     </tr>
                                     {% endfor %}
 

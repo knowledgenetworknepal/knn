@@ -7,12 +7,14 @@ from django.shortcuts import redirect
 from .forms import DepositForm, RegistrationForm, Loginform
 from .models import Deposit
 
+from books.views import BaseMixin
+
 User = get_user_model()
 
 
 # new user registration view
 # send login form as well
-class UserRegistrationView(CreateView):
+class UserRegistrationView(BaseMixin, CreateView):
     model = User
     form_class = RegistrationForm
     template_name = 'userapp/register.html'
@@ -44,7 +46,7 @@ class LoginView(View):
 class LogoutView(View):
     def get(self, request):
         logout(request)
-        return redirect(reverse_lazy("register"))
+        return redirect(reverse_lazy("registration"))
 
 
 # view the user notificaiton
@@ -52,7 +54,7 @@ class NotificationView(View):
     pass
 
 
-class AddDeposit(View):
+class AddDeposit(BaseMixin, View):
     def post(self, request, *args, **kwargs):
         user = request.user
         form = DepositForm(request.POST, request.FILES)

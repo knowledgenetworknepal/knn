@@ -4,8 +4,10 @@ from django.views.generic import CreateView
 from .models import Contact
 from .forms import ContactForm
 
+from books.views import BaseMixin
 
-class ContactView(CreateView):
+
+class ContactView(BaseMixin, CreateView):
     model = Contact
     form_class = ContactForm
     queryset = Contact.objects.none()

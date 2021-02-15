@@ -1,9 +1,12 @@
+from typing import List
+from django.http import request
 from django.urls import reverse_lazy
 from django.urls.base import reverse
 from django.views.generic import ListView, DetailView, CreateView
 from django.views import View
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.edit import DeleteView
 from .models import Book, BookUpload, CartItem, Category, Review, CheckoutAddress, Order
 from .forms import ReviewForm, CheckoutAddressForm, BookForm
 
@@ -20,7 +23,7 @@ class BaseMixin():
         context_data['categories'] = Category.objects.all()
         if user.is_authenticated:
             context_data['cart_items'] = CartItem.objects.select_related('book').filter(user=user, ordered=False)
-
+            context_data['amount'] = 100
         return context_data
 
 
@@ -80,6 +83,25 @@ class ListBooksView(BaseMixin, ListView):
         return context_data
 
 
+class CategoryView(BaseMixin, ListView):
+    model = Book
+    template_name = 'books/category.html'
+    paginate_by = 12
+    context_object_name = 'books'
+
+    def get_object(self, *args, **kwargs):
+        return get_object_or_404(Category, slug=self.kwargs.get('slug'))
+
+    
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['category'] = self.get_object()
+        return context_data
+
+    def get_queryset(self, *args, **kwargs):
+        return Book.objects.filter(category=self.get_object())    
+
+
 # single book details
 # load comments as well
 class BookDetailView(BaseMixin, DetailView):
@@ -89,12 +111,13 @@ class BookDetailView(BaseMixin, DetailView):
     slug_url_kwarg = 'slug'        
 
     def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
         book = self.get_object()
         book.count += 1
         book.save()
-        context_data = super().get_context_data(**kwargs)
-        context_data['count'] = BookUpload.objects.filter(book=self.get_object()).count()
-        context_data['reviews'] = Review.objects.filter(book=self.get_object()).order_by('-id')
+        context_data['reviews'] = Review.objects.select_related('added_by').filter(book=book).order_by('-id')
+        context_data['review_count'] = context_data['reviews'].count()
+
         context_data['review_form'] = ReviewForm
         return context_data
 
@@ -105,13 +128,22 @@ class AddToCart(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         user = self.request.user
         book = get_object_or_404(Book, slug=self.kwargs.get('slug'))
-        if not CartItem.objects.filter(user=user, ordered=False).count() < 2:
-            # count not greater than 2
-            return redirect(request.META.get('HTTP_REFERER'))
-        if CartItem.objects.filter(book=book, user=user, ordered=False).exists():
+        cart_item = CartItem.objects.filter(user=user, ordered=False)
+        if cart_item.filter(book=book).exists():
             # cant order 2 same book
             return redirect(request.META.get('HTTP_REFERER'))
+        if not cart_item.count() < 2:
+            # count not greater than 2
+            return redirect(request.META.get('HTTP_REFERER'))
+       
         cart = CartItem.objects.create(book=book, user=user)
+        return redirect(request.META.get('HTTP_REFERER'))
+
+
+# delete car item
+class DeleteCartItem(View):
+    def get(self, request, *args, **kwargs):
+        CartItem.objects.get(id=self.kwargs.get('pk')).delete()
         return redirect(request.META.get('HTTP_REFERER'))
 
 
@@ -123,12 +155,11 @@ class CartView(BaseMixin, AccountAccessMixin, ListView):
 
     def get_queryset(self):
         user = self.request.user
-        return CartItem.objects.filter(user=user, ordered=False)
+        return CartItem.objects.prefetch_related('book').filter(user=user, ordered=False)
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         user = self.request.user
-        context_data['old_order'] = CartItem.objects.filter(user=user, ordered=True)
         return context_data
 
 
@@ -144,7 +175,7 @@ class ConfirmOrderView(LoginRequiredMixin, BaseMixin, ListView):
     def get_context_data(self, *args, **kwargs):
         context_data = super().get_context_data(*args, **kwargs)
         context_data['location_form'] = CheckoutAddressForm
-        context_data['cart_items'] = CartItem.objects.filter(user=self.request.user, ordered=False)
+        context_data['cart_items'] = CartItem.objects.prefetch_related('book').filter(user=self.request.user, ordered=False)
         return context_data
 
 
@@ -216,3 +247,31 @@ class NewUserView(ListView):
         user_book = BookUpload.objects.filter(added_by=self.request.user)
         return Book.objects.filter(book_quantity__in=user_book)
 
+
+class SearchView(ListView):
+    model = Book
+    template_name = 'books/category.html'
+    paginate_by = 12
+    context_object_name = 'books'
+
+    def get_context_data(self, **kwargs):
+        word = self.request.GET.get('search')
+        context_data = super().get_context_data(**kwargs)
+        context_data['category'] = word
+        return context_data
+
+    def get_queryset(self, *args, **kwargs):
+        word = self.request.GET.get('search')
+        return Book.objects.filter(book_name__icontains=word)    
+
+
+class OldOrderView(ListView):
+    model = CartItem
+    template_name = 'books/cartitems.html'
+    paginate_by = 12
+    context_object_name = 'cart_items'
+
+    def get_queryset(self, *args, **kwargs):
+        return CartItem.objects.select_related('books').filter(ordered=True, user=request.user)
+
+        

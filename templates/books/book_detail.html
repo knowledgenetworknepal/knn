@@ -112,7 +112,7 @@
                 <li class="nav-item">
                     <a class="nav-link" id="tab2" data-toggle="tab" href="#tab-2" role="tab"
                         aria-controls="tab-2" aria-selected="true">
-                        REVIEWS ({{reviews|length}})
+                        REVIEWS ({{review_count}})
                     </a>
                 </li>
             </ul>
@@ -125,7 +125,7 @@
                 </div>
                 <div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="tab2">
                     <div class="review-wrapper">
-                        <h2 class="title-lg mb--20">{{reviews|length}} REVIEW</h2>
+                        <h2 class="title-lg mb--20">{{review_count}} REVIEW</h2>
                         {% for review in reviews %}
                         <div class="review-comment mb--20">
                             <div class="avatar">
