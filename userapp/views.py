@@ -1,4 +1,5 @@
-from django.views.generic import CreateView
+from books.models import Order, CheckoutAddress
+from django.views.generic import CreateView, TemplateView
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth import get_user_model
 from django.views import View
@@ -72,4 +73,18 @@ class RequestReviewView(BaseMixin, View):
         user = request.user
         Request.objects.get_or_create(user=user, status=False)
         return redirect(request.META.get('HTTP_REFERER'))   
+
+
+class AccountView(BaseMixin, TemplateView):
+    template_name = 'userapp/myaccount.html'
+
+    def get_context_data(self, **kwargs):
+        user = self.request.user
+        context_data = super().get_context_data(**kwargs)
+        context_data['orders'] = Order.objects.prefetch_related('books').filter(user=user)
+        context_data['checkout_location'] = CheckoutAddress.objects.filter(user=self.request.user)
+        return context_data
+
+
+
 

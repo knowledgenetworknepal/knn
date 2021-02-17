@@ -2,33 +2,67 @@
 {% load static %}
 {% block title %}  Knowledge Network Nepal {% endblock %}
 
-
 {% block content %} 
+<div class="container">
+<div class="row">
+    <div class="col-6">
+        {% for location in locations %}
+        <p class="text-dark h2">        {{location.street}}        </p>
+        <p class="text-secondary">        {{location.city}}         </p>
+        <p >        {{location.phone_number}}        </p>
 
-{% for location in locations %}
-    {{location.city}} : {{location.street}} : {{location.phone_number}} 
-    <form method="POST" action="{% url 'order' location.id %}">
-        {% csrf_token %}
-        <button type="submit">Place Order in this location</button>
-    </form><br>
-{% endfor %}
+        <form method="POST" action="{% url 'order' location.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-outlined">Place Order in this location</button>
+        </form><br>
+        <hr>
+    {% endfor %}
+    </div>
+    <div class="col-6">
+        <div class="">
+            <div class="row">
+                <h2 class="text-center col-12">Cart Item</h2>
 
-<h2>Cart Item</h2>
+                {% for object in cart_items %}
+                <div class="col-6 text-center">
+                        <h6>{{object.book.book_name}}</h6>
+                
+                    <div class="card-image">
+                        <div class="hover-contents">
+                           
+                                <img src="{{ object.book.image.url }}" alt="">
+                
+                        </div>
+                    </div>
+                    </div>
+                
+                {% endfor %}
+        </div>
+        <div class="mt-5 mb-5 pb-5">
+            <h4 class="text-center ">
+                Add Another Location
+    
+            </h4>
+            <form method="POST" action="{% url 'add_checkout_location' %}" class="mt-2">
+                {% csrf_token %}
+                City: 
+                {{location_form.city}} <br>
+                Street:
+                {{location_form.street}} <br>
+                Phone Number:
+                {{location_form.phone_number}} <br>
+                <button type="submit" class="btn btn-outlined mt-3">Add Location</button>
+            </form>
+        </div>
+       
+    </div>
+</div>
 
-{% for object in cart_items %}
-    {{object.book.book_name}} <br>
-{% endfor %}
 
 
-<form method="POST" action="{% url 'add_checkout_location' %}">
-    {% csrf_token %}
-    City: 
-    {{location_form.city}} <br>
-    Street:
-    {{location_form.street}} <br>
-    Phone Number:
-    {{location_form.phone_number}} <br>
-    <button type="submit">Add Location</button>
-</form>
+
+
+
+</div>
 
 {% endblock %}
