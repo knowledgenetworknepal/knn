@@ -1,0 +1,11 @@
+{{object}}
+
+<form method="POST" action="{% url 'add_comment' object.slug %}">
+    {% csrf_token %}
+    {{comment_form}}
+    <button type="submit">Comment</button>
+</form>
+
+{% for comment in comments %}
+    {{comment}}
+{% endfor %} 

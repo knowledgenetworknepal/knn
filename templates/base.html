@@ -152,10 +152,20 @@
                                             <span class="text-item">
                                                 Shopping Cart
                                             </span>
+                                            {% if user.is_authenticated %}
+                                            
+                                
                                             <span class="price">
-                                                Rs {{amount}}
+                                                Rs {{amount}}.00
                                                 <i class="fas fa-chevron-down"></i>
                                             </span>
+                                            {% else %}
+                                            <span class="price">
+                                                Rs 0.00
+                                                <i class="fas fa-chevron-down"></i>
+                                            </span>
+                                            {% endif %}
+
                                         </div>
                                         {% if user.is_authenticated %}
 

@@ -24,6 +24,8 @@ urlpatterns = [
     path('', include('userapp.urls')),
     path('', include('base.urls')),
     path('', include('books.urls')),
+    path('', include('blogs.urls')),
+
     path('dashboard/', include('dashboard.urls')),
     path('__debug__/', include(debug_toolbar.urls)),
 
