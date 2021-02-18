@@ -1,3 +1,4 @@
+from django.views.generic.edit import UpdateView
 from books.models import Order, CheckoutAddress
 from django.views.generic import CreateView, TemplateView
 from django.contrib.auth import authenticate, login, logout
@@ -5,9 +6,9 @@ from django.contrib.auth import get_user_model
 from django.views import View
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
-from .forms import DepositForm, RegistrationForm, Loginform
+from .forms import DepositForm, RegistrationForm, Loginform, UserUpdateForm, PasswordForm
 from .models import Deposit, Request
-
+from books.forms import CheckoutAddressForm
 from books.views import BaseMixin
 
 User = get_user_model()
@@ -25,7 +26,20 @@ class UserRegistrationView(BaseMixin, CreateView):
         context_data = super().get_context_data(*args, **kwargs)
         context_data['login_form'] = Loginform
         context_data['base_rate'] = 50
+        context_data['address_form'] = CheckoutAddressForm
         return context_data
+
+    def post(self, request, *args, **kwargs):
+        registration = RegistrationForm(request.POST)
+        address = CheckoutAddressForm(request.POST)
+
+        if registration.is_valid and address.is_valid():
+            user = registration.save()
+            user_address = address.save(commit=False)
+            user_address.user = user
+            user_address.save()
+            return reverse_lazy('registration') 
+        return reverse_lazy('registration') 
 
 
 # user login view
@@ -75,16 +89,34 @@ class RequestReviewView(BaseMixin, View):
         return redirect(request.META.get('HTTP_REFERER'))   
 
 
-class AccountView(BaseMixin, TemplateView):
+class AccountView(BaseMixin, UpdateView):
+    model = User
     template_name = 'userapp/myaccount.html'
+    form_class = UserUpdateForm
+
+    def get_object(self):
+        return self.request.user
 
     def get_context_data(self, **kwargs):
         user = self.request.user
         context_data = super().get_context_data(**kwargs)
         context_data['orders'] = Order.objects.prefetch_related('books').filter(user=user)
         context_data['checkout_location'] = CheckoutAddress.objects.filter(user=self.request.user)
+        context_data['password_form'] = PasswordForm
         return context_data
 
 
+class ChangePassword(View):
+    def post(self, request, *args, **kwargs):
+        password = PasswordForm(request.POST)
+        if password.is_valid():
+            cpw = password.cleaned_data.get('current_password')
+            pw = password.cleaned_data.get('password1')
+            user = request.user
+            user = authenticate(username=user, password=cpw)
+            if user is not None:
+                user.set_password(pw)
+                user.save()
+        return redirect(request.META.get('HTTP_REFERER'))   
 
 

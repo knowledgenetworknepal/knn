@@ -1,16 +1,17 @@
+import random
 from django.db import models
 
 from django.contrib.auth import get_user_model
 from books.models import Category
 from django.utils.text import slugify
-
+from ckeditor.fields import RichTextField
 
 User = get_user_model()
 
 
 class Blog(models.Model):
     title = models.CharField(max_length=200)
-    description = models.TextField(max_length=2000)
+    description = RichTextField(blank=True, null=True)
     author = models.CharField(max_length=200, null=True, blank=True)
     category = models.ManyToManyField(Category, related_name='category_blogs')
     added_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='user_blogs')

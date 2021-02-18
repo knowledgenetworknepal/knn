@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'events',
     'userapp',
     'base',
-    'debug_toolbar'
+    'debug_toolbar',
+    'ckeditor'
 ]
 
 MIDDLEWARE = [

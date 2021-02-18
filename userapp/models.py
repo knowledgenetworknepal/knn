@@ -5,6 +5,7 @@ from django.utils.translation import gettext_lazy as _
 
 class CustomUser(AbstractUser):
     email = models.EmailField(_('email address'), unique=True, max_length=254)
+    contact = models.CharField(_('contact'), max_length=256)
     approved = models.BooleanField(default=False)
 
 

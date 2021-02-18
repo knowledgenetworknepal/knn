@@ -11,6 +11,7 @@ urlpatterns = [
     path('notiiication/', NotificationView.as_view(), name='notiiication'),
     path('review/request/', RequestReviewView.as_view(), name='request_review'),
     path('myaccount/', AccountView.as_view(), name='my_account'),
+    path('password/change/', ChangePassword.as_view(), name='change_password'),
 
     path('reset_password/', auth_views.PasswordResetView.as_view(template_name='userapp/passwordreset/form.html'), name='password_reset'),
     path('reset_password_sent/', auth_views.PasswordResetDoneView.as_view(template_name='userapp/passwordreset/confirm.html'), name='password_reset_done'),

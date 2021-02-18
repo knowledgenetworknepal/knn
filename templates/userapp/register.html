@@ -28,13 +28,25 @@
                             <h4 class="login-title">New Customer</h4>
                             <p><span class="font-weight-bold">I am a new customer</span></p>
                             <div class="row">
+                                <div class="col-lg-6 mb--20">
+                                    <label for="password">First Name</label>
+                                    {{ form.first_name }}
+                                </div>
+                                <div class="col-lg-6 mb--20">
+                                    <label for="password">Last Name</label>
+                                    {{ form.last_name }}
+                                </div>
                                 <div class="col-md-12 col-12 mb--15">
-                                    <label for="email">Username</label>
+                                    <label for="username">Username</label>
                                     {{ form.username }}
                                 </div>
                                 <div class="col-12 mb--20">
                                     <label for="email">Email</label>
                                     {{ form.email }}        
+                                </div>
+                                <div class="col-12 mb--20">
+                                    <label for="password">Phone Number</label>
+                                    {{ address_form.phone_number }}
                                 </div>
                                 <div class="col-lg-6 mb--20">
                                     <label for="password">Password</label>
@@ -44,6 +56,16 @@
                                     <label for="password">Repeat Password</label>
                                     {{ form.password2 }}
                                 </div>
+                                <div class="col-lg-6 mb--20">
+                                    <label for="password">Address City</label>
+                                    {{ address_form.city }}
+                                </div>
+                                <div class="col-lg-6 mb--20">
+                                    <label for="password">Street</label>
+                                    {{ address_form.street }}
+                                </div>
+                               
+                               
                                 <div class="col-md-12">
                                     <button type="submit" class="btn btn-outlined">Register</a>
                                 </div>
