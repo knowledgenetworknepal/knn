@@ -7,13 +7,19 @@ app_name = 'dashboard'
 urlpatterns = [
     # user 
     path('', UserListView.as_view(), name='user_list'),
+    path('user/approved/', ApprovedUserList.as_view(), name='approved_users'),
+    path('user/unapproved/', UnapprovedUserList.as_view(), name='unapproved_users'),
     path('user/<str:username>/', UserDetail.as_view(), name='user_detail'),
+
     path('user/<str:username>/accept/', ApproveUser.as_view(), name='approve'),
     path('user/<str:username>/reject/', RejectUser.as_view(), name='reject'),
 
     # books
     path('book/add/', AddBook.as_view(), name='add_book'),
     path('book/', BookList.as_view(), name='book_list'),
+    path('book/available/', AvailabelBookList.as_view(), name='available_books'),
+    path('book/unavailable/', UnavailabelBookList.as_view(), name='unavailable_books'),
+
     path('book/<str:slug>/', BookDetail.as_view(), name='book_details'),
     path('book/<str:slug>/update/', UpdateBook.as_view(), name='book_update'),
 

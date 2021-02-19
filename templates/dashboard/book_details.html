@@ -17,7 +17,9 @@
       <div class="row mt-4">
         <div class="col-lg-3">
           <div class="image-lg">
+            {% if object.image %}
             <img src="{{object.image.url}}" alt="User">
+            {% endif %}
           </div>
         </div>
         <div class="col-lg-9">

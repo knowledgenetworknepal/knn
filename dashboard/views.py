@@ -24,15 +24,15 @@ class UserMixin(BaseMixin, ListView):
 
 
 class UserListView(UserMixin):
-    queryset = User.objects.all()
+    queryset = User.objects.all().order_by('-id')
 
 
 class ApprovedUserList(UserMixin):
-    queryset = User.objects.filter(approved=True)
+    queryset = User.objects.filter(approved=True).order_by('-id')
 
 
 class UnapprovedUserList(UserMixin):
-    queryset = User.objects.filter(approved=False)
+    queryset = User.objects.filter(approved=False).order_by('-id')
 
 
 class UserDetail(BaseMixin, DetailView):
@@ -90,7 +90,11 @@ class BookList(BookMixin):
 
 
 class AvailabelBookList(BookMixin):
-    queryset = Book.objects.all().order_by('-id')
+    queryset = Book.objects.filter(available__gt=0).order_by('-id')
+
+
+class UnavailabelBookList(BookMixin):
+    queryset = Book.objects.filter(available__lte=0).order_by('-id')
 
 
 class AddBook(BaseMixin, CreateView):

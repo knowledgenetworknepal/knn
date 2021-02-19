@@ -13,13 +13,10 @@
         <h6 class="text-primary font-weight-bold">Books
         </h6>
         <div class="d-flex align-items-center justify-content-center mt-2 mt-sm-0">
-          <div class="form-group mb-0 mr-1">
-            <select class="form-control" aria-label="Default select example">
-              <option selected>All</option>
-              <option value="1">Ascending</option>
-              <option value="2">Descending</option>
-            </select>
-          </div>
+          <a href="{% url 'dashboard:book_list' %}" class="btn btn-info mx-2">All books</a>
+          <a href="{% url 'dashboard:available_books' %}" class="btn btn-info mx-2">Avaialbe books</a>
+          <a href="{% url 'dashboard:unavailable_books' %}" class="btn btn-info mx-2">Unavailabe books</a>
+
           <div class="form-group icon mb-0">
 
             <input type="text" class="form-control" placeholder="Search">

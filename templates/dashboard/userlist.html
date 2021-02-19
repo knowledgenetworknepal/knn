@@ -13,13 +13,9 @@
         <h6 class="text-primary font-weight-bold">Members
         </h6>
         <div class="d-flex align-items-center justify-content-center mt-2 mt-sm-0">
-          <div class="form-group mb-0 mr-1">
-            <select class="form-control" aria-label="Default select example">
-              <option selected>All</option>
-              <option value="1">Ascending</option>
-              <option value="2">Descending</option>
-            </select>
-          </div>
+          <a href="{% url 'dashboard:user_list' %}" class="btn btn-info mx-2">All Users</a>
+          <a href="{% url 'dashboard:approved_users' %}" class="btn btn-info mx-2">Approved users</a>
+          <a href="{% url 'dashboard:unapproved_users' %}" class="btn btn-info mx-2">Unapproved users</a>
           <div class="form-group icon mb-0">
 
             <input type="text" class="form-control" placeholder="Search">
