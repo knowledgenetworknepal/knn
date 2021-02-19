@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load times %}
 
 
 {% block title %}  Knowledge Network Nepal {% endblock %}
@@ -73,11 +74,10 @@
                     </div>
                     <div class="rating-widget">
                         <div class="rating-block">
+                            {% for on in star|times %}
                             <span class="fas fa-star star_on"></span>
-                            <span class="fas fa-star star_on"></span>
-                            <span class="fas fa-star star_on"></span>
-                            <span class="fas fa-star star_on"></span>
-                            <span class="fas fa-star "></span>
+                            {% endfor %}
+                          
                         </div>
                         <div class="review-widget">
                             <a href="">({{reviews|length}} Reviews)</a> <span>|</span>
@@ -91,7 +91,7 @@
                     <div class="add-to-cart-row">
                         <div class="count-input-block">
                             <span class="widget-label">Qty</span>
-                            <input type="number" class="form-control text-center" value="1">
+                            <input type="number" class="form-control text-center" value="{{object.available}}" disabled>
                         </div>
                         <div class="add-cart-btn">
                             <a href="{% url 'add_to_cart' object.slug %}" class="btn btn-outlined--primary"><span class="plus-icon">+</span>Add to
@@ -133,13 +133,13 @@
                             </div>
                             <div class="text">
                                 <div class="rating-block mb--15">
+                                    {% for count in review.rating|times %}
                                     <span class="ion-android-star-outline star_on"></span>
-                                    <span class="ion-android-star-outline star_on"></span>
-                                    <span class="ion-android-star-outline star_on"></span>
-                                    <span class="ion-android-star-outline"></span>
-                                    <span class="ion-android-star-outline"></span>
+
+                                    {% endfor %}
+                                   
                                 </div>
-                                <h6 class="author">{{review.added_by}} – <span class="font-weight-400"> {{review.review_date}} </span>
+                                <h6 class="author">{{review.added_by.first_name}} {{review.added_by.last_name}} – <span class="font-weight-400"> {{review.review_date}} </span>
                                 </h6>
                                 <p>{{review.review}}</p>
                             </div>
@@ -153,15 +153,15 @@
                                 <div class="rating-row pt-2">
                                     <p class="d-block">Your Rating</p>
                                     <span class="rating-widget-block">
-                                        <input type="radio" name="star" id="star1">
+                                        <input type="radio" name="rating" id="star1" value='5'>
                                         <label for="star1"></label>
-                                        <input type="radio" name="star" id="star2">
+                                        <input type="radio" name="rating" id="star2" value='4'>
                                         <label for="star2"></label>
-                                        <input type="radio" name="star" id="star3">
+                                        <input type="radio" name="rating" id="star3" value='3'>
                                         <label for="star3"></label>
-                                        <input type="radio" name="star" id="star4">
+                                        <input type="radio" name="rating" id="star4" value='2'>
                                         <label for="star4"></label>
-                                        <input type="radio" name="star" id="star5">
+                                        <input type="radio" name="rating" id="star5" value='1'>
                                         <label for="star5"></label>
                                     </span>
                                 <div class="row">

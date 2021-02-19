@@ -1,3 +1,78 @@
-{% for object in object_list %}
-    {{object}}
-{% endfor %}
+{% extends 'dashboard_base.html' %}
+{% load static %}
+
+
+{% block title %}  Knowledge Network Nepal {% endblock %}
+
+{% block content %} 
+
+
+<div class="inner">
+    <div class="card">
+      <div class="dashboard-header mb-3">
+        <h6 class="text-primary font-weight-bold">Members
+        </h6>
+        <div class="d-flex align-items-center justify-content-center mt-2 mt-sm-0">
+          <div class="form-group mb-0 mr-1">
+            <select class="form-control" aria-label="Default select example">
+              <option selected>All</option>
+              <option value="1">Ascending</option>
+              <option value="2">Descending</option>
+            </select>
+          </div>
+          <div class="form-group icon mb-0">
+
+            <input type="text" class="form-control" placeholder="Search">
+
+            <i class="icon-search"></i>
+
+
+          </div>
+
+        </div>
+
+      </div>
+      <div class="table-responsive">
+
+        <table class="table table__small d-table">
+          <thead>
+            <tr>
+              <th>S.N</th>
+              <th>Name </th>
+              <th>Email</th>
+              <th>Phone</th>
+
+
+            </tr>
+          </thead>
+          <tbody>
+            {% for object in object_list %}
+        
+            <tr>
+              <td>{{forloop.counter}}</td>
+              <td>
+                <a href="{% url 'dashboard:user_detail' object.username %}" class="d-flex align-item-center">
+                  <div class="image mr-2">
+                    <img src="{% static  'image/dashboard/user-male.png' %}" alt="user">
+                  </div>
+                  <p>{{object.first_name}} {{object.last_name}}  ({{object.username}})</p>
+                </a>
+              </td>
+              <td>{{object.email}}</td>
+              <td>{{object.contact}}</td>
+
+            </tr>
+            {% endfor %}
+
+       
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% include 'pagination.html' %}
+
+  </div>
+
+
+
+{% endblock %}

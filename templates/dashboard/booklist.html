@@ -1,3 +1,90 @@
-{% for object in object_list %}
-    {{object}}
-{% endfor %}
+{% extends 'dashboard_base.html' %}
+{% load static %}
+
+
+{% block title %}  Knowledge Network Nepal {% endblock %}
+
+{% block content %} 
+
+<div class="inner">
+
+    <div class="card">
+      <div class="dashboard-header mb-3">
+        <h6 class="text-primary font-weight-bold">Books
+        </h6>
+        <div class="d-flex align-items-center justify-content-center mt-2 mt-sm-0">
+          <div class="form-group mb-0 mr-1">
+            <select class="form-control" aria-label="Default select example">
+              <option selected>All</option>
+              <option value="1">Ascending</option>
+              <option value="2">Descending</option>
+            </select>
+          </div>
+          <div class="form-group icon mb-0">
+
+            <input type="text" class="form-control" placeholder="Search">
+
+            <i class="icon-search"></i>
+
+
+          </div>
+          <button class="btn btn-primary btn-icon ml-2">
+            <a href="{% url 'dashboard:add_book' %}">
+              <i class="icon-add"></i>
+              Add
+            </a>
+           </button>
+        </div>
+
+      </div>
+      <div class="table-responsive">
+        <table class="table table__small d-table">
+          <thead>
+            <tr>
+              <th>S.N</th>
+              <th>Book Name</th>
+              <th>Category</th>
+              <th>Featured</th>
+
+              <th>Status</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            {% for object in object_list %}
+            <tr>
+              <td>{{forloop.counter}}</td>
+              <td>
+                <a href="{% url 'dashboard:book_details' object.slug %}">{{object.book_name}}</a></td>
+              <td>{{object.category}}</td>
+              <td>
+                {% if object.featured %}
+                Featured
+                {% else %}
+                Not Featured
+                {% endif %}
+              </td>
+              {% if object.available > 0 %}
+              <td><span class="badge badge-success">Available</span></td>
+
+              {% else %}
+              <td><span class="badge badge-danger">Unavailable</span></td>
+
+              {% endif %}
+
+            </tr>
+            {% endfor %}
+
+       
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% include 'pagination.html' %}
+
+  </div>
+
+
+
+
+{% endblock %}

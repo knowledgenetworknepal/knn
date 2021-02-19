@@ -1,8 +1,10 @@
 from django.urls import path
-from .views import DeleteCartItem, NewUserView, CategoryView, AddCheckoutLoction, AddNewBookView, AddReview, AddToCart, BookDetailView, CartView, ConfirmOrderView, ListBooksView, OldOrderView, OrderBooks, SearchView
+from .views import AllBooksView, DeleteCartItem, NewUserView, CategoryView, AddCheckoutLoction, AddNewBookView, AddReview, AddToCart, BookDetailView, CartView, ConfirmOrderView, ListBooksView, OldOrderView, OrderBooks, SearchView
 
 urlpatterns = [
     path('', ListBooksView.as_view(), name='list_books'),
+    path('books/', AllBooksView.as_view(), name='all_books'),
+
     path('book/add/', AddNewBookView.as_view(), name='add_new_book'),
     path('book/<str:slug>/', BookDetailView.as_view(), name='book_details'),
     path('category/<str:slug>/', CategoryView.as_view(), name='category_view'),

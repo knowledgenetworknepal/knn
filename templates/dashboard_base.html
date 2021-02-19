@@ -2,13 +2,166 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link href="{% static 'css/vendors.style.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet"></head>
+
     <title>Document</title>
 </head>
 <body>
-    {% blockcontent %}
+    
+<body>
+    <div class="dashboard-app">
+      <aside class="sidebar">
+        <a href="books.html">
+          <img src="{% static 'image/dashboard/logo_white.png' %}" alt="" class="img-fluid d-block mx-auto logo" />
+        </a>
+  
+        <ul class="menu">
+          <li >
+            <a href="{% url 'dashboard:book_list' %}"><span class="icon-books"></span> Books</a>
+          </li>
+  
+          <li>
+            <a href="{% url 'dashboard:user_list' %}"><span class="icon-users"></span>Member</a>
+          </li>
+  
+          <li>
+            <a href="{% url 'dashboard:deposit_list' %}"><span class="icon-deposit"></span>Deposit</a>
+          </li>
+  
+          <li>
+            <a href="{% url 'dashboard:category_list' %}"><span class="icon-file-text2"></span>Category</a>
+          </li>
+  
+          <li>
+            <a href=""><span class="icon-file-empty"></span>Notify Users</a>
+          </li>
+  
+          <li>
+            <a href="{% url 'dashboard:request_list' %}"><span class="icon-file-empty"></span>User Request</a>
+          </li>
+          <li>
+            <a href="{% url 'dashboard:orders' %}"><span class="icon-file-empty"></span>Orders</a>
+          </li>
+  
+        </ul>
+        <div class="copyright"><span>
+  
+            &copy; 2021 Dashboard
+          </span>
+        </div>
+      </aside>
+      <main class="dashboard--main">
+        <header class="header">
+          <div class="icon-menu" id="toggler"></div>
+          <div class="des text-dark ml-3">Dashboard</div>
+          <div class="user--area">
+  
+            <div class="dropdown">
+              <a class="d-flex" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false" href="">
+                <div class="notification-icon mr-3">
+                  <span class="icon-bell1 icon-active"></span>
+                  <div class="notification-dot"></div>
+                </div>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right dropdown-notify" aria-labelledby="dropdownMenuLink">
+                <div class="top">
+                  <p>Notifications Section</p>
+  
+                </div>
+                <ul class="line line-notify scrollable">
+                  <li>
+                    <div class="d-flex align-items-center">
+  
+                      <div class="notify-icon primary" href="#/">
+                        <i class="icon-facebook"></i>
+                      </div>
+                      <div class="ml-3">
+                        <p>Prabhat Bhattarai wants to be member.</p>
+                        <small>1 hours ago</small>
+                      </div>
+                    </div>
+                    <div>
+                      <button class="btn btn-success btn-sm">
+                        <i class="icon-check"></i>
+                      </button>
+                      <button class="btn btn-danger btn-sm">
+                        <i class="icon-close"></i>
+                      </button>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="d-flex align-items-center">
+  
+                      <div class="notify-icon info-1" href="#/">
+                        <i class="icon-books"></i>
+                      </div>
+                      <div class="ml-3">
+                        <p>Your book is updated. Please check it out</p>
+                        <small>4 hours ago</small>
+                      </div>
+                    </div>
+  
+                  </li>
+                  <li>
+                    <div class="d-flex align-items-center">
+  
+                      <div class="notify-icon primary" href="#/">
+                        <i class="icon-facebook"></i>
+                      </div>
+                      <div class="ml-3">
+                        <p>Neha Thapa wants to be member.</p>
+                        <small>5 hours ago</small>
+                      </div>
+                    </div>
+                    <div>
+                      <button class="btn btn-success btn-sm">
+                        <i class="icon-check"></i>
+                      </button>
+                      <button class="btn btn-danger btn-sm">
+                        <i class="icon-close"></i>
+                      </button>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+  
+            <a href="#" class="">
+              
+              <img src="  {% static 'image/dashboard/user-male.png' %}" alt="user-image" class="profile" />
+            </a>
+  
+            <div class="dropdown mr-3">
+              <a href="#" class="d-flex align-items-center" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <div class="small text-dark font-regular user--name">{{request.user.first_name}} {{request.user.last_name}}
+                  <div class="badge badge-success">Admin</div>
+                </div>
+                <span class="icon-triangle-down"></span>
+              </a>
+  
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <p class="px-3">{{request.user.email}}</p>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+              </div>
+            </div>
+  
+          </div>
+        </header>
+        {% block content %}
 
-    {% endblock %}
+        {% endblock %}
+
+      </main>
+    </div>
+  <script type="text/javascript" src="{% static 'js/vendors.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/home.js' %}"></script></body>
+
 </body>
 </html>

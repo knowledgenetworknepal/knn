@@ -1,0 +1,72 @@
+{% extends 'dashboard_base.html' %}
+{% load static %}
+
+{% block title %}  Knowledge Network Nepal {% endblock %}
+
+{% block content %} 
+
+
+      <div class="inner">
+
+        <div class="card">
+          <div class="dashboard-header mb-3">
+            <h6 class="text-primary font-weight-bold">Category
+            </h6>
+            <div class="d-flex align-items-center justify-content-center mt-2 mt-sm-0">
+              <div class="form-group mb-0 mr-1">
+                <select class="form-control" aria-label="Default select example">
+                  <option selected>All</option>
+                  <option value="1">Ascending</option>
+                  <option value="2">Descending</option>
+                </select>
+              </div>
+              <div class="form-group icon mb-0">
+
+                <input type="text" class="form-control" placeholder="Search">
+
+                <i class="icon-search"></i>
+
+
+              </div>
+              <button class="btn btn-primary btn-icon ml-2">
+                <a href="{% url 'dashboard:add_category' %}">
+                <i class="icon-add"></i>
+                Add
+              </a></button>
+
+            </div>
+
+          </div>
+          <div class="row">
+              {% for object in object_list %}
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+              <div class="card-category">
+                <div class="text-center p-3">
+                  <div class="icon-wrapper primary ">
+                    <i class="icon-book1"></i>
+                  </div>
+                  <h6 class="text-truncate">{{object.category_name}}</h6>
+                  <p class="mt-2 text-truncate"> {{object.description}} </p>
+
+                </div>
+                <div class="card-bottom">
+                  <span class="text-light small mt-1">
+                    <i class="icon-calendar1"></i> {{object.creation_date}}
+                  </span>
+                  <a href="{% url 'dashboard:category_detail' object.slug %}" class="btn btn-icon btn-primary">Details  <i class="icon-arrow-right ml-2 mr-0"></i></a>
+                </div>
+              </div>
+            </div>
+
+            {% endfor %}
+
+       
+          </div>
+
+
+        </div>
+        {% include 'pagination.html' %}
+
+      </div>
+
+      {% endblock %}

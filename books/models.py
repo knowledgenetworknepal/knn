@@ -9,15 +9,18 @@ User = get_user_model()
 
 class Category(models.Model):
     category_name = models.CharField(max_length=50)
+    description = models.TextField(max_length=200, null=True, blank=True)
     added_by = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
     featured = models.BooleanField(default=False)    
     slug = models.SlugField(unique=True, blank=True)
+    creation_date = models.DateField(auto_now=True)
 
     def save(self, *args, **kwargs):
-        try:
-            self.slug = slugify(self.category_name)
-        except:
-            self.slug = slugify(self.category_name)+random.randint(0,99999999)
+        if self.slug is None:
+            try:
+                self.slug = slugify(self.category_name)
+            except:
+                self.slug = slugify(self.category_name)+random.randint(0,99999999)
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -45,10 +48,11 @@ class Book(models.Model):
     available = models.IntegerField(default=0)
 
     def save(self, *args, **kwargs):
-        try:
-            self.slug = slugify(self.book_name)
-        except:
-            self.slug = slugify(self.book_name)+random.randint(0,99999999)
+        if self.slug is None:
+            try:
+                self.slug = slugify(self.book_name)
+            except:
+                self.slug = slugify(self.book_name)+random.randint(0,99999999)
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -89,7 +93,7 @@ class Review(models.Model):
     review = models.CharField(max_length=200)
     review_date = models.DateTimeField(auto_now=True)
     edited_date = models.DateTimeField(auto_now_add=True)
-    rating = models.CharField(choices=STAR, max_length=20, null=True, blank=True)
+    rating = models.IntegerField(choices=STAR, null=True, blank=True)
 
     def __str__(self):
         return self.book.book_name

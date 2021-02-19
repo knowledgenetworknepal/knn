@@ -1,0 +1,118 @@
+{% extends 'dashboard_base.html' %}
+{% load static %}
+
+
+{% block title %}  Knowledge Network Nepal {% endblock %}
+
+{% block content %} 
+
+
+<div class="inner">
+    <div class="card">
+      <div class="dashboard-header mb-3">
+        <h6 class="text-primary font-weight-bold">Book details
+        </h6>
+       
+      </div>
+      <div class="row mt-4">
+        <div class="col-lg-3">
+          <div class="image-lg">
+            <img src="{{object.image.url}}" alt="User">
+          </div>
+        </div>
+        <div class="col-lg-9">
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="details">
+                <h6>Name</h6>
+                <p>{{object.book_name}}</p>
+              </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="details">
+                  <h6>ISBN</h6>
+                  <p>{{object.isbn}}</p>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="details">
+                  <h6>Available</h6>
+                  <p>{{object.available}}</p>
+                </div>
+              </div>
+            <div class="col-lg-4">
+              <div class="details">
+                <h6>Description</h6>
+                <p>{{object.book_description}}</p>
+              </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="details">
+                  <h6>Category</h6>
+                  <p>{{object.category}}</p>
+                </div>
+              </div>
+
+              <div class="col-lg-4">
+                <div class="details">
+                  <h6>Price</h6>
+                  <p>{{object.price}}</p>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="details">
+                  <h6>Pages</h6>
+                  <p>{{object.book_pages}}</p>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="details">
+                  <h6>Featured</h6>
+                  <p>{{object.featured}}</p>
+                </div>
+              </div>
+
+              <div class="col-lg-4">
+                <div class="details">
+                  <h6>Action</h6>
+                  <a href="{% url 'dashboard:book_update' object.slug %}" class="btn btn-primary">Update Book</a>
+                </div>
+              </div>
+      
+          </div>
+        </div>
+        <h5>Uploaded by</h5>
+        <div class="table-responsive mt-4">
+
+          <table class="table table__small d-table">
+            <thead>
+              <tr>
+                <th>S.N</th>
+                <th>User </th>
+
+              </tr>
+            </thead>
+            <tbody>
+            {% for object in book_owners %}
+              <tr>
+                <td>{{forloop.counter}}</td>
+                <td>
+                    <a href="{% url 'dashboard:user_detail' object.added_by.username %}">
+                        {{object.added_by.first_name}} {{object.added_by.last_name}} ({{object.added_by.username}})
+                  </a>
+                </td>
+              </tr>
+              {% endfor %}
+
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+{% endblock %}

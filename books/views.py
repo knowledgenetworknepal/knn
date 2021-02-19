@@ -9,6 +9,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import DeleteView
 from .models import Book, BookUpload, CartItem, Category, Review, CheckoutAddress, Order
 from .forms import ReviewForm, CheckoutAddressForm, BookForm
+from django.db.models import Sum, F
 
 from userapp.forms import DepositForm
 from userapp.models import Deposit
@@ -82,11 +83,17 @@ class ListBooksView(BaseMixin, ListView):
         return context_data
 
 
+class AllBooksView(BaseMixin, ListView):
+    model = Book
+    template_name = 'books/category.html'
+    queryset = Book.objects.all().order_by('-id')
+    paginate_by = 12
+
+
 class CategoryView(BaseMixin, ListView):
     model = Book
     template_name = 'books/category.html'
     paginate_by = 1
-    context_object_name = 'books'
 
     def get_object(self, *args, **kwargs):
         return get_object_or_404(Category, slug=self.kwargs.get('slug'))
@@ -113,9 +120,18 @@ class BookDetailView(BaseMixin, DetailView):
         book = self.get_object()
         book.count += 1
         book.save()
-        context_data['reviews'] = Review.objects.select_related('added_by').filter(book=book).order_by('-id')
-        context_data['review_count'] = context_data['reviews'].count()
-
+        review =  Review.objects.select_related('added_by').filter(book=book).order_by('-id')
+        context_data['reviews'] = review
+        review_count = review.count()
+        context_data['review_count'] = review_count
+        star = 0
+        if review is not None:
+            try:
+                star = int(review.aggregate(Sum('rating'))['rating__sum']/review_count)
+            except:
+                pass
+        context_data['star'] = star
+        print(context_data['star'])
         context_data['review_form'] = ReviewForm
         return context_data
 
@@ -185,12 +201,13 @@ class OrderBooks(LoginRequiredMixin, AccountAccessMixin, BaseMixin, View):
         cart_items = CartItem.objects.filter(user=request.user, ordered=False)
         cart_books = cart_items.values_list('book_id', flat=True)
         books = Book.objects.filter(id__in=cart_books)
+        books.update(availabe=F('availabe')-1)
+
         order = Order.objects.create(user=request.user)
         order.books.add(*books)
         order.address = location
         order.save()
         cart_items.update(ordered=True)
-        # books.update(available=F('available')-1)
         return redirect(reverse_lazy("list_books"))
 
 
@@ -199,7 +216,7 @@ class AddReview(LoginRequiredMixin, BaseMixin, View):
     def post(self, request, *args, **kwargs):
         book = get_object_or_404(Book, slug=self.kwargs.get('slug'))
         form = ReviewForm(request.POST)
-        if form.is_valid():
+        if form.is_valid():            
             review = form.save(commit=False)
             review.book = book
             review.added_by = request.user
@@ -250,7 +267,6 @@ class SearchView(BaseMixin, ListView):
     model = Book
     template_name = 'books/category.html'
     paginate_by = 12
-    context_object_name = 'books'
 
     def get_context_data(self, **kwargs):
         word = self.request.GET.get('search')

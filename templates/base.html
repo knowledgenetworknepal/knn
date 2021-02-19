@@ -463,7 +463,9 @@
                                         <li><a href="checkout.html">Checkout</a></li>
                                         <li><a href="compare.html">Compare</a></li>
                                         <li><a href="wishlist.html">Wishlist</a></li>
+                                        {% if user.is_authenticated %}
                                         <li><a href="{% url 'my_account' %}">My Account</a></li>
+                                        {% endif %}
                                         <li><a href="order-complete.html">Order Complete</a></li>
                                         <li><a href="faq.html">Faq</a></li>
                                         <li><a href="contact-2.html">contact 02</a></li>
@@ -511,7 +513,6 @@
                             <h3>Information</h3>
                         </div>
                         <ul class="footer-list normal-list">
-                            <li><a href="">Prices drop</a></li>
                             <li><a href="">New products</a></li>
                             <li><a href="">Best sales</a></li>
                             <li><a href="">Contact us</a></li>
@@ -559,13 +560,8 @@
         </div>
         <div class="footer-bottom">
             <div class="container">
-                <p class="copyright-heading">Suspendisse in auctor augue. Cras fermentum est ac fermentum tempor. Etiam
-                    vel
-                    magna volutpat, posuere eros</p>
-                <a href="#" class="payment-block">
-                    <img src="{% static 'image/icon/payment.png' %}" alt="">
-                </a>
-                <p class="copyright-text">Copyright © 2020 <a href="#" class="author"></a>. All Right Reserved.
+             
+                <p class="copyright-text">Copyright © 2021 <a href="#" class="author"></a>. All Right Reserved.
                     <br>
                     </p>
             </div>

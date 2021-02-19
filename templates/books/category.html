@@ -45,7 +45,7 @@
 
 
         <div class="shop-product-wrap grid with-pagination row space-db--30 shop-border">
-            {% for book in books %}
+            {% for book in object_list %}
 
             <div class="col-lg-4 col-sm-6">
 
@@ -90,9 +90,11 @@
             {% endfor %}
 
         </div>
-        {% include 'pagination.html' %}
+
 
     </div>
+
+    {% include 'pagination.html' %}
 
     </main>
 

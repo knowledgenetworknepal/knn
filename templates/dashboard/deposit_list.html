@@ -1,3 +1,84 @@
-{% for object in object_list %}
-    {{object}}
-{% endfor %}
+{% extends 'dashboard_base.html' %}
+{% load static %}
+
+
+{% block title %}  Knowledge Network Nepal {% endblock %}
+
+{% block content %} 
+
+
+<div class="inner">
+    <div class="card">
+      <div class="dashboard-header mb-3">
+        <h6 class="text-primary font-weight-bold">Deposits
+        </h6>
+        <div class="d-flex align-items-center justify-content-center mt-2 mt-sm-0">
+          <div class="form-group mb-0 mr-1">
+            <select class="form-control" aria-label="Default select example">
+              <option selected>All</option>
+              <option value="1">Ascending</option>
+              <option value="2">Descending</option>
+            </select>
+          </div>
+          <div class="form-group icon mb-0">
+
+            <input type="text" class="form-control" placeholder="Search">
+
+            <i class="icon-search"></i>
+
+
+          </div>
+
+        </div>
+
+      </div>
+      <div class="table-responsive">
+
+        <table class="table table__small d-table">
+          <thead>
+            <tr>
+              <th>S.N</th>
+              <th>Member </th>
+              <th>Email</th>
+              <th>Deposit</th>
+              <th>View</th>
+              <th>Verified</th>
+              <th>Action</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            {% for object in object_list %}
+        
+            <tr>
+              <td>{{forloop.counter}}</td>
+              <td>
+                {{object.user.first_name}} {{object.user.last_name}} ({{object.user.username}})
+
+              </td>
+              <td>{{object.user.email}}</td>
+              <td>Rs {{object.amount}}</td>
+              <td>
+                <a href="{{object.image.url}}" target="_blank">View </a>
+              </td>
+              <th>
+                {% if object.verified %}
+                    Verified
+                {% else %}
+                    Unverified
+                {% endif %}
+            </th>
+              <td>{{object.amount}}</td>
+
+            </tr>
+            {% endfor %}
+
+       
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+{% endblock %}

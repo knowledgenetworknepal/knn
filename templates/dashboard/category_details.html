@@ -1,0 +1,64 @@
+{% extends 'dashboard_base.html' %}
+{% load static %}
+
+
+{% block title %}  Knowledge Network Nepal {% endblock %}
+
+{% block content %} 
+
+
+<div class="inner">
+    <div class="card">
+      <div class="dashboard-header mb-3">
+        <h6 class="text-primary font-weight-bold">Member details
+        </h6>
+        <div class="d-flex align-items-center justify-content-center mt-2 mt-sm-0">
+          <div class="form-group mb-0 mr-1">
+            <select class="form-control" aria-label="Default select example">
+              <option selected>All</option>
+              <option value="1">Ascending</option>
+              <option value="2">Descending</option>
+            </select>
+          </div>
+          <div class="form-group icon mb-0">
+            <input type="text" class="form-control" placeholder="Search">
+            <i class="icon-search"></i>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-4">
+
+        <div class="col-lg-9">
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="details">
+                <h6>Name</h6>
+                <p>{{object.category_name}} </p>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="details">
+                <h6>Slug</h6>
+                <p>{{object.slug}}</p>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="details">
+                <h6>Description</h6>
+                <p>{{object.description}}</p>
+              </div>
+            </div>
+          <a href="{% url 'dashboard:category_update' object.slug %}" class="btn btn-primary">
+            Update
+          </a>
+    
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+
+{% endblock %}

@@ -1,2 +1,149 @@
-{{object}}
-{{object.approved}}
+{% extends 'dashboard_base.html' %}
+{% load static %}
+
+
+{% block title %}  Knowledge Network Nepal {% endblock %}
+
+{% block content %} 
+
+
+<div class="inner">
+    <div class="card">
+      <div class="dashboard-header mb-3">
+        <h6 class="text-primary font-weight-bold">Member details
+        </h6>
+        <div class="d-flex align-items-center justify-content-center mt-2 mt-sm-0">
+          <div class="form-group mb-0 mr-1">
+            <select class="form-control" aria-label="Default select example">
+              <option selected>All</option>
+              <option value="1">Ascending</option>
+              <option value="2">Descending</option>
+            </select>
+          </div>
+          <div class="form-group icon mb-0">
+            <input type="text" class="form-control" placeholder="Search">
+            <i class="icon-search"></i>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-lg-3">
+          <div class="image-lg">
+            <img src="{% static 'image/dashboard/user-male.png' %}" alt="User">
+          </div>
+        </div>
+        <div class="col-lg-9">
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="details">
+                <h6>Name</h6>
+                <p>{{object.first_name}}  {{object.last_name}} ({{object.username}})</p>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="details">
+                <h6>Email</h6>
+                <p>{{object.email}}</p>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="details">
+                <h6>Phone Number</h6>
+                <p>{{object.contact}}</p>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="details">
+                <h6>Status</h6>
+                <p>{% if object.approved %} Approved {% else %} Not Approved {%endif%}</p>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="details">
+                <h6>Action</h6>
+                {% if object.approved %}
+                <a href="{% url 'dashboard:reject' object.username %}" class="btn btn-danger">Reject</a>
+
+                 {% else %} 
+                 <a href="{% url 'dashboard:approve' object.username %}" class="btn btn-success">Accept</a>
+
+                 {%endif%}
+              </div>
+            </div>
+    
+          </div>
+        </div>
+        <div class="table-responsive mt-4">
+
+          <table class="table table__small d-table">
+            <thead>
+              <tr>
+                <th>S.N</th>
+                <th>Book Name </th>
+                <th>Author</th>
+
+              </tr>
+            </thead>
+            <tbody>
+            {% for book in books %}
+              <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{book.book.book_name}}</td>
+                <td>{{book.book.author}}</td>
+              </tr>
+              {% endfor %}
+
+            </tbody>
+          </table>
+          <div class="table-responsive mt-4">
+
+          <table class="table table__small d-table">
+            <thead>
+              <tr>
+                <th>S.N</th>
+                <th>Deposit Amount</th>
+                <th>Voucher</th>
+                <th>Verified</th>
+                <th>Action</th>
+
+              </tr>
+            </thead>
+            <tbody>
+            {% for deposit in deposits %}
+              <tr>
+                <td>{{forloop.counter}}</td>
+             
+                <td>{{deposit.amount}}</td>
+                <td>
+                    <a href="{{deposit.image.url}}" target="_blank">View </a>
+
+                </td>
+                <th>
+                    {% if deposit.verified %}
+                        Verified
+                    {% else %}
+                        Unverified
+                    {% endif %}
+                </th>
+                <td>
+                  {% if deposit.verified %}
+                  <a href="{% url 'dashboard:unverify' deposit.pk %}" class="btn btn-danger">Unverify</a>
+                  {% else %}
+                  <a href="{% url 'dashboard:verify' deposit.pk %}" class="btn btn-success">Vefiry</a>
+                  {% endif %}
+                </td>
+
+              </tr>
+              {% endfor %}
+
+            </tbody>
+          </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+{% endblock %}

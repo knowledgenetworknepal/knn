@@ -93,7 +93,7 @@ class AccountView(BaseMixin, UpdateView):
     model = User
     template_name = 'userapp/myaccount.html'
     form_class = UserUpdateForm
-
+    
     def get_object(self):
         return self.request.user
 
@@ -104,6 +104,9 @@ class AccountView(BaseMixin, UpdateView):
         context_data['checkout_location'] = CheckoutAddress.objects.filter(user=self.request.user)
         context_data['password_form'] = PasswordForm
         return context_data
+
+    def get_success_url(self):
+        return reverse_lazy('my_account')
 
 
 class ChangePassword(View):
