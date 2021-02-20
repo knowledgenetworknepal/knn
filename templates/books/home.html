@@ -184,10 +184,14 @@
                                         </div>
                                         <div class="product-card--body">
                                             <div class="card-image">
+                                                {% if book.image %}
                                                 <img src="{{ book.image.url }}" alt="">
+                                                {% endif %}
                                                 <div class="hover-contents">
                                                     <a href="{% url 'book_details' book.slug %}" class="hover-image">
-                                                        <img src="{{ book.image.url }}" alt="">
+                                                        {% if book.image %}
+                                                            <img src="{{ book.image.url }}" alt="">
+                                                            {% endif %}        
                                                     </a>
                                                     {% if request.user.is_authenticated %}
 
@@ -195,9 +199,7 @@
                                                         <a href="{% url 'add_to_cart' book.slug %}" class="single-btn">
                                                             <i class="fas fa-shopping-basket"></i>
                                                         </a>
-                                                        <a href="#" class="single-btn">
-                                                            <i class="fas fa-heart"></i>
-                                                        </a>
+                                                     
                                                         <a href="{% url 'book_details' book.slug %}"
                                                             class="single-btn">
                                                             <i class="fas fa-eye"></i>
@@ -243,20 +245,21 @@
                                               </div>
                                               <div class="product-card--body">
                                                   <div class="card-image">
-                                                      <img src="{{ book.image.url }}" alt="">
+                                                    {% if book.image %}
+                                                    <img src="{{ book.image.url }}" alt="">
+                                                    {% endif %}
                                                       <div class="hover-contents">
                                                           <a href="{% url 'book_details' book.slug %}" class="hover-image">
+                                                            {% if book.image %}
                                                             <img src="{{ book.image.url }}" alt="">
-                                                        </a>
+                                                            {% endif %}                                                        </a>
                                                           {% if request.user.is_authenticated %}
       
                                                           <div class="hover-btns">
                                                               <a href="{% url 'add_to_cart' book.slug %}" class="single-btn">
                                                                   <i class="fas fa-shopping-basket"></i>
                                                               </a>
-                                                              <a href="#" class="single-btn">
-                                                                  <i class="fas fa-heart"></i>
-                                                              </a>
+                                                        
                                                               <a href="{% url 'book_details' book.slug %}" data-toggle="modal" data-target="#quickModal"
                                                                   class="single-btn">
                                                                   <i class="fas fa-eye"></i>
@@ -302,10 +305,14 @@
                                               </div>
                                               <div class="product-card--body">
                                                   <div class="card-image">
-                                                      <img src="{{ book.image.url }}" alt="">
+                                                    {% if book.image %}
+                                                    <img src="{{ book.image.url }}" alt="">
+                                                    {% endif %}        
                                                       <div class="hover-contents">
                                                           <a href="{% url 'book_details' book.slug %}" class="hover-image">
+                                                            {% if book.image %}
                                                             <img src="{{ book.image.url }}" alt="">
+                                                            {% endif %}        
                                                         </a>
                                                           {% if request.user.is_authenticated %}
       
@@ -313,9 +320,10 @@
                                                               <a href="{% url 'add_to_cart' book.slug %}" class="single-btn">
                                                                   <i class="fas fa-shopping-basket"></i>
                                                               </a>
-                                                              <a href="#" class="single-btn">
-                                                                  <i class="fas fa-heart"></i>
-                                                              </a>
+                                                              <a href="{% url 'book_details' book.slug %}" data-toggle="modal" data-target="#quickModal"
+                                                              class="single-btn">
+                                                              <i class="fas fa-eye"></i>
+                                                          </a>
                                                            
                                                           </div>
                                                           {% endif %}

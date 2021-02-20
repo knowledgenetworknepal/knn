@@ -74,26 +74,8 @@
   
                 </div>
                 <ul class="line line-notify scrollable">
-                  <li>
-                    <div class="d-flex align-items-center">
-  
-                      <div class="notify-icon primary" href="#/">
-                        <i class="icon-facebook"></i>
-                      </div>
-                      <div class="ml-3">
-                        <p>Prabhat Bhattarai wants to be member.</p>
-                        <small>1 hours ago</small>
-                      </div>
-                    </div>
-                    <div>
-                      <button class="btn btn-success btn-sm">
-                        <i class="icon-check"></i>
-                      </button>
-                      <button class="btn btn-danger btn-sm">
-                        <i class="icon-close"></i>
-                      </button>
-                    </div>
-                  </li>
+                 
+                  {% for notice in notificaitons %}
                   <li>
                     <div class="d-flex align-items-center">
   
@@ -101,32 +83,14 @@
                         <i class="icon-books"></i>
                       </div>
                       <div class="ml-3">
-                        <p>Your book is updated. Please check it out</p>
-                        <small>4 hours ago</small>
+                        <p>{{notice.message}}</p>
+                        <small>{{notice.date}}</small>
                       </div>
                     </div>
   
                   </li>
-                  <li>
-                    <div class="d-flex align-items-center">
-  
-                      <div class="notify-icon primary" href="#/">
-                        <i class="icon-facebook"></i>
-                      </div>
-                      <div class="ml-3">
-                        <p>Neha Thapa wants to be member.</p>
-                        <small>5 hours ago</small>
-                      </div>
-                    </div>
-                    <div>
-                      <button class="btn btn-success btn-sm">
-                        <i class="icon-check"></i>
-                      </button>
-                      <button class="btn btn-danger btn-sm">
-                        <i class="icon-close"></i>
-                      </button>
-                    </div>
-                  </li>
+                  {% endfor %}
+                 
                 </ul>
               </div>
             </div>

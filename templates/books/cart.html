@@ -291,9 +291,23 @@
                     <div class="cart-summary">
                         <div class="cart-summary-wrap">
                             <h4><span>Cart Summary</span></h4>
-                            <p>Sub Total <span class="text-primary">$1250.00</span></p>
-                            <p>Shipping Cost <span class="text-primary">$00.00</span></p>
-                            <h2>Grand Total <span class="text-primary">$1250.00</span></h2>
+                            <p>Sub Total <span class="text-primary">
+                                {% if object_list|length ==  1 %}
+                                Rs. 50.00
+                                {% elif object_list|length == 2 %}
+                                Rs. 100.00
+
+                                {% else %}
+                                Rs. 0.0
+                                {% endif %}
+
+                            </span></p>
+                            <p>Shipping Cost <span class="text-primary">Rs 00.00</span></p>
+
+                            {% if object_list|length ==  2 %}
+                            <h2>Grand Total <span class="text-primary">Rs 100.00</span></h2>
+                            {% endif %}
+
                         </div>
                         <div class="cart-summary-button">
                             {% if object_list|length == 2 %}

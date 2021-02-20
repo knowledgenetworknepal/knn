@@ -7,7 +7,7 @@ from django.views import View
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
 from .forms import DepositForm, RegistrationForm, Loginform, UserUpdateForm, PasswordForm
-from .models import Deposit, Request
+from .models import Deposit, Request, Notification as Notice
 from books.forms import CheckoutAddressForm
 from books.views import BaseMixin
 
@@ -34,10 +34,14 @@ class UserRegistrationView(BaseMixin, CreateView):
         address = CheckoutAddressForm(request.POST)
 
         if registration.is_valid and address.is_valid():
-            user = registration.save()
+            user = registration.save(commit=False)
+            user.contact = address.cleaned_data.get('phone_number')
+            user.save()
+
             user_address = address.save(commit=False)
             user_address.user = user
             user_address.save()
+            
             return reverse_lazy('registration') 
         return reverse_lazy('registration') 
 
@@ -77,6 +81,7 @@ class AddDeposit(BaseMixin, View):
             deposit = form.save(commit=False)
             deposit.user = user
             deposit.save()
+            Notice.objects.create(deposit=deposit, sender=user, message=f'New Deposit by {user.first_name} {user.last_name}')
         else:
             print(form.errors)
         return redirect(request.META.get('HTTP_REFERER'))
@@ -85,7 +90,8 @@ class AddDeposit(BaseMixin, View):
 class RequestReviewView(BaseMixin, View):
     def get(self, request, *args, **kwargs):
         user = request.user
-        Request.objects.get_or_create(user=user, status=False)
+        req = Request.objects.get_or_create(user=user, status=False)
+        Notice.objects.create(request=req, sender=user, message=f'Requested Review for {user.first_name} {user.last_name}')
         return redirect(request.META.get('HTTP_REFERER'))   
 
 

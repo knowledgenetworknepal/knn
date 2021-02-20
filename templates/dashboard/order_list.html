@@ -20,9 +20,10 @@
 
           <div class="form-group icon mb-0">
 
-            <input type="text" class="form-control" placeholder="Search">
-
-            <i class="icon-search"></i>
+            <form class="form-inline" method="GET" action="{% url 'dashboard:order_search' %}">
+              <input type="text" class="form-control" placeholder="Search" name="q">
+                <button class="btn btn-outlined"><i class="icon-search"></i></button>
+            </form>
 
 
           </div>

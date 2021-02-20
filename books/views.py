@@ -12,7 +12,7 @@ from .forms import ReviewForm, CheckoutAddressForm, BookForm
 from django.db.models import Sum, F
 
 from userapp.forms import DepositForm
-from userapp.models import Deposit
+from userapp.models import Deposit, Notification as Notice
 from base.models import Ads
 
 # if something is needed all over the palce, use this mixin
@@ -24,7 +24,13 @@ class BaseMixin():
         context_data['categories'] = Category.objects.all()
         if user.is_authenticated:
             context_data['cart_items'] = CartItem.objects.select_related('book').filter(user=user, ordered=False)
-            context_data['amount'] = 100
+            total_items = context_data['cart_items'].count()
+            val = 0
+            if total_items == 1:
+                val = 50
+            elif total_items == 2:
+                val = 100
+            context_data['amount'] = val
         return context_data
 
 

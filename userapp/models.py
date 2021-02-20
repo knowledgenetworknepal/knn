@@ -9,13 +9,6 @@ class CustomUser(AbstractUser):
     approved = models.BooleanField(default=False)
 
 
-class Notification(models.Model):
-    message = models.CharField(max_length=500)
-    receiver = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='user_notification', null=True, blank=True)
-    send_to_all = models.BooleanField(default=False)
-    sender = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='sent_notification')
-
-
 class Deposit(models.Model):
     image = models.ImageField(upload_to='uploads/%Y/%M')
     amount = models.FloatField()
@@ -35,3 +28,13 @@ class Request(models.Model):
     def __str__(self):
         return self.user.username
 
+
+class Notification(models.Model):
+    message = models.CharField(max_length=500)
+    receiver = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='user_notification', null=True, blank=True)
+    send_to_all = models.BooleanField(default=False)
+    sender = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='sent_notification')
+    deposit = models.ForeignKey(Deposit, on_delete=models.CASCADE, related_name='deposit_notificaiton', blank=True, null=True)
+    request = models.ForeignKey(Request, on_delete=models.CASCADE, related_name='request_notificaiton', blank=True, null=True)
+
+    

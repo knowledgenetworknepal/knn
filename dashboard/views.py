@@ -8,13 +8,16 @@ from .permissions import IsAdminMixin
 from django.contrib.auth import get_user_model
 from django.db.models import Q
 from books.models import Book, Category, BookUpload, Order
-from userapp.models import Request, Deposit
+from userapp.models import Request, Deposit, Notification as Notice
 from books.forms import BookForm, CategoryForm, AdminBookForm
 
 User = get_user_model()
 
 class BaseMixin(IsAdminMixin):
-    ...
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['notificaitons'] = Notice.objects.all().order_by('-id')
+        return context_data
 
 
 class UserMixin(BaseMixin, ListView):
@@ -33,6 +36,11 @@ class ApprovedUserList(UserMixin):
 
 class UnapprovedUserList(UserMixin):
     queryset = User.objects.filter(approved=False).order_by('-id')
+
+
+class UserSearch(UserMixin):
+    def get_queryset(self):
+        return User.objects.filter(Q(username__icontains=self.request.GET.get("q")) | Q(contact__icontains=self.request.GET.get("q") | Q(email__icontains=self.request.GET.get("q")))).order_by('-id')        
 
 
 class UserDetail(BaseMixin, DetailView):
@@ -95,6 +103,11 @@ class AvailabelBookList(BookMixin):
 
 class UnavailabelBookList(BookMixin):
     queryset = Book.objects.filter(available__lte=0).order_by('-id')
+
+
+class BookSearch(BookMixin):
+    def get_queryset(self):
+        return Book.objects.filter(Q(book_name__icontains=self.request.GET.get("q")) | Q(isbn__icontains=self.request.GET.get("q"))).order_by('-id')
 
 
 class AddBook(BaseMixin, CreateView):
@@ -222,7 +235,6 @@ class RejectDeposit(View):
         return redirect(request.META.get("HTTP_REFERER"))
 
 
-
 class OrderMixin(BaseMixin, ListView):
     model = Order
     template_name = 'dashboard/order_list.html'
@@ -243,6 +255,11 @@ class DispatchedOrderList(OrderMixin):
 
 class CanceledOrderList(OrderMixin):
     queryset = Order.objects.select_related('user').select_related('address').prefetch_related('books').filter(delivery_status='canceled').order_by('-id')
+
+
+class OrderSearch(OrderMixin):
+    def get_queryset(self):
+        return Order.objects.select_related('user').select_related('address').prefetch_related('books').filter(Q(user__username__icontains=self.request.GET.get("q")) | Q(user__contact__icontains=self.request.GET.get("q"))).order_by('-id')
 
 
 class DispatchOrder(View):

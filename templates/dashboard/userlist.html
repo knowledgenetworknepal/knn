@@ -17,10 +17,11 @@
           <a href="{% url 'dashboard:approved_users' %}" class="btn btn-info mx-2">Approved users</a>
           <a href="{% url 'dashboard:unapproved_users' %}" class="btn btn-info mx-2">Unapproved users</a>
           <div class="form-group icon mb-0">
+            <form class="form-inline" method="GET" action="{% url 'dashboard:user_search' %}">
+              <input type="text" class="form-control" placeholder="Search" name="q">
+                <button class="btn"><i class="icon-search"></i></button>
+            </form>
 
-            <input type="text" class="form-control" placeholder="Search">
-
-            <i class="icon-search"></i>
 
 
           </div>
@@ -36,6 +37,8 @@
               <th>S.N</th>
               <th>Name </th>
               <th>Email</th>
+              <th>Status</th>
+              
               <th>Phone</th>
 
 
@@ -55,6 +58,8 @@
                 </a>
               </td>
               <td>{{object.email}}</td>
+              <td>{{object.approved}}</td>
+
               <td>{{object.contact}}</td>
 
             </tr>

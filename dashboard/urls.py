@@ -49,4 +49,10 @@ urlpatterns = [
     path('orders/<int:pk>/cancel/', CanceleOrder.as_view(), name='canceled'),
     path('orders/<int:pk>/delivered/', DelivereOrder.as_view(), name='delivered'),
 
+    # search
+    path('user/search/', UserSearch.as_view(), name='user_search'),
+    path('book/search/', BookSearch.as_view(), name='book_search'),
+    path('order/search/', OrderSearch.as_view(), name='order_search'),
+
+
 ]
