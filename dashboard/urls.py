@@ -54,5 +54,14 @@ urlpatterns = [
     path('book/search/', BookSearch.as_view(), name='book_search'),
     path('order/search/', OrderSearch.as_view(), name='order_search'),
 
+    # ads
+    path('ads/', AdsView.as_view(), name='ads'),
+    path('ads/<int:pk>/', AdsDetailView.as_view(), name='ad_details'),
+    path('ads/add/', CreateAd.as_view(), name='ad_create'),
+    path('ads/<int:pk>/update/', UpdateAd.as_view(), name='ad_update'),
+    path('ads/<int:pk>/delete/', AdsView.as_view(), name='ad_delete'),
+
+    # contact
+    path('messages', ContactView.as_view(), name='contact')
 
 ]

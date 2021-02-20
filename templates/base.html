@@ -49,10 +49,7 @@
                                                 class="fas fa-chevron-down dropdown-arrow"></i></a>
                                         <ul class="sub-menu">
                                             <li><a href="{% url 'cart' %}">Cart</a></li>
-                                            <li><a href="checkout.html">Checkout</a></li>
-                                            <li><a href="wishlist.html">Wishlist</a></li>
                                             <li><a href="{% url 'my_account' %}">My Account</a></li>
-                                            <li><a href="order-complete.html">Order Complete</a></li>
                                             <li><a href="faq.html">Faq</a></li>
                                             <li><a href="{% url 'logout' %}">Logout</a></li>
 
@@ -92,7 +89,6 @@
                         <div class="col-lg-5">
                             <div class="header-search-block">
                                 <form action="{% url 'search' %}" method="GET">
-                                    {% csrf_token %}
                                     <input name='search' type="text"  placeholder="Search entire store here">
                                     <button type="submit">Search</button>
     
@@ -179,8 +175,8 @@
                 <div class="container">
                     <div class="row align-items-sm-end align-items-center">
                         <div class="col-md-4 col-7">
-                            <a href="index.html" class="site-brand">
-                                <img src="image/logo.png" alt="">
+                            <a href="{% url 'list_books' %}" class="site-brand">
+                                <img src="{% static 'image/logo.png' %}" alt="">
                             </a>
                         </div>
                         <div class="col-md-5 order-3 order-md-2">
@@ -191,11 +187,9 @@
                                         categories</a>
                                     <ul class="category-menu">
                                         
-                                        <li class="cat-item "><a href="#">Accessories</a></li>
-                                        <li class="cat-item "><a href="#">Education</a></li>
-                                        <li class="cat-item hidden-menu-item"><a href="#">Indoor Living</a></li>
-                                        <li class="cat-item"><a href="#" class="js-expand-hidden-menu">More
-                                                Categories</a></li>
+                                        {% for category in categories %}
+                                        <li class="cat-item "><a href="{% url 'category_view' category.slug %}">{{category.category_name}}</a></li>
+                                        {% endfor %}
                                     </ul>
                                 </div>
                             </nav>
@@ -322,14 +316,10 @@
                                 <li class="menu-item-has-children">
                                     <a href="#">Pages</a>
                                     <ul class="sub-menu">
-                                        <li><a href="cart.html">Cart</a></li>
-                                        <li><a href="checkout.html">Checkout</a></li>
-                                        <li><a href="compare.html">Compare</a></li>
-                                        <li><a href="wishlist.html">Wishlist</a></li>
-                                        <li><a href="{% url 'my_account' %}">My Account</a></li>
-                                        <li><a href="order-complete.html">Order Complete</a></li>
-                                        <li><a href="faq.html">Faq</a></li>
-                                        <li><a href="contact-2.html">contact 02</a></li>
+                                        <li><a href="{% url 'cart' %}">Cart</a></li>
+                                            <li><a href="{% url 'my_account' %}">My Account</a></li>
+                                            <li><a href="faq.html">Faq</a></li>
+                                            <li><a href="{% url 'logout' %}">Logout</a></li>
                                     </ul>
                                 </li>
                                 <li><a href="contact.html">Contact</a></li>

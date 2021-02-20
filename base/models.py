@@ -14,9 +14,9 @@ class BaseInfo(models.Model):
 class Ads(models.Model):
     AD_TYPE = (
         ('Hero','Hero'),
-        ('HE','HE'),
-        ('HL','Home Left'),
-        ('HR','Home Right'),
+        ('HeroFooter','HeroFooter'),
+        ('Home Left','Home Left'),
+        ('Home Right','Home Right'),
     )
     image = models.ImageField(upload_to='ads/', null=True, blank=True)
     ad_type = models.CharField(choices=AD_TYPE, max_length=256)

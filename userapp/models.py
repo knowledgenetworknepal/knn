@@ -36,5 +36,4 @@ class Notification(models.Model):
     sender = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='sent_notification')
     deposit = models.ForeignKey(Deposit, on_delete=models.CASCADE, related_name='deposit_notificaiton', blank=True, null=True)
     request = models.ForeignKey(Request, on_delete=models.CASCADE, related_name='request_notificaiton', blank=True, null=True)
-
-    
+    date = models.DateTimeField(auto_now=True)

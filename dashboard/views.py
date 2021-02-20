@@ -10,6 +10,8 @@ from django.db.models import Q
 from books.models import Book, Category, BookUpload, Order
 from userapp.models import Request, Deposit, Notification as Notice
 from books.forms import BookForm, CategoryForm, AdminBookForm
+from base.models import Ads, Contact
+from base.forms import AdForm
 
 User = get_user_model()
 
@@ -283,3 +285,41 @@ class CanceleOrder(View):
         order.delivery_status = 'canceled'
         order.save()
         return redirect(request.META.get("HTTP_REFERER"))
+
+
+class AdsView(BaseMixin, ListView):
+    model = Ads
+    template_name = 'dashboard/ads_list.html'
+    queryset = Ads.objects.all().order_by('-id')
+    paginate_by = 30
+
+
+class AdsDetailView(BaseMixin, DetailView):
+    model = Ads
+    template_name = 'dashboard/ad_detail.html'
+    queryset = Ads.objects.all()
+
+
+class CreateAd(BaseMixin, CreateView):
+    model = Ads
+    template_name = 'dashboard/category_create.html'
+    queryset = Ads.objects.none()
+    form_class = AdForm
+    success_url = reverse_lazy('dashboard:ads')
+
+
+class UpdateAd(BaseMixin, UpdateView):
+    model = Ads
+    template_name = 'dashboard/category_update.html'
+    queryset = Ads.objects.all()
+    form_class = AdForm
+
+    def get_success_url(self):
+        return reverse('dashboard:ad_details',kwargs={'pk':self.get_object().pk})
+
+
+class ContactView(BaseMixin, ListView):
+    model = Contact
+    template_name = 'dashboard/contact.html'
+    queryset = Contact.objects.all().order_by('-id')
+

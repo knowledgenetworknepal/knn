@@ -35,16 +35,19 @@
           <li>
             <a href="{% url 'dashboard:category_list' %}"><span class="icon-file-text2"></span>Category</a>
           </li>
-  
+  {% comment %}
           <li>
             <a href=""><span class="icon-file-empty"></span>Notify Users</a>
           </li>
-  
+  {% endcomment %}
           <li>
             <a href="{% url 'dashboard:request_list' %}"><span class="icon-file-empty"></span>User Request</a>
           </li>
           <li>
             <a href="{% url 'dashboard:orders' %}"><span class="icon-file-empty"></span>Orders</a>
+          </li>
+          <li>
+            <a href="{% url 'dashboard:ads' %}"><span class="icon-file-empty"></span>Ads</a>
           </li>
   
         </ul>
