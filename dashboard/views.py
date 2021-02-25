@@ -71,10 +71,10 @@ class ApproveUser(View):
         user.save()
         uploads = BookUpload.objects.filter(added_by=user)
         uploads.update(status='approved')
-        books_id = uploads.values_list('books_id', flat=True)
+        books_id = uploads.values_list('book_id', flat=True)
         books = Book.objects.filter(id__in=books_id)
         books.update()
-        return redirect(request.META.get("HTTP_REFERER"))
+        return redirect(request.META.get('HTTP_REFERER'))
 
 
 class RejectUser(View):
@@ -82,7 +82,7 @@ class RejectUser(View):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
         user.approved = False
         user.save()
-        return redirect(request.META.get("HTTP_REFERER"))
+        return redirect(request.META.get('HTTP_REFERER'))
 
 
 class AddEvents(BaseMixin):

@@ -42,8 +42,8 @@ class UserRegistrationView(BaseMixin, CreateView):
             user_address.user = user
             user_address.save()
             
-            return reverse_lazy('registration') 
-        return reverse_lazy('registration') 
+            return redirect(reverse_lazy('registration'))
+        return redirect(reverse_lazy('registration'))
 
 
 # user login view
