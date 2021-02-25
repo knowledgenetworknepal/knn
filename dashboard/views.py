@@ -131,7 +131,7 @@ class AddBook(BaseMixin, CreateView):
                 book.save()
             BookUpload.objects.create(book=book, added_by=request.user, status='approved')
             book.save()
-            return redirect(reverse_lazy('book_list'))
+            return redirect(reverse_lazy('dashboard:book_list'))
         else:
             print(form.errors)
         return redirect(request.META.get('HTTP_REFERER'))

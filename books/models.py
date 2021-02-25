@@ -16,7 +16,7 @@ class Category(models.Model):
     creation_date = models.DateField(auto_now=True)
 
     def save(self, *args, **kwargs):
-        if self.slug is None:
+        if self.slug is None or self.slug == '':
             try:
                 self.slug = slugify(self.category_name)
             except:
@@ -48,7 +48,7 @@ class Book(models.Model):
     available = models.IntegerField(default=0)
 
     def save(self, *args, **kwargs):
-        if self.slug is None:
+        if self.slug is None or self.slug == '':
             try:
                 self.slug = slugify(self.book_name)
             except:
