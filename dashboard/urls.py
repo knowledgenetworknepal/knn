@@ -22,6 +22,7 @@ urlpatterns = [
 
     path('book/<str:slug>/', BookDetail.as_view(), name='book_details'),
     path('book/<str:slug>/update/', UpdateBook.as_view(), name='book_update'),
+    path('book/<str:slug>/delete/', DeleteBook.as_view(), name='book_delete'),
 
     # deposit
     path('deposit/', DepositList.as_view(), name='deposit_list'),
@@ -59,7 +60,7 @@ urlpatterns = [
     path('ads/<int:pk>/', AdsDetailView.as_view(), name='ad_details'),
     path('ads/add/', CreateAd.as_view(), name='ad_create'),
     path('ads/<int:pk>/update/', UpdateAd.as_view(), name='ad_update'),
-    path('ads/<int:pk>/delete/', AdsView.as_view(), name='ad_delete'),
+    path('ads/<int:pk>/delete/', DeleteAd.as_view(), name='ad_delete'),
 
     # contact
     path('messages', ContactView.as_view(), name='contact')

@@ -96,15 +96,15 @@ class BookMixin(BaseMixin, ListView):
 
 
 class BookList(BookMixin):
-    queryset = Book.objects.all().order_by('-id')
+    queryset = Book.objects.filter(status=True).order_by('-id')
 
 
 class AvailabelBookList(BookMixin):
-    queryset = Book.objects.filter(available__gt=0).order_by('-id')
+    queryset = Book.objects.filter(available__gt=0, status=True).order_by('-id')
 
 
 class UnavailabelBookList(BookMixin):
-    queryset = Book.objects.filter(available__lte=0).order_by('-id')
+    queryset = Book.objects.filter(available__lte=0, status=True).order_by('-id')
 
 
 class BookSearch(BookMixin):
@@ -156,7 +156,15 @@ class UpdateBook(BaseMixin, UpdateView):
 
     def get_success_url(self):
         return reverse('dashboard:book_details',kwargs={'slug':self.get_object().slug})
-    
+
+
+class DeleteBook(BookMixin, View):
+    def get(self, request, *args, **kwargs):
+        book = Book.objects.get(slug=self.kwargs.get('slug'))
+        book.status = False
+        book.save()
+        return redirect(reverse_lazy('dashboard:book_list'))
+
 
 class RequestList(BaseMixin, ListView):
     model = Request
@@ -316,6 +324,13 @@ class UpdateAd(BaseMixin, UpdateView):
 
     def get_success_url(self):
         return reverse('dashboard:ad_details',kwargs={'pk':self.get_object().pk})
+
+
+class DeleteAd(BaseMixin, View):
+    def get(self, request, *args, **kwargs):
+        ad = Ads.objects.get(id=self.kwargs.get('pk'))
+        ad.delete()
+        return redirect(reverse_lazy('dashboard:ads'))
 
 
 class ContactView(BaseMixin, ListView):

@@ -46,7 +46,8 @@ class Book(models.Model):
     image = models.ImageField(upload_to='upload/%Y/%M', null=True, blank=True)
     count = models.IntegerField(default=0)
     available = models.IntegerField(default=0)
-
+    status = models.BooleanField(default=True)
+    
     def save(self, *args, **kwargs):
         if self.slug is None or self.slug == '':
             try:
