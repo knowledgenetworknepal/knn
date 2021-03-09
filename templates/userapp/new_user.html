@@ -5,7 +5,7 @@
 
 <h2>Books</h2>
 <div class="row">
-<div class="col-6">
+<div class="col-12">
 <div class="row">
 
 <div class="col-12">
@@ -16,14 +16,16 @@
 {% for object in object_list %}
     <div class="col-4 text-center">
         <h6><a href="{% url 'book_details' object.slug %}">{{object.book_name}}</a></h6>
-
+        {% if object.image %}
     <div class="card-image">
         <div class="hover-contents">
             <a href="{% url 'book_details' object.slug %}" class="hover-image">
+            
                 <img src="{{ object.image.url }}" alt="">
             </a>
 
         </div>
+        {% endif %}
     </div>
     </div>
 
@@ -71,10 +73,12 @@
 
             </form>
         </div>
+        {% if deposits %}
         <div class="col-12 my-5">
             <h2 class="my-2">Final review</h2>
             <a href="{% url 'request_review' %}" class='btn btn-outlined--primary'>Request Review</a>
         </div>
+        {% endif %}
     </div>
 
 

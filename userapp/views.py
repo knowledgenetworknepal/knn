@@ -1,3 +1,4 @@
+from django.shortcuts import render
 from django.views.generic.edit import UpdateView
 from books.models import Order, CheckoutAddress
 from django.views.generic import CreateView, TemplateView
@@ -25,7 +26,7 @@ class UserRegistrationView(BaseMixin, CreateView):
     def get_context_data(self, *args, **kwargs):
         context_data = super().get_context_data(*args, **kwargs)
         context_data['login_form'] = Loginform
-        context_data['base_rate'] = 50
+        context_data['base_rate'] = 25
         context_data['address_form'] = CheckoutAddressForm
         return context_data
 
@@ -33,7 +34,7 @@ class UserRegistrationView(BaseMixin, CreateView):
         registration = RegistrationForm(request.POST)
         address = CheckoutAddressForm(request.POST)
 
-        if registration.is_valid and address.is_valid():
+        if registration.is_valid() and address.is_valid():
             user = registration.save(commit=False)
             user.contact = address.cleaned_data.get('phone_number')
             user.save()
@@ -43,7 +44,7 @@ class UserRegistrationView(BaseMixin, CreateView):
             user_address.save()
             
             return redirect(reverse_lazy('registration'))
-        return redirect(reverse_lazy('registration'))
+        return render(request, 'userapp/register.html', {'form': registration, 'login_form': Loginform, 'base_rate':25, 'address_form': address})
 
 
 # user login view
@@ -59,6 +60,8 @@ class LoginView(View):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
+            if not user.approved:
+                return redirect(reverse_lazy('unverified'))
             return redirect(reverse_lazy('list_books'))
 
 

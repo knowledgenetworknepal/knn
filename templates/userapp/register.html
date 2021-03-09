@@ -31,38 +31,56 @@
                                 <div class="col-lg-6 mb--20">
                                     <label for="password">First Name</label>
                                     {{ form.first_name }}
+                                    <small style="color: red" id="zip_error">{{ form.first_name.errors }}</small>
+
                                 </div>
                                 <div class="col-lg-6 mb--20">
                                     <label for="password">Last Name</label>
                                     {{ form.last_name }}
+                                    <small style="color: red" id="zip_error">{{ form.last_name.errors }}</small>
+
                                 </div>
                                 <div class="col-md-12 col-12 mb--15">
                                     <label for="username">Username</label>
                                     {{ form.username }}
+                                    <small style="color: red" id="zip_error">{{ form.username.errors }}</small>
+
                                 </div>
                                 <div class="col-12 mb--20">
                                     <label for="email">Email</label>
-                                    {{ form.email }}        
+                                    {{ form.email }}   
+                                    <small style="color: red" id="zip_error">{{ form.email.errors }}</small>
+     
                                 </div>
                                 <div class="col-12 mb--20">
                                     <label for="password">Phone Number</label>
                                     {{ address_form.phone_number }}
+                                    <small style="color: red" id="zip_error">{{ address_form.phone_number.errors }}</small>
+
                                 </div>
                                 <div class="col-lg-6 mb--20">
                                     <label for="password">Password</label>
                                     {{ form.password1 }}
+                                    <small style="color: red" id="zip_error">{{ form.password1.errors }}</small>
+
                                 </div>
                                 <div class="col-lg-6 mb--20">
                                     <label for="password">Repeat Password</label>
                                     {{ form.password2 }}
+                                    <small style="color: red" id="zip_error">{{ form.password2.errors }}</small>
+
                                 </div>
                                 <div class="col-lg-6 mb--20">
                                     <label for="password">Address City</label>
                                     {{ address_form.city }}
+                                    <small style="color: red" id="zip_error">{{ address_form.city.errors }}</small>
+
                                 </div>
                                 <div class="col-lg-6 mb--20">
                                     <label for="password">Street</label>
                                     {{ address_form.street }}
+                                    <small style="color: red" id="zip_error">{{ address_form.street.errors }}</small>
+
                                 </div>
                                
                                
