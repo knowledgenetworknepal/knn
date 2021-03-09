@@ -84,6 +84,16 @@ body {
   width: 100%;
   background: #fff; }
 
+  .logo{
+    width: 150px !important;
+    
+  }
+  @media only screen and (max-width: 600px) {
+    .logo{
+      width: 100px !important;
+    }
+  }
+
 .site-wrapper {
   position: relative; }
 

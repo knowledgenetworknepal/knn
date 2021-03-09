@@ -27,9 +27,9 @@ class BaseMixin():
             total_items = context_data['cart_items'].count()
             val = 0
             if total_items == 1:
-                val = 50
+                val = 25
             elif total_items == 2:
-                val = 100
+                val = 50
             context_data['amount'] = val
         return context_data
 
@@ -209,7 +209,7 @@ class OrderBooks(LoginRequiredMixin, AccountAccessMixin, BaseMixin, View):
         cart_items = CartItem.objects.filter(user=request.user, ordered=False)
         cart_books = cart_items.values_list('book_id', flat=True)
         books = Book.objects.filter(id__in=cart_books)
-        books.update(availabe=F('availabe')-1)
+        books.update(available=F('available')-1)
 
         order = Order.objects.create(user=request.user)
         order.books.add(*books)

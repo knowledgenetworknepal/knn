@@ -57,11 +57,14 @@
                                         </ul>
                                     </li>
                                     {% endif %}
+                                    {% comment %}
+
                                     <!-- Blog -->
                                     <li class="menu-item has-children mega-menu">
                                         <a href="{% url 'blog_list' %}">Blog </a>
                                         
                                     </li>
+                                    {% endcomment %}
                                     <li class="menu-item">
                                         <a href="{% url 'contact' %}">Contact</a>
                                     </li>
@@ -183,14 +186,14 @@
                     <div class="row align-items-sm-end align-items-center">
                         <div class="col-md-4 col-7">
                             <a href="{% url 'list_books' %}" class="site-brand">
-                                <img src="{% static 'image/logo.png' %}" alt="">
+                                <img src="{% static 'image/logo.png' %}" alt="" class="logo">
                             </a>
                         </div>
                         <div class="col-md-5 order-3 order-md-2">
                             <nav class="category-nav   ">
                                 <div>
                                     <a href="javascript:void(0)" class="category-trigger"><i
-                                            class="fa fa-bars"></i>Browse
+                                            class="fa fa-bars"></i>Book
                                         categories</a>
                                     <ul class="category-menu">
                                         
@@ -256,10 +259,19 @@
                                 {% endif %}
 
                                 <!-- Blog -->
+                                {% comment %}
+
                                 <li class="menu-item has-children mega-menu">
                                     <a href="{% url 'blog_list' %}">Blog </a>
                                     
                                 </li>
+                                {% endcomment %}
+                                {% if not user.is_authenticated %}
+
+                                <li class="menu-item">
+                                    <a href="{% url 'registration' %}">Login / Register</a>
+                                </li>
+                                {% endif %}
                                 <li class="menu-item">
                                     <a href="{% url 'contact' %}">Contact</a>
                                 </li>
@@ -292,15 +304,12 @@
                     <div class="off-canvas-bottom">
                         <div class="contact-list mb--10">
                             <a href="" class="sin-contact"><i class="fas fa-mobile-alt"></i> + 977 9861446103 </a>
-                            <a href="" class="sin-contact"><i class="fas fa-envelope"></i>info@knn.com</a>
+                            <a href="" class="sin-contact"><i class="fas fa-envelope"></i>info@knnpeal.com</a>
                         </div>
                         <div class="off-canvas-social">
-                            <a href="#" class="single-icon"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#" class="single-icon"><i class="fab fa-twitter"></i></a>
-                            <a href="#" class="single-icon"><i class="fas fa-rss"></i></a>
-                            <a href="#" class="single-icon"><i class="fab fa-youtube"></i></a>
-                            <a href="#" class="single-icon"><i class="fab fa-google-plus-g"></i></a>
-                            <a href="#" class="single-icon"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.facebook.com/KNN-Knowledge-Network-Nepal-100441181851102" class="single-icon"><i class="fab fa-facebook-f" target='_blank'></i></a>
+                            <a href="https://twitter.com/knnepal1" class="single-icon"><i class="fab fa-twitter" target='_blank'></i></a>
+                            <a href="https://www.instagram.com/knnepal/" class="single-icon"><i class="fab fa-facebook-f" target='_blank'></i></a>
                         </div>
                     </div>
                 </div>
@@ -311,8 +320,8 @@
             <div class="container d-none d-lg-block">
                 <div class="row align-items-center">
                     <div class="col-lg-4">
-                        <a href="index.html" class="site-brand">
-                            <img src="image/logo.png" alt="">
+                        <a href="{% url 'list_books' %}" class="site-brand">
+                            <img src="{% static 'image/logo--footer.png' %}" alt="" class="logo">
                         </a>
                     </div>
                     <div class="col-lg-8">
@@ -334,11 +343,13 @@
 
                                     </ul>
                                 </li>
+                                {% comment %}
                                 <!-- Blog -->
                                 <li class="menu-item has-children mega-menu">
                                     <a href="{% url 'blog_list' %}">Blog </a>
                                     
                                 </li>
+                                {% endcomment %}
                                 <li class="menu-item">
                                     <a href="{% url 'contact' %}">Contact</a>
                                 </li>
@@ -361,12 +372,12 @@
                 <div class=" col-xl-3 col-lg-4 col-sm-6">
                     <div class="single-footer pb--40">
                         <div class="brand-footer footer-title">
-                            <img src="{% static 'image/logo--footer.png' %}" alt="">
+                            <img src="{% static 'image/logo--footer.png' %}" alt="" class="logo">
                         </div>
                         <div class="footer-contact">
-                            <p><span class="label">Address:</span><span class="text">Kathmandu, Nepal></p>
+                            <p><span class="label">Address:</span><span class="text">Kathmandu, Nepal</p>
                             <p><span class="label">Phone:</span><span class="text">+977 9861446103</span></p>
-                            <p><span class="label">Email:</span><span class="text">info@knn.com</span></p>
+                            <p><span class="label">Email:</span><span class="text">info@knnepal.com</span></p>
                         </div>
                     </div>
                 </div>
@@ -407,12 +418,11 @@
                     <div class="social-block">
                         <h3 class="title">STAY CONNECTED</h3>
                         <ul class="social-list list-inline">
-                            <li class="single-social facebook"><a href=""><i class="ion ion-social-facebook"></i></a>
+                            <li class="single-social facebook"><a href="https://www.facebook.com/KNN-Knowledge-Network-Nepal-100441181851102" target='_blank'><i class="ion ion-social-facebook"></i></a>
                             </li>
-                            <li class="single-social twitter"><a href=""><i class="ion ion-social-twitter"></i></a></li>
-                            <li class="single-social google"><a href=""><i
-                                        class="ion ion-social-googleplus-outline"></i></a></li>
-                            <li class="single-social youtube"><a href=""><i class="ion ion-social-youtube"></i></a></li>
+                            <li class="single-social twitter"><a href="https://twitter.com/knnepal1" target='_blank'><i class="ion ion-social-twitter" ></i></a></li>
+                            <li class="single-social instagram"><a href="https://www.instagram.com/knnepal/" target='_blank'><i class="ion ion-social-facebook"></i></li>
+
                         </ul>
                     </div>
                 </div>
