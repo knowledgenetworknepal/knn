@@ -40,6 +40,8 @@ class AccountAccessMixin():
     def dispatch(self, request, *args, **kwargs):
         dispatch = super().dispatch(request, *args, **kwargs)
         user = request.user
+        if not user.is_authenticated:
+            return dispatch
         if user.approved:
             return dispatch
         return redirect(reverse_lazy('unverified'))
@@ -176,8 +178,11 @@ class CartView(BaseMixin, AccountAccessMixin, ListView):
     template_name = 'books/cart.html'
 
     def get_queryset(self):
-        user = self.request.user
-        return CartItem.objects.prefetch_related('book').filter(user=user, ordered=False)
+        if self.request.user.is_authenticated:
+            user = self.request.user
+            return CartItem.objects.prefetch_related('book').filter(user=user, ordered=False)
+        return CartItem.objects.none()
+
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -245,7 +250,7 @@ class AddCheckoutLoction(LoginRequiredMixin, BaseMixin, View):
 
 
 # new user needs to add 3 books and deposit 200 before being approved
-class NewUserView(ListView):
+class NewUserView(LoginRequiredMixin, ListView):
     model = Book
     template_name = 'userapp/new_user.html'
 
