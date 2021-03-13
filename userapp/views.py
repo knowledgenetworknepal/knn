@@ -60,9 +60,15 @@ class LoginView(View):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-            if not user.approved:
-                return redirect(reverse_lazy('unverified'))
-            return redirect(reverse_lazy('list_books'))
+                try:
+                    if not user.approved:
+                        return redirect(reverse_lazy('unverified'))
+                except:
+                    pass
+                return redirect(reverse_lazy('list_books'))
+            return redirect(reverse_lazy('registration'))
+        return redirect(reverse_lazy('registration'))
+
 
 
 class LogoutView(View):
@@ -84,7 +90,7 @@ class AddDeposit(BaseMixin, View):
             deposit = form.save(commit=False)
             deposit.user = user
             deposit.save()
-            Notice.objects.create(deposit=deposit, sender=user, message=f'New Deposit by {user.first_name} {user.last_name}')
+            # Notice.objects.create(deposit=deposit, sender=user, message=f'New Deposit by {user.first_name} {user.last_name}')
         else:
             print(form.errors)
         return redirect(request.META.get('HTTP_REFERER'))
@@ -94,7 +100,7 @@ class RequestReviewView(BaseMixin, View):
     def get(self, request, *args, **kwargs):
         user = request.user
         req = Request.objects.get_or_create(user=user, status=False)
-        Notice.objects.create(request=req, sender=user, message=f'Requested Review for {user.first_name} {user.last_name}')
+        # Notice.objects.create(request=req, sender=user, message=f'Requested Review for {user.first_name} {user.last_name}')
         return redirect(request.META.get('HTTP_REFERER'))   
 
 
