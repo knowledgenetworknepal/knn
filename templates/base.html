@@ -247,8 +247,7 @@
                                 <!-- Pages -->
                                 {% if user.is_authenticated %}
                                 <li class="menu-item has-children">
-                                    <a href="javascript:void(0)">Pages <i
-                                            class="fas fa-chevron-down dropdown-arrow"></i></a>
+                                    <a href="javascript:void(0)">Pages</a>
                                     <ul class="sub-menu">
                                         <li><a href="{% url 'cart' %}">Cart</a></li>
                                         <li><a href="{% url 'my_account' %}">My Account</a></li>
@@ -332,7 +331,7 @@
                                     
                                 </li>
                                
-                                <!-- Pages -->
+                                {% if user.is_authenticated %}
                                 <li class="menu-item has-children">
                                     <a href="javascript:void(0)">Pages <i
                                             class="fas fa-chevron-down dropdown-arrow"></i></a>
@@ -343,6 +342,7 @@
 
                                     </ul>
                                 </li>
+                                {% endif %}
                                 {% comment %}
                                 <!-- Blog -->
                                 <li class="menu-item has-children mega-menu">
@@ -421,7 +421,7 @@
                             <li class="single-social facebook"><a href="https://www.facebook.com/KNN-Knowledge-Network-Nepal-100441181851102" target='_blank'><i class="ion ion-social-facebook"></i></a>
                             </li>
                             <li class="single-social twitter"><a href="https://twitter.com/knnepal1" target='_blank'><i class="ion ion-social-twitter" ></i></a></li>
-                            <li class="single-social instagram"><a href="https://www.instagram.com/knnepal/" target='_blank'><i class="ion ion-social-facebook"></i></li>
+                            <li class="single-social instagram"><a href="https://www.instagram.com/knnepal/" target='_blank'><i class="ion ion-social-facebook"></i></a></li>
 
                         </ul>
                     </div>

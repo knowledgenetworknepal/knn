@@ -34,9 +34,9 @@
                 </a>
             </div>
         </div>
-        <div class="col-xl-3 col-md-4 col-sm-6  mt--10 mt-sm--0">
+        <div class="col-xl-3 col-md-4 col-sm-6  mt--10 mt-sm--0 let">
             <span class="toolbar-status">
-                Showing 1 to 9 of 14 (2 Pages)
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
             </span>
         </div>
 
@@ -53,9 +53,7 @@
 
                     <div class="product-grid-content">
                         <div class="product-header">
-                            <a href="" class="author">
-                                Epple
-                            </a>
+                           
                             <h3><a href="{% url 'book_details' book.slug %}">{{book.book_name}}</a></h3>
                         </div>
                         <div class="product-card--body">
@@ -80,7 +78,7 @@
                                 </div>
                             </div>
                             <div class="price-block">
-                                <span class="price">Rs 50.00</span>
+                                <span class="price">Rs 25.00</span>
                             </div>
                         </div>
                     </div>
@@ -91,10 +89,10 @@
 
         </div>
 
+        {% include 'pagination.html' %}
 
     </div>
 
-    {% include 'pagination.html' %}
 
     </main>
 
