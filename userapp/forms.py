@@ -4,9 +4,19 @@ from django import forms
 from django.db import models
 from django.forms import widgets
 
-from .models import Deposit
+from .models import Deposit, SignupChoice
 
 User = get_user_model()
+
+class SignupChoiceForm(forms.ModelForm):
+    class Meta:
+        model = SignupChoice
+        fields = ('selection',)
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs['class'] = 'mb-0 form-control'
 
 
 class RegistrationForm(UserCreationForm):

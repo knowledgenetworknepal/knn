@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponseRedirect
 from django.views.generic.edit import UpdateView
 from books.models import Order, CheckoutAddress
 from django.views.generic import CreateView, TemplateView
@@ -7,21 +7,26 @@ from django.contrib.auth import get_user_model
 from django.views import View
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
-from .forms import DepositForm, RegistrationForm, Loginform, UserUpdateForm, PasswordForm
-from .models import Deposit, Request, Notification as Notice
+from .forms import DepositForm, RegistrationForm, Loginform, UserUpdateForm, PasswordForm, SignupChoiceForm
+from .models import Deposit, Request, Notification as Notice, SignupChoice
 from books.forms import CheckoutAddressForm
 from books.views import BaseMixin
+
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
+
 
 User = get_user_model()
 
 
 # new user registration view
 # send login form as well
-class UserRegistrationView(BaseMixin, CreateView):
+class UserRegistrationView(BaseMixin, SuccessMessageMixin, CreateView):
     model = User
     form_class = RegistrationForm
     template_name = 'userapp/register.html'
     success_url = reverse_lazy('list_books')
+    success_message = "Registration Complete"
 
     def get_context_data(self, *args, **kwargs):
         context_data = super().get_context_data(*args, **kwargs)
@@ -42,8 +47,8 @@ class UserRegistrationView(BaseMixin, CreateView):
             user_address = address.save(commit=False)
             user_address.user = user
             user_address.save()
-            
-            return redirect(reverse_lazy('registration'))
+            messages.success(self.request, 'Registration successful')
+            return HttpResponseRedirect(self.request.path_info)
         return render(request, 'userapp/register.html', {'form': registration, 'login_form': Loginform, 'base_rate':25, 'address_form': address})
 
 
@@ -91,6 +96,19 @@ class AddDeposit(BaseMixin, View):
             deposit.user = user
             deposit.save()
             # Notice.objects.create(deposit=deposit, sender=user, message=f'New Deposit by {user.first_name} {user.last_name}')
+        else:
+            print(form.errors)
+        return redirect(request.META.get('HTTP_REFERER'))
+
+
+class AddSelection(BaseMixin, View):
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        form = SignupChoiceForm(request.POST, request.FILES)
+        if form.is_valid():
+            choice = form.save(commit=False)
+            choice.user = user
+            choice.save()
         else:
             print(form.errors)
         return redirect(request.META.get('HTTP_REFERER'))

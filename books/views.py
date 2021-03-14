@@ -11,8 +11,8 @@ from .models import Book, BookUpload, CartItem, Category, Review, CheckoutAddres
 from .forms import ReviewForm, CheckoutAddressForm, BookForm
 from django.db.models import Sum, F
 
-from userapp.forms import DepositForm
-from userapp.models import Deposit, Notification as Notice
+from userapp.forms import DepositForm, SignupChoiceForm
+from userapp.models import Deposit, Notification as Notice, SignupChoice
 from base.models import Ads
 
 # if something is needed all over the palce, use this mixin
@@ -267,6 +267,8 @@ class NewUserView(LoginRequiredMixin, ListView):
         if self.get_queryset().count() < 3:
             context_data['book_form'] = BookForm
         context_data['deposit_form'] = DepositForm
+        context_data['choice_form'] = SignupChoiceForm 
+        context_data['choices'] = SignupChoice.objects.filter(user=user).first()
         context_data['deposits'] = Deposit.objects.filter(user=user)
 
         return context_data

@@ -9,6 +9,15 @@ class CustomUser(AbstractUser):
     approved = models.BooleanField(default=False)
 
 
+class SignupChoice(models.Model):
+    CHOICE = [
+        ('I would like to upload 3 books and pay Rs. 200', 'I would like to upload 3 books and pay Rs. 200'),
+        ('I would like to deposit Rs. 1000 and pay Rs. 200','I would like to deposit Rs. 1000 and pay Rs. 200')
+    ]
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='signup_choice')
+    selection = models.CharField(choices=CHOICE, max_length=256)
+
+
 class Deposit(models.Model):
     image = models.ImageField(upload_to='uploads/%Y/%M')
     amount = models.FloatField()

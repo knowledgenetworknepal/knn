@@ -1,17 +1,74 @@
 {% extends 'base.html' %}
-
+{% block title %} Membership {% endblock %}
 {% block content %}
 <div class="container">
+{% if object_list %}
 
-<h2>Books</h2>
-<div class="row">
-<div class="col-12">
-<div class="row">
-
-<div class="col-12">
-{% if object_list in None %}
-    You have to upload 3 books.
 {% endif %}
+{% if not choices %}
+    <h1>Membership Form</h1>
+    <p>Please select the option below to carry on with membership.</p>
+    <form class="mb-5" action="{% url 'add_choice' %}" method="POST">
+        {% csrf_token %}
+        {{choice_form}}
+        <button type="submit" class="btn btn-primary my-2">Next</button>
+    </form>
+{% else %}
+{% if choices.selection == 'I would like to deposit Rs. 1000 and pay Rs. 200' %}
+
+<div class="col-12 mb-5">
+    <div class="row">
+        {% if deposits %}
+        <div class="col-12">
+            <h2>Deposits</h2>
+
+        </div>
+        {% endif %}
+
+            {% for deposit in deposits %}
+            <div class="col-4">
+                <img src="{{ deposit.image.url }}" alt="">
+
+                {{deposit.deposit_date}}<br>
+                Rs {{deposit.amount}} : Status: {{deposit.verified}} <br>
+            </div>
+
+            {% endfor %}
+        <div class="col-12 mt-5">
+            <h2>Upload Deposit Slip</h2>
+
+            <form method="POST" action="{% url 'add_deposit' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{deposit_form}}
+                <button type="submit" class='btn btn-outlined mt-3'>Deposit</button>
+
+            </form>
+        </div>
+        {% if deposits %}
+        <div class="col-12 my-5">
+            <h2 class="my-2">Final review</h2>
+            <a href="{% url 'request_review' %}" class='btn btn-outlined--primary'>Request Review</a>
+        </div>
+        {% endif %}
+    </div>
+
+
+</div>
+
+{% else %}
+<div class="row">
+    {% if object_list %}
+
+    <h2 class="">Books</h2>
+
+    {% else %}
+    <h2>You need to add three books</h2>
+{% endif %}
+<div class="col-12">
+<div class="row">
+
+<div class="col-12">
+
 <div class="row">
 {% for object in object_list %}
     <div class="col-4 text-center">
@@ -43,26 +100,25 @@
     <button type="submit" class='btn btn-outlined mt-3'>Add Book</button>
 </form>
 </div>
-
-{% endif %}
-</div>
-
-</div>
-
-<div class="col-6 mb-5">
+{% else %}
+<div class="col-12 mb-5">
     <div class="row">
+        {% if deposits %}
         <div class="col-12">
             <h2>Deposits</h2>
 
         </div>
-        <div class="col-12">
+        {% endif %}
 
             {% for deposit in deposits %}
+            <div class="col-4">
+                <img src="{{ deposit.image.url }}" alt="">
+
                 {{deposit.deposit_date}}<br>
                 Rs {{deposit.amount}} : Status: {{deposit.verified}} <br>
-            
-            {% endfor %}
             </div>
+
+            {% endfor %}
         <div class="col-12 mt-5">
             <h2>Upload Deposit Slip</h2>
 
@@ -85,6 +141,14 @@
 </div>
 </div>
 
+</div>
+
+{% endif %}
+
+</div>
+
+{% endif %}
+{% endif %}
 
 </div>
 
