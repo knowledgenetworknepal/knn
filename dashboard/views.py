@@ -6,7 +6,7 @@ from django.views.generic.edit import DeleteView
 from .permissions import IsAdminMixin
 
 from django.contrib.auth import get_user_model
-from django.db.models import Q
+from django.db.models import Q,F
 from books.models import Book, Category, BookUpload, Order
 from userapp.models import Request, Deposit, Notification as Notice
 from books.forms import BookForm, CategoryForm, AdminBookForm
@@ -69,11 +69,19 @@ class ApproveUser(View):
             req.update(status=True)
         user.approved = True
         user.save()
+        return redirect(request.META.get('HTTP_REFERER'))
+
+
+class ReceiveBook(View):
+    def get(self, request, *args, **kwargs):
+        user = get_object_or_404(User, username=self.kwargs.get('username'))
         uploads = BookUpload.objects.filter(added_by=user)
         uploads.update(status='approved')
         books_id = uploads.values_list('book_id', flat=True)
         books = Book.objects.filter(id__in=books_id)
-        books.update()
+        books.update(available=F('available')+1)
+        user.books_received = True
+        user.save()
         return redirect(request.META.get('HTTP_REFERER'))
 
 

@@ -13,6 +13,7 @@ urlpatterns = [
 
     path('user/<str:username>/accept/', ApproveUser.as_view(), name='approve'),
     path('user/<str:username>/reject/', RejectUser.as_view(), name='reject'),
+    path('user/<str:username>/book/receive/', ReceiveBook.as_view(), name='receive_book'),
 
     # books
     path('book/add/', AddBook.as_view(), name='add_book'),
@@ -35,7 +36,6 @@ urlpatterns = [
     path('category/', CategoryList.as_view(), name='category_list'),
     path('category/<slug:slug>/', CategoryDetail.as_view(), name='category_detail'),
     path('category/<slug:slug>/update/', CategoryUpdate.as_view(), name='category_update'),
-
 
     # RequestList
     path('request/', RequestList.as_view(), name='request_list'),

@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'userapp',
     'base',
     'debug_toolbar',
-    'ckeditor'
+    'ckeditor',
+    'dashboard'
 ]
 
 MIDDLEWARE = [

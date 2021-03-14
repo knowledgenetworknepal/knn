@@ -60,7 +60,16 @@
                  {%endif%}
               </div>
             </div>
-    
+            <div class="col-lg-4">
+              <div class="details">
+                <h6>Books</h6>
+                {% if not object.books_received %}
+              <a href="{% url 'dashboard:receive_book' object.username %}"class="btn btn-success">Receive book</a>
+              {% else %}
+                Book Already received
+              {% endif %}
+            </div>
+            </div>
           </div>
         </div>
         <div class="table-responsive mt-4">

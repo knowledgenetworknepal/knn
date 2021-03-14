@@ -7,6 +7,7 @@ class CustomUser(AbstractUser):
     email = models.EmailField(_('email address'), unique=True, max_length=254)
     contact = models.CharField(_('contact'), max_length=256)
     approved = models.BooleanField(default=False)
+    books_received = models.BooleanField(default=False)
 
 
 class SignupChoice(models.Model):
