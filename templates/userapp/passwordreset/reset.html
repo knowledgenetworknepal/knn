@@ -2,48 +2,21 @@
 {% load static %}
 
 {% block content %}
-<div class="login-box">
+<div class="login-box container d-flex justify-content-center mb-5 pb-5">
   <div class="card">
 
     <div class="card-body login-card-body rounded">
       <img class="mx-auto d-block" src="{% static 'image/logo.png' %}" alt="" height="100px">
  <br>
  <h4 class="d-flex justify-content-center">Knowledge Network Nepal</h4>
- <p class="login-box-msg">Set New Password </p>
-       
-      
-      <form action="#" method="post">
-        
-        {% csrf_token %}
-        <div class="ml-5">
-            {{form.new_password1.label}}
-
-        </div>
-        <div class="input-group mb-3 ml-5">
-           
-            <div class="">
-                {{ form.new_password1 }}
-
-            </div>
-          
-        </div>
-        <div class="ml-5">
-            {{form.new_password2.label}}
-
-        </div>
-        <div class="input-group mb-3 ml-5">
-            {{ form.new_password2 }}
-            
-          </div>
-        <div>
-          <div class="col-12">
-            <button type="submit" class="btn btn-primary btn-block btn-flat rounded">Reset Password</button>
-          </div>
-        </div>
-        {% if error %}
-						<li class="text-black ml-5"><b>{{error}}</b></li>
-						{% endif %}
-      </form>
+         
+       </div>
+ <form method="POST">
+  {% csrf_token %}
+  {{form.as_p}}
+  <button type="submit" class="btn btn-primary mt-2"> Reset Password </button>
+</form>
+     
 
     </div>
     <!-- /.login-card-body -->
@@ -54,11 +27,7 @@
 
 
 
-    <form method="POST">
-        {% csrf_token %}
-        {{form.as_p}}
-        <button type="submit"> Reset Password </button>
-    </form>
+  
 
 </body>
 </html>

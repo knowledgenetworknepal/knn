@@ -15,7 +15,7 @@ class SignupChoice(models.Model):
         ('I would like to upload 3 books and pay Rs. 200', 'I would like to upload 3 books and pay Rs. 200'),
         ('I would like to deposit Rs. 1000 and pay Rs. 200','I would like to deposit Rs. 1000 and pay Rs. 200')
     ]
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='signup_choice')
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='signup_choice')
     selection = models.CharField(choices=CHOICE, max_length=256)
 
 
