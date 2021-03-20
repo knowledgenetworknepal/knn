@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %} Discussion {% endblock %}
+{% block content %} 
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <form class="form-group" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{form.title.label}}
+                {{form.title}}
+                {{form.description.label}}<br>
+
+                {{form.description}}
+
+                {{ form.media }}
+                <br>
+                {{form.category.label}}
+                {{form.category}}
+                <button type="submit" class="btn btn-primary mt-2">Add Discussion</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

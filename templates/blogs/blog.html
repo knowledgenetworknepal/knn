@@ -1,11 +1,61 @@
-{{object}}
+{% extends 'base.html' %}
+{% block title %} Blog {% endblock %}
+{% block content %}
+{% block style %}
+<style>
+  .fet-img img{
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
 
-<form method="POST" action="{% url 'add_comment' object.slug %}">
-    {% csrf_token %}
-    {{comment_form}}
-    <button type="submit">Comment</button>
-</form>
+}
+</style>
 
-{% for comment in comments %}
-    {{comment}}
-{% endfor %} 
+{% endblock %}
+
+<main class="contact_area inner-page-sec-padding-bottom">
+    <div class="container">
+            <div class="fet-img">
+                <img src="{{object.featured_image.url}}">
+
+            </div>
+            <h1>{{object.title}}</h1>
+            <div class="">
+                {{object.description|safe}}
+            </div>
+
+            <div class="comment section">
+                {% if user.is_authenticated %}
+
+                <div class="h4 mt-3">
+                    Add Comment
+                </div>
+                <form method="POST" action="{% url 'add_comment' object.slug %}" class="form-group">
+                    {% csrf_token %}
+                    {{comment_form.comment}} 
+                    <button type="submit" class='btn btn-primary'>Comment</button>
+                </form>
+                {% endif %}
+                {% for comment in comments %}
+                <div class="col-6">
+                    <p>
+                        {{comment.comment_by.first_name}}  {{comment.comment_by.last_name}} <br>
+                        {{comment.comment}}
+                    </p>
+
+                </div>
+                {% endfor %} 
+            </div>
+          
+            
+         
+    </div>
+    {% include 'pagination.html' %}
+
+</main>
+
+
+{% endblock %}
+
+
+

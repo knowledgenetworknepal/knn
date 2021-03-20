@@ -25,7 +25,7 @@ SECRET_KEY = '2tkqr8xr+23+6%zn)!l*#4-jazba5i)b=i(0l5!wb8l8jx-s9%'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -43,8 +43,10 @@ INSTALLED_APPS = [
     'userapp',
     'base',
     'debug_toolbar',
+    'dashboard',
+    'discussion',
     'ckeditor',
-    'dashboard'
+
 ]
 
 MIDDLEWARE = [
@@ -144,6 +146,22 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
+SITE_ID = 1
+
+####################################
+    ##  CKEDITOR CONFIGURATION ##
+####################################
+
+CKEDITOR_JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js'
+
+CKEDITOR_UPLOAD_PATH = 'uploads/'
+CKEDITOR_IMAGE_BACKEND = "pillow"
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': None,
+    },
+}
 
 try:
     from .local_settings import *

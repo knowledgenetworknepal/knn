@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %} Discussion {% endblock %}
+{% block content %}
+{% block style %}
+
+
+{% endblock %}
+
+<main class="contact_area inner-page-sec-padding-bottom">
+    <div class="container">
+            <div class="row">
+                <div class="col-10">
+                    <h3>{{object.title}}</h3>
+                    <div class="">
+                        {{object.description|safe}}
+                    </div>
+                    <div class="">
+                        {% for comment in comments %}
+                        <div class="col-12">
+                            <p>
+                                <span class="text-muted">
+                                    {{comment.comment_by.first_name}}  {{comment.comment_by.last_name}} 
+
+                                </span><br>
+                                {{comment.comment}}
+                            </p>
+        
+                        </div>
+                        {% endfor %} 
+                    </div>
+                    {% if user.is_authenticated %}
+
+                    <div class="comment section">
+                        <div class="h5 mt-3">
+                            Your answer
+                        </div>
+                        <form method="POST" action="{% url 'discussion_comment' object.slug %}" class="form-group">
+                            {% csrf_token %}
+                            {{comment_form.comment}} 
+                            <button type="submit" class='btn btn-primary'>Comment</button>
+                        </form>
+                     
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="col-2">
+
+                </div>
+            </div>
+          
+          
+            
+         
+    </div>
+    {% include 'pagination.html' %}
+
+</main>
+
+
+{% endblock %}
+
+
+

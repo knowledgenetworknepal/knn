@@ -75,6 +75,13 @@
   -webkit-box-sizing: border-box;
   box-sizing: border-box; }
 
+  
+.card-image img{
+    width:221px !important;
+    height:221px !important;
+    object-fit: cover;
+
+}
 body {
   font-family: 'Open Sans', sans-serif;
   font-weight: 400;

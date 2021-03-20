@@ -1,5 +1,54 @@
-{% for object in object_list %}
+{% extends 'base.html' %}
+{% block title %} Blog {% endblock %}
+{% block content %}
+{% block style %}
+<style>
+  .card img{
+    width:100%;
+    height:200px !important;
+    object-fit: cover;
 
-{{object}}
-<a href="{% url 'blog_detail' object.slug %}">Detail</a>
-{% endfor %}
+}
+</style>
+  
+{% endblock %}
+<section class="breadcrumb-section">
+    <h2 class="sr-only">Site Breadcrumb</h2>
+    <div class="container">
+        <div class="breadcrumb-contents">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item active">Blog</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</section>
+<main class="contact_area inner-page-sec-padding-bottom">
+    <div class="container">
+        <div class="card-group">
+            {% for object in object_list %}
+            <div class="card  col-sm-6 col-12">
+                <a href="{% url 'blog_detail' object.slug %}">
+
+              <img class="card-img-top" src="{{object.featured_image.url}}" alt="Card image cap">
+              <div class="card-body">
+                <h5 class="card-title">{{object.title}}</h5>
+                <p class="card-text"><small class="text-muted">{{object.added_date}}</small></p>
+              </div>
+            </a>
+
+            </div>
+       
+      
+        {% endfor %}
+       
+    </div>
+    {% include 'pagination.html' %}
+
+</main>
+
+
+{% endblock %}
+

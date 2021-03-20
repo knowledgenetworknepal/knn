@@ -44,10 +44,25 @@
                                     </li>
                                    
                                     <!-- Pages -->
-                                    {% if user.is_authenticated %}
+                                   
+                                    <!-- Blog -->
+                                    <li class="menu-item">
+                                        <a href="{% url 'blog_list' %}">Blog </a>
+                                        
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="{% url 'discussion_list' %}">Discussion </a>
+                                        
+                                    </li>
+
+                                    <li class="menu-item">
+                                        <a href="{% url 'contact' %}">Contact</a>
+                                    </li>
+                                    
+                                     {% if user.is_authenticated %}
 
                                     <li class="menu-item has-children">
-                                        <a href="javascript:void(0)">Pages <i
+                                        <a href="javascript:void(0)">Account <i
                                                 class="fas fa-chevron-down dropdown-arrow"></i></a>
                                         <ul class="sub-menu">
                                             <li><a href="{% url 'cart' %}">Cart</a></li>
@@ -57,17 +72,7 @@
                                         </ul>
                                     </li>
                                     {% endif %}
-                                    {% comment %}
 
-                                    <!-- Blog -->
-                                    <li class="menu-item has-children mega-menu">
-                                        <a href="{% url 'blog_list' %}">Blog </a>
-                                        
-                                    </li>
-                                    {% endcomment %}
-                                    <li class="menu-item">
-                                        <a href="{% url 'contact' %}">Contact</a>
-                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -245,26 +250,18 @@
                                 </li>
                                
                                 <!-- Pages -->
-                                {% if user.is_authenticated %}
-                                <li class="menu-item has-children">
-                                    <a href="javascript:void(0)">Pages</a>
-                                    <ul class="sub-menu">
-                                        <li><a href="{% url 'cart' %}">Cart</a></li>
-                                        <li><a href="{% url 'my_account' %}">My Account</a></li>
-                                        <li><a href="{% url 'logout' %}">Logout</a></li>
-
-                                    </ul>
-                                </li>
-                                {% endif %}
+                             
 
                                 <!-- Blog -->
-                                {% comment %}
 
                                 <li class="menu-item has-children mega-menu">
                                     <a href="{% url 'blog_list' %}">Blog </a>
                                     
                                 </li>
-                                {% endcomment %}
+                                 <li class="menu-item">
+                                        <a href="{% url 'discussion_list' %}">Discussion </a>
+                                        
+                                    </li>
                                 {% if not user.is_authenticated %}
 
                                 <li class="menu-item">
@@ -274,6 +271,21 @@
                                 <li class="menu-item">
                                     <a href="{% url 'contact' %}">Contact</a>
                                 </li>
+                                   <li class="menu-item">
+                                        <a href="{% url 'discussion_list' %}">Discussion </a>
+                                        
+                                    </li>
+                                   {% if user.is_authenticated %}
+                                <li class="menu-item has-children">
+                                    <a href="javascript:void(0)">Account</a>
+                                    <ul class="sub-menu">
+                                        <li><a href="{% url 'cart' %}">Cart</a></li>
+                                        <li><a href="{% url 'my_account' %}">My Account</a></li>
+                                        <li><a href="{% url 'logout' %}">Logout</a></li>
+
+                                    </ul>
+                                </li>
+                                {% endif %}
                             </ul>
                         </nav>
                         <!-- mobile menu navigation end -->
@@ -331,9 +343,18 @@
                                     
                                 </li>
                                
-                                {% if user.is_authenticated %}
+                              
+                                <!-- Blog -->
+                                <li class="menu-item has-children mega-menu">
+                                    <a href="{% url 'blog_list' %}">Blog </a>
+                                    
+                                </li>
+                                <li class="menu-item">
+                                    <a href="{% url 'contact' %}">Contact</a>
+                                </li>
+                                  {% if user.is_authenticated %}
                                 <li class="menu-item has-children">
-                                    <a href="javascript:void(0)">Pages <i
+                                    <a href="javascript:void(0)">Account <i
                                             class="fas fa-chevron-down dropdown-arrow"></i></a>
                                     <ul class="sub-menu">
                                         <li><a href="{% url 'cart' %}">Cart</a></li>
@@ -343,16 +364,6 @@
                                     </ul>
                                 </li>
                                 {% endif %}
-                                {% comment %}
-                                <!-- Blog -->
-                                <li class="menu-item has-children mega-menu">
-                                    <a href="{% url 'blog_list' %}">Blog </a>
-                                    
-                                </li>
-                                {% endcomment %}
-                                <li class="menu-item">
-                                    <a href="{% url 'contact' %}">Contact</a>
-                                </li>
                             </ul>
                         </div>
                     </div>

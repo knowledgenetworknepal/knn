@@ -3,15 +3,18 @@ from django.views.generic import ListView, DetailView, CreateView
 from django.urls import reverse_lazy
 from .models import Blog, Comment
 from .forms import CommentForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-class BlogList(ListView):
+from books.views import BaseMixin
+
+class BlogList(BaseMixin, ListView):
     model = Blog
     template_name = 'blogs/blog_list.html'
     queryset = Blog.objects.all().order_by('-id')
     paginate_by = 12
 
 
-class BlogDetail(DetailView):
+class BlogDetail(BaseMixin, DetailView):
     model = Blog
     template_name = 'blogs/blog.html'
     queryset = Blog.objects.all()
@@ -19,11 +22,11 @@ class BlogDetail(DetailView):
     def get_context_data(self, *args, **kwargs):
         context_data = super().get_context_data(*args, **kwargs)
         context_data['comment_form'] = CommentForm
-        context_data['comments'] = Comment.objects.filter(blog=self.get_object()).order_by('-id')
+        context_data['comments'] = Comment.objects.select_related('comment_by').filter(blog=self.get_object()).order_by('-id')
         return context_data
 
 
-class AddComment(CreateView):
+class AddComment(LoginRequiredMixin, CreateView):
     model = Blog
     queryset = Blog.objects.all()
     form_class = CommentForm

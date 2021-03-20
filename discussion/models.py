@@ -9,16 +9,14 @@ from ckeditor.fields import RichTextField
 User = get_user_model()
 
 
-class Blog(models.Model):
+class Quesiton(models.Model):
     title = models.CharField(max_length=200)
     description = RichTextField(blank=True, null=True)
-    author = models.CharField(max_length=200, null=True, blank=True)
-    category = models.ManyToManyField(Category, related_name='category_blogs')
-    added_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='user_blogs')
+    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
+    category = models.ManyToManyField(Category, related_name='category_discussion')
     added_date = models.DateTimeField(auto_now=True)
-    featured_image = models.ImageField(upload_to='upload/%Y/%M', null=True, blank=True)
     slug = models.SlugField(null=True, blank=True, unique=True)
-
+    status = models.BooleanField(default=True)
     def __str__(self):
         return self.title
 
@@ -33,9 +31,17 @@ class Blog(models.Model):
                 super().save(*args, **kwargs)
 
 
+
+class DiscussionVote(models.Model):
+    like = models.BooleanField(default=True)
+    User = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='liked_by')
+    status = models.BooleanField(default=True)
+
+
 class Comment(models.Model):
     comment = models.CharField(max_length=200)
-    comment_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='commented_by')
+    comment_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='disucssion_comment')
     comment_date = models.DateTimeField(auto_now=True)
-    blog = models.ForeignKey(Blog, null=True, blank=True, on_delete=models.SET_NULL)
+    question = models.ForeignKey(Quesiton, null=True, blank=True, on_delete=models.SET_NULL)
+    status = models.BooleanField(default=True)
 

@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block title %} Discussion {% endblock %}
+{% block content %}
+
+  
+<section class="breadcrumb-section">
+    <h2 class="sr-only">Site Breadcrumb</h2>
+    <div class="container">
+        <div class="breadcrumb-contents">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item active">Discussion</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</section>
+<main class="contact_area inner-page-sec-padding-bottom">
+    <div class="container">
+            <div class="row">
+                <div class="col-sm-10 col-12">
+                    {% for object in object_list %}
+                    <div class="card">
+                        <a href="{% url 'discussion_detail' object.slug %}">
+        
+                      <div class="card-body">
+                        <h5 class="card-title">{{object.title}}</h5>
+                        <p class="text-muted">{{object.user.first_name}} {{object.user.last_name}}</p>
+                        <p class="card-text"><small class="text-muted">{{object.added_date}}</small></p>
+                      </div>
+                    </a>
+        
+                    </div>
+               
+              
+                {% endfor %}
+               
+                </div>
+                <div class="col-sm-2 col-12">
+                    <div class="row">
+                        <div class="col-12">
+                            {% if user.is_authenticated %}
+                            <a href="{% url 'add_discussion' %}" class="btn btn-primary">ASK A QUESTION</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <h3 class="mt-2">Categories</h3>
+                    {% for cat in categories %}
+                    <div class="">
+                        <a href="{% url 'category_discussion' cat.slug %}">{{cat}}</a>
+                        
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+      
+          
+    </div>
+    {% include 'pagination.html' %}
+
+</main>
+
+
+{% endblock %}
+
