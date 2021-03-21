@@ -82,6 +82,15 @@
     object-fit: cover;
 
 }
+@media(max-width:767px){
+  .card-image img{
+    width:345px !important;
+    height:345px !important;
+    object-fit: cover;
+
+}
+}
+
 body {
   font-family: 'Open Sans', sans-serif;
   font-weight: 400;
@@ -21531,3 +21540,64 @@ p.form-messege {
           transform: rotate(90deg); }
   .accordion .card .card-body {
     padding: 0 30px 30px; }
+
+
+    @media only screen and (max-width: 420px) {
+      .hide-mobile {
+        display: none;
+      }
+    
+      .for-mobile{
+        display: block;
+      }
+    
+      .slick-dots{
+        display: none !important;
+      }
+    }
+    
+    
+    @media only screen and (min-width: 420px) {
+    
+    
+      .for-mobile{
+        display: none;
+      }
+    }
+    
+    
+    @media(max-width:768px){
+      .sb-custom-tab .nav.nav-tabs{
+        border: none;
+        justify-content: space-around;
+           width: 100%;
+      }
+    
+      .sb-custom-tab .nav.nav-tabs .nav-item .nav-link{
+        padding: 0px 8px;
+        margin: 0px;
+        font-size: 10px;
+        background-color: #2d28a5;
+        color: white;
+        border-radius: 49px;
+        line-height: 29px;
+      }
+    
+      .sb-custom-tab .nav.nav-tabs .nav-item .nav-link.active, .sb-custom-tab .nav.nav-tabs .nav-item .nav-link.show {
+          border-color: #2d28a5;
+          color: #fff;
+          background-color: #2d28a5;
+      }
+    
+      .sb-custom-tab .nav.nav-tabs .nav-item .nav-link:hover {
+        background-color: #2d28a5;
+          color: white;
+      }
+      
+    }
+    
+    @media(max-width:767px){
+      .sb-slick-slider .slick-dots{
+        display: none;
+      }
+    }

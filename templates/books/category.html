@@ -58,10 +58,13 @@
                         </div>
                         <div class="product-card--body">
                             <div class="card-image">
+                                {% if book.image %}
                                 <img src="{{ book.image.url }}" alt="">
-                                <div class="hover-contents">
+                                {% endif %}                                   <div class="hover-contents">
                                     <a href="{% url 'book_details' book.slug %}" class="hover-image">
+                                        {% if book.image %}
                                         <img src="{{ book.image.url }}" alt="">
+                                        {% endif %}     
                                     </a>
                                     {% if request.user.is_authenticated %}
       
