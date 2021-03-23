@@ -52,9 +52,10 @@ class Book(models.Model):
         if self.slug is None or self.slug == '':
             try:
                 self.slug = slugify(self.book_name)
+                super().save(*args, **kwargs)
             except:
                 self.slug = slugify(self.book_name)+random.randint(0,99999999)
-        super().save(*args, **kwargs)
+                super().save(*args, **kwargs)
 
     def __str__(self):
         return self.book_name

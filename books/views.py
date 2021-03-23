@@ -183,7 +183,6 @@ class CartView(BaseMixin, AccountAccessMixin, ListView):
             return CartItem.objects.prefetch_related('book').filter(user=user, ordered=False)
         return CartItem.objects.none()
 
-
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         user = self.request.user
@@ -269,8 +268,9 @@ class NewUserView(LoginRequiredMixin, ListView):
         context_data['deposit_form'] = DepositForm
         context_data['choice_form'] = SignupChoiceForm 
         context_data['choices'] = SignupChoice.objects.filter(user=user).first()
+        deposit = Deposit.objects.filter(user=user)
         context_data['deposits'] = Deposit.objects.filter(user=user)
-
+        context_data['total_deposit'] = deposit.aggregate(Sum('amount'))['amount__sum']
         return context_data
     
     def get_queryset(self):
