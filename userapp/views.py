@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponseRedirect
 from django.views.generic.edit import UpdateView
 from books.models import Order, CheckoutAddress
-from django.views.generic import CreateView, TemplateView
+from django.views.generic import CreateView, TemplateView, FormView
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth import get_user_model
 from django.views import View
@@ -52,10 +52,15 @@ class UserRegistrationView(BaseMixin, SuccessMessageMixin, CreateView):
         return render(request, 'userapp/register.html', {'form': registration, 'login_form': Loginform, 'base_rate':25, 'address_form': address})
 
 
-# user login view
-class LoginView(View):
-    model = User
+class LoginPageView(BaseMixin, FormView):
+    form_class = Loginform 
+    template_name = 'userapp/login.html'
     success_url = reverse_lazy('list_books')
+
+    def get_context_data(self, *args, **kwargs):
+        context_data = super().get_context_data(*args, **kwargs)
+        context_data['base_rate'] = 25
+        return context_data
 
     def post(self, request, *args, **kwargs):
         form = Loginform(data=request.POST)
@@ -71,9 +76,9 @@ class LoginView(View):
                 except:
                     pass
                 return redirect(reverse_lazy('list_books'))
-            return redirect(reverse_lazy('registration'))
+            messages.error(self.request, 'Login failed')
+            return render(request, 'userapp/login.html', {'form': Loginform, 'base_rate':25})
         return redirect(reverse_lazy('registration'))
-
 
 
 class LogoutView(View):
