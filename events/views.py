@@ -21,7 +21,8 @@ class EventDetail(BaseMixin, DetailView):
 
     def get_context_data(self, *args, **kwargs):
         context_data = super().get_context_data(*args, **kwargs)
-        context_data['registered'] = EventRegistration.objects.filter(user=self.request.user, event=self.get_object()).exists()
+        if self.request.user.is_authenticated:
+            context_data['registered'] = EventRegistration.objects.filter(user=self.request.user, event=self.get_object()).exists()
         return context_data
 
 

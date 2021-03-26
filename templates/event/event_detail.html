@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %} Blog {% endblock %}
+{% block title %} Event {% endblock %}
 {% block content %}
 {% block style %}
 <style>
@@ -24,6 +24,8 @@
             <div class="">
                 {{object.description}}
             </div>
+            {% if registered %}
+
             <div class="comment section text-center">
 
                 {% if registered == False %}
@@ -41,6 +43,8 @@
               
                 {% endif %}
             </div>
+            {% endif %}
+
 
               
           
