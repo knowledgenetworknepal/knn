@@ -26,6 +26,7 @@ urlpatterns = [
     path('', include('books.urls')),
     path('', include('blogs.urls')),
     path('', include('discussion.urls')),
+    path('', include('events.urls')),
 
     path('dashboard/', include('dashboard.urls')),
     path('__debug__/', include(debug_toolbar.urls)),

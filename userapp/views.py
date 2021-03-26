@@ -25,7 +25,7 @@ class UserRegistrationView(BaseMixin, SuccessMessageMixin, CreateView):
     model = User
     form_class = RegistrationForm
     template_name = 'userapp/register.html'
-    success_url = reverse_lazy('list_books')
+    success_url = reverse_lazy('login_view')
     success_message = "Registration Complete"
 
     def get_context_data(self, *args, **kwargs):
@@ -48,7 +48,7 @@ class UserRegistrationView(BaseMixin, SuccessMessageMixin, CreateView):
             user_address.user = user
             user_address.save()
             messages.success(self.request, 'Registration successful')
-            return HttpResponseRedirect(self.request.path_info)
+            return render(request, 'userapp/login.html', {'form': Loginform, 'base_rate':25})
         return render(request, 'userapp/register.html', {'form': registration, 'login_form': Loginform, 'base_rate':25, 'address_form': address})
 
 

@@ -22,13 +22,13 @@
             <div class="col-12">
                 {% if messages %}
                 {% for message in messages %}
-                <p  {% if message.tags %} class="alert alert-danger " {% endif %}> {{ message }} </p>
+                <p  {% if message.tags == 'error' %} class="alert alert-danger" {% endif %} {% if message.tags == 'success' %} class="alert alert-success" {% endif %}> {{ message }} </p>
                 {% endfor %}
             {% endif %}
             </div>
             <div class="row">
                 <div class="col-sm-12 col-md-12 col-lg-6 col-xs-12 mx-auto">
-                    <form method='POST'>
+                    <form method='POST' action="{% url 'login_view' %}">
                         <div class="login-form">
                             {% csrf_token %}
                             <h4 class="login-title">Returning Customer</h4>

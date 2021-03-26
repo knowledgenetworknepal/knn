@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %} Blog {% endblock %}
+{% block content %}
+{% block style %}
+<style>
+  .fet-img img{
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+
+}
+</style>
+
+{% endblock %}
+
+<main class="contact_area inner-page-sec-padding-bottom">
+    <div class="container">
+            <div class="fet-img">
+                <img src="{{object.featured_image.url}}">
+
+            </div>
+            <h1 class="mt-3">{{object.name}}</h1>
+            <p >{{object.event_date|date:"d M, Y"}}<br> Registered till now: {{object.event_of.all.count}}</small></p>
+            <div class="">
+                {{object.description}}
+            </div>
+            <div class="comment section text-center">
+
+                {% if registered == False %}
+
+
+            <a href="{% url 'event_register' object.slug %}" class="col-6 mx-auto btn btn-primary my-5">
+                
+                I am interested!
+            </a>      
+            {% else %}
+            <button class="col-6 mx-auto btn btn-secondary my-5" disabled>
+                
+                Already registered
+            </button>                      
+              
+                {% endif %}
+            </div>
+
+              
+          
+            
+         
+    </div>
+    {% include 'pagination.html' %}
+
+</main>
+
+
+{% endblock %}
+
+
+

@@ -12,6 +12,11 @@ from userapp.models import Request, Deposit, Notification as Notice
 from books.forms import BookForm, CategoryForm, AdminBookForm
 from base.models import Ads, Contact
 from base.forms import AdForm
+from blogs.models import Blog
+from discussion.models import Quesiton
+from events.models import Event
+from blogs.forms import Blogform
+from events.forms import Eventform
 
 User = get_user_model()
 
@@ -345,4 +350,81 @@ class ContactView(BaseMixin, ListView):
     model = Contact
     template_name = 'dashboard/contact.html'
     queryset = Contact.objects.all().order_by('-id')
+
+
+class BlogListView(BaseMixin, ListView):
+    model = Blog
+    template_name = 'dashboard/blog_list.html'
+    queryset = Blog.objects.all().order_by('-id')
+    paginate_by = 30
+
+
+class BlogDetailView(BaseMixin, DetailView):
+    model = Blog
+    template_name = 'dashboard/blog_detail.html'
+    queryset = Blog.objects.prefetch_related('category').all()
+
+
+class CreateBlog(BaseMixin, CreateView):
+    model = Blog
+    template_name = 'dashboard/category_create.html'
+    queryset = Blog.objects.none()
+    form_class = Blogform
+    success_url = reverse_lazy('dashboard:blog_list')
+
+
+class UpdateBlog(BaseMixin, UpdateView):
+    model = Blog
+    template_name = 'dashboard/category_update.html'
+    queryset = Blog.objects.all()
+    form_class = Blogform
+
+    def get_success_url(self):
+        return reverse('dashboard:blog_details',kwargs={'pk':self.get_object().pk})
+
+
+class DeleteBlog(BaseMixin, View):
+    def get(self, request, *args, **kwargs):
+        blog = Blog.objects.get(id=self.kwargs.get('pk'))
+        blog.delete()
+        return redirect(reverse_lazy('dashboard:blog_list'))
+
+
+class EventListView(BaseMixin, ListView):
+    model = Event
+    template_name = 'dashboard/event_list.html'
+    queryset = Event.objects.prefetch_related('event_of').all().order_by('-id')
+    paginate_by = 30
+
+
+class EventDetailView(BaseMixin, DetailView):
+    model = Event
+    template_name = 'dashboard/event_detail.html'
+    queryset = Event.objects.prefetch_related('event_of').prefetch_related('event_of__user').all()
+
+
+class CreateEvent(BaseMixin, CreateView):
+    model = Event
+    template_name = 'dashboard/category_create.html'
+    queryset = Event.objects.none()
+    form_class = Eventform
+    success_url = reverse_lazy('dashboard:event_list')
+
+
+class UpdateEvent(BaseMixin, UpdateView):
+    model = Event
+    template_name = 'dashboard/category_update.html'
+    queryset = Event.objects.all()
+    form_class = Eventform
+
+    def get_success_url(self):
+        return reverse('dashboard:event_detail',kwargs={'pk':self.get_object().pk})
+
+
+class DeleteEvent(BaseMixin, View):
+    def get(self, request, *args, **kwargs):
+        event = Event.objects.get(id=self.kwargs.get('pk'))
+        event.delete()
+        return redirect(reverse_lazy('dashboard:event_list'))
+
 

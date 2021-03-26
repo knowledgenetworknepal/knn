@@ -56,7 +56,7 @@
                                     </li>
 
                                     <li class="menu-item">
-                                        <a href="{% url 'contact' %}">Contact</a>
+                                        <a href="{% url 'event_list' %}">Event</a>
                                     </li>
                                     
                                      {% if user.is_authenticated %}
@@ -271,7 +271,7 @@
                                 </li>
                                 {% endif %}
                                 <li class="menu-item">
-                                    <a href="{% url 'contact' %}">Contact</a>
+                                    <a href="{% url 'event_list' %}">Event</a>
                                 </li>
                                    <li class="menu-item">
                                         <a href="{% url 'discussion_list' %}">Discussion </a>
@@ -358,7 +358,7 @@
                                 </li>
 
                                 <li class="menu-item">
-                                    <a href="{% url 'contact' %}">Contact</a>
+                                    <a href="{% url 'event_list' %}">Event</a>
                                 </li>
                                 
                                  {% if user.is_authenticated %}
@@ -407,9 +407,8 @@
                             <h3>Information</h3>
                         </div>
                         <ul class="footer-list normal-list">
-                            <li><a href="">New products</a></li>
-                            <li><a href="">Best sales</a></li>
-                            <li><a href="">Contact us</a></li>
+                         
+                            <li><a href="{% url 'contact' %}">Contact us</a></li>
                             <li><a href="{% url 'terms_and_conditions' %}">Terms and Conditions</a></li>
                         </ul>
                     </div>
@@ -420,11 +419,12 @@
                             <h3>Extras</h3>
                         </div>
                         <ul class="footer-list normal-list">
-                            <li><a href="">About Us</a></li>
-                            <li><a href="">Contact us</a></li>
+                            <li><a href="{% url 'aboutus' %}">About Us</a></li>
+                            <li><a href="{% url 'contact' %}">Contact us</a></li>
                         </ul>
                     </div>
                 </div>
+                {% comment %}
                 <div class=" col-xl-3 col-lg-4 col-sm-6">
                     <div class="footer-title">
                         <h3>Newsletter Subscribe</h3>
@@ -446,6 +446,7 @@
                         </ul>
                     </div>
                 </div>
+                {% endcomment %}
             </div>
         </div>
         <div class="footer-bottom">

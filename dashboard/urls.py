@@ -63,6 +63,20 @@ urlpatterns = [
     path('ads/<int:pk>/delete/', DeleteAd.as_view(), name='ad_delete'),
 
     # contact
-    path('messages', ContactView.as_view(), name='contact')
+    path('messages', ContactView.as_view(), name='contact'),
+
+    # blog
+    path('blog/', BlogListView.as_view(), name='blog_list'),
+    path('blog/<int:pk>/', BlogDetailView.as_view(), name='blog_details'),
+    path('blog/add/', CreateBlog.as_view(), name='blog_create'),
+    path('blog/<int:pk>/update/', UpdateBlog.as_view(), name='blog_update'),
+    path('blog/<int:pk>/delete/', DeleteBlog.as_view(), name='blog_delete'),
+
+    # event
+    path('event/', EventListView.as_view(), name='event_list'),
+    path('event/<int:pk>/', EventDetailView.as_view(), name='event_detail'),
+    path('event/add/', CreateEvent.as_view(), name='event_create'),
+    path('event/<int:pk>/update/', UpdateEvent.as_view(), name='event_update'),
+    path('event/<int:pk>/delete/', DeleteEvent.as_view(), name='event_delete'),
 
 ]

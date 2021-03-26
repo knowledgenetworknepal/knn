@@ -1,0 +1,70 @@
+{% extends 'dashboard_base.html' %}
+{% load static %}
+
+
+{% block title %}  Knowledge Network Nepal {% endblock %}
+
+{% block content %} 
+
+
+<div class="inner">
+    <div class="card">
+      <div class="dashboard-header mb-3">
+        <h6 class="text-primary font-weight-bold">Ad details
+        </h6>
+       
+      </div>
+      <div class="row mt-4">
+        <div class="col-lg-3">
+            <div class="image-lg">
+                {% if object.featured_image %}
+              <img src="{{object.featured_image.url}}" alt="Ad Image">
+              {% endif %}
+            </div>
+          </div>
+        <div class="col-lg-9">
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="details">
+                <h6>Name</h6>
+                <p>{{object.title}} </p>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="details">
+                <h6>Author</h6>
+                <p>{{object.author}}</p>
+              </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="details">
+                  <h6>Category</h6>
+                  <p>{%for obj in object.category.all%}  {{obj}}  {% endfor %}</p>
+                </div>
+              </div>
+            <div class="col-lg-4">
+              <div class="details">
+                <h6>Date</h6>
+                <p>{{object.added_date}}</p>
+              </div>
+            </div>
+        
+            <div class="col-lg-4">
+                <div class="details">
+                  <h6>Action</h6>
+                  <a href="{% url 'dashboard:blog_update' object.pk %}" class="btn btn-primary">
+                    Update
+                  </a>                </div>
+              </div>
+      
+    
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+
+{% endblock %}

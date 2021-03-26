@@ -1,0 +1,60 @@
+{% extends 'dashboard_base.html' %}
+{% load static %}
+
+
+{% block title %}  Knowledge Network Nepal {% endblock %}
+
+{% block content %} 
+
+<div class="inner">
+
+    <div class="card">
+      <div class="dashboard-header mb-3">
+        <h6 class="text-primary font-weight-bold">Ads
+        </h6>
+        <div class="d-flex align-items-center justify-content-center mt-2 mt-sm-0">
+        
+          <button class="btn btn-primary btn-icon ml-2">
+            <a href="{% url 'dashboard:blog_create' %}">
+              <i class="icon-add"></i>
+              Add
+            </a>
+           </button>
+        </div>
+
+      </div>
+      <div class="table-responsive">
+        <table class="table table__small d-table">
+          <thead>
+            <tr>
+              <th>S.N</th>
+              <th>Blog</th>
+              <th>Author</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            {% for object in object_list %}
+            <tr>
+              <td>{{forloop.counter}}</td>
+              <td>
+                <a href="{% url 'dashboard:blog_details' object.pk %}">{{object.title}}</a></td>
+              <td>{{object.author}}</td>
+
+
+            </tr>
+            {% endfor %}
+
+       
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% include 'pagination.html' %}
+
+  </div>
+
+
+
+
+{% endblock %}

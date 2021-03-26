@@ -17,3 +17,9 @@ class ContactView(BaseMixin, CreateView):
 
 class TermAndConditionView(BaseMixin, TemplateView):
     template_name = 'base/term.html'
+
+
+class AboutUsView(BaseMixin, TemplateView):
+    template_name = 'base/aboutus.html'
+
+    

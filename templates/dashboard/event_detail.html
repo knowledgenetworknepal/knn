@@ -1,0 +1,86 @@
+{% extends 'dashboard_base.html' %}
+{% load static %}
+
+
+{% block title %}  Knowledge Network Nepal {% endblock %}
+
+{% block content %} 
+
+
+<div class="inner">
+    <div class="card">
+      <div class="dashboard-header mb-3">
+        <h6 class="text-primary font-weight-bold">Ad details
+        </h6>
+       
+      </div>
+      <div class="row mt-4">
+        <div class="col-lg-3">
+            <div class="image-lg">
+                {% if object.featured_image %}
+              <img src="{{object.featured_image.url}}" alt="Ad Image">
+              {% endif %}
+            </div>
+          </div>
+        <div class="col-lg-9">
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="details">
+                <h6>Name</h6>
+                <p>{{object.name}} </p>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="details">
+                <h6>Date</h6>
+                <p>{{object.event_date}}</p>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="details">
+                <h6>Date</h6>
+                <p>{{object.added_date}}</p>
+              </div>
+            </div>
+        
+            <div class="col-lg-4">
+                <div class="details">
+                  <h6>Action</h6>
+                  <a href="{% url 'dashboard:event_update' object.pk %}" class="btn btn-primary">
+                    Update
+                  </a>                </div>
+              </div>
+      
+    
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <table class="table table__small d-table">
+      <thead>
+        <tr>
+          <th>S.N</th>
+          <th>User </th>
+          <th>Date</th>
+
+        </tr>
+      </thead>
+      <tbody>
+      {% for person in object.event_of.all %}
+        <tr>
+          <td>{{forloop.counter}}</td>
+        
+            <td>   <a href="{% url 'dashboard:user_detail' person.user %}">{{person.user}}</a></td>
+
+          <td>{{person.registraiton_date}}</td>
+        </tr>
+        {% endfor %}
+
+      </tbody>
+    </table>
+  </div>
+
+
+
+{% endblock %}
