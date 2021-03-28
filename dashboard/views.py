@@ -4,6 +4,8 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic.edit import DeleteView
  
 from .permissions import IsAdminMixin
+from django.http import JsonResponse
+
 
 from django.contrib.auth import get_user_model
 from django.db.models import Q,F
@@ -171,12 +173,12 @@ class UpdateBook(BaseMixin, UpdateView):
         return reverse('dashboard:book_details',kwargs={'slug':self.get_object().slug})
 
 
-class DeleteBook(BookMixin, View):
-    def get(self, request, *args, **kwargs):
-        book = Book.objects.get(slug=self.kwargs.get('slug'))
-        book.status = False
-        book.save()
-        return redirect(reverse_lazy('dashboard:book_list'))
+class DeleteBook(BaseMixin, View):
+    def get(self, request):
+        id = request.GET.get("pk", None)
+        Book.objects.get(id=id).delete()
+        data = {"deleted": True}
+        return JsonResponse(data)
 
 
 class RequestList(BaseMixin, ListView):
@@ -227,7 +229,15 @@ class CategoryUpdate(BaseMixin, UpdateView):
 
     def get_success_url(self):
         return reverse('dashboard:category_detail',kwargs={'slug':self.get_object().slug})
-    
+
+
+class CategoryDelete(BaseMixin, View):
+    def get(self, request):
+        id = request.GET.get("pk", None)
+        Category.objects.get(id=id).delete()
+        data = {"deleted": True}
+        return JsonResponse(data)
+
 
 class DepositList(BaseMixin, ListView):
     model = Deposit
@@ -340,10 +350,11 @@ class UpdateAd(BaseMixin, UpdateView):
 
 
 class DeleteAd(BaseMixin, View):
-    def get(self, request, *args, **kwargs):
-        ad = Ads.objects.get(id=self.kwargs.get('pk'))
-        ad.delete()
-        return redirect(reverse_lazy('dashboard:ads'))
+    def get(self, request):
+        id = request.GET.get("pk", None)
+        Ads.objects.get(id=id).delete()
+        data = {"deleted": True}
+        return JsonResponse(data)
 
 
 class ContactView(BaseMixin, ListView):
@@ -384,10 +395,11 @@ class UpdateBlog(BaseMixin, UpdateView):
 
 
 class DeleteBlog(BaseMixin, View):
-    def get(self, request, *args, **kwargs):
-        blog = Blog.objects.get(id=self.kwargs.get('pk'))
-        blog.delete()
-        return redirect(reverse_lazy('dashboard:blog_list'))
+    def get(self, request):
+        id = request.GET.get("pk", None)
+        Blog.objects.get(id=id).delete()
+        data = {"deleted": True}
+        return JsonResponse(data)
 
 
 class EventListView(BaseMixin, ListView):
@@ -422,9 +434,10 @@ class UpdateEvent(BaseMixin, UpdateView):
 
 
 class DeleteEvent(BaseMixin, View):
-    def get(self, request, *args, **kwargs):
-        event = Event.objects.get(id=self.kwargs.get('pk'))
-        event.delete()
-        return redirect(reverse_lazy('dashboard:event_list'))
+    def get(self, request):
+        id = request.GET.get("pk", None)
+        Event.objects.get(id=id).delete()
+        data = {"deleted": True}
+        return JsonResponse(data)
 
 

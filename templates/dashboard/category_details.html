@@ -36,9 +36,20 @@
                 <p>{{object.description}}</p>
               </div>
             </div>
+            <div class="col-lg-4">
+              <div class="details">
+                <h6>Action</h6>
           <a href="{% url 'dashboard:category_update' object.slug %}" class="btn btn-primary">
             Update
           </a>
+        </div>
+      </div>
+          <div class="col-lg-4">
+            <div class="details">
+              <h6>Action</h6>
+             <a class="btn btn-danger" onclick=deleteCategory({{object.pk}})>Delete</a>
+                            </div>
+          </div>
     
           </div>
         </div>
@@ -46,7 +57,26 @@
       </div>
     </div>
   </div>
+  <script>
+    function deleteCategory(pk) {
+    var action = confirm("Are you sure you want to delete this category ?");
+    if (action != false) {
+      $.ajax({
+          url: '{% url "dashboard:category_delete" %}',
+          data: {
+              'pk': pk,
+          },
+          dataType: 'json',
+          success: function (data) {
+              if (data.deleted) {
+                location.href="{% url 'dashboard:category_list' %}"
 
+              }
+          }
+      });
+    }
+  }
+  </script>
 
 
 {% endblock %}

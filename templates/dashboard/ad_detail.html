@@ -62,7 +62,12 @@
                   </a>                </div>
               </div>
       
-    
+              <div class="col-lg-4">
+                <div class="details">
+                  <h6>Action</h6>
+                 <a class="btn btn-danger" onclick=deleteReport({{object.pk}})>Delete</a>
+                                </div>
+              </div>
           </div>
         </div>
 
@@ -70,6 +75,25 @@
     </div>
   </div>
 
+  <script>
+    function deleteReport(pk) {
+    var action = confirm("Are you sure you want to delete this ad ?");
+    if (action != false) {
+      $.ajax({
+          url: '{% url "dashboard:ad_delete" %}',
+          data: {
+              'pk': pk,
+          },
+          dataType: 'json',
+          success: function (data) {
+              if (data.deleted) {
+                location.href="{% url 'dashboard:ads' %}"
 
+              }
+          }
+      });
+    }
+  }
+  </script>
 
 {% endblock %}

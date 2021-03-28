@@ -23,7 +23,7 @@ urlpatterns = [
 
     path('book/<str:slug>/', BookDetail.as_view(), name='book_details'),
     path('book/<str:slug>/update/', UpdateBook.as_view(), name='book_update'),
-    path('book/<str:slug>/delete/', DeleteBook.as_view(), name='book_delete'),
+    path('book/delete', DeleteBook.as_view(), name='book_delete'),
 
     # deposit
     path('deposit/', DepositList.as_view(), name='deposit_list'),
@@ -36,6 +36,7 @@ urlpatterns = [
     path('category/', CategoryList.as_view(), name='category_list'),
     path('category/<slug:slug>/', CategoryDetail.as_view(), name='category_detail'),
     path('category/<slug:slug>/update/', CategoryUpdate.as_view(), name='category_update'),
+    path('category/delete', CategoryDelete.as_view(), name='category_delete'),
 
     # RequestList
     path('request/', RequestList.as_view(), name='request_list'),
@@ -60,7 +61,7 @@ urlpatterns = [
     path('ads/<int:pk>/', AdsDetailView.as_view(), name='ad_details'),
     path('ads/add/', CreateAd.as_view(), name='ad_create'),
     path('ads/<int:pk>/update/', UpdateAd.as_view(), name='ad_update'),
-    path('ads/<int:pk>/delete/', DeleteAd.as_view(), name='ad_delete'),
+    path('ads/<int:pk>/delete', DeleteAd.as_view(), name='ad_delete'),
 
     # contact
     path('messages', ContactView.as_view(), name='contact'),
@@ -70,13 +71,13 @@ urlpatterns = [
     path('blog/<int:pk>/', BlogDetailView.as_view(), name='blog_details'),
     path('blog/add/', CreateBlog.as_view(), name='blog_create'),
     path('blog/<int:pk>/update/', UpdateBlog.as_view(), name='blog_update'),
-    path('blog/<int:pk>/delete/', DeleteBlog.as_view(), name='blog_delete'),
+    path('blog/delete', DeleteBlog.as_view(), name='blog_delete'),
 
     # event
     path('event/', EventListView.as_view(), name='event_list'),
     path('event/<int:pk>/', EventDetailView.as_view(), name='event_detail'),
     path('event/add/', CreateEvent.as_view(), name='event_create'),
     path('event/<int:pk>/update/', UpdateEvent.as_view(), name='event_update'),
-    path('event/<int:pk>/delete/', DeleteEvent.as_view(), name='event_delete'),
+    path('event/delete', DeleteEvent.as_view(), name='event_delete'),
 
 ]
