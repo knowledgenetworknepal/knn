@@ -1,83 +1,403 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {% block title %} Membership {% endblock %}
 {% block content %}
-<div class="container">
-{% if object_list %}
+<style>
+    * {
+    margin: 0;
+    padding: 0
+}
 
-{% endif %}
+html {
+    height: 100%
+}
+
+p {
+    color: grey
+}
+
+#heading {
+    text-transform: uppercase;
+    color: #673AB7;
+    font-weight: normal
+}
+
+#msform {
+    text-align: center;
+    position: relative;
+    margin-top: 20px
+}
+
+#msform fieldset {
+    background: white;
+    border: 0 none;
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0;
+    padding-bottom: 20px;
+    position: relative
+}
+
+.form-card {
+    text-align: left
+}
+
+#msform fieldset:not(:first-of-type) {
+    display: none
+}
+
+#msform input,
+#msform textarea {
+    padding: 8px 15px 8px 15px;
+    border: 1px solid #ccc;
+    border-radius: 0px;
+    margin-bottom: 25px;
+    margin-top: 2px;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: montserrat;
+    color: #2C3E50;
+    background-color: #ECEFF1;
+    font-size: 16px;
+    letter-spacing: 1px
+}
+
+#msform input:focus,
+#msform textarea:focus {
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    border: 1px solid #673AB7;
+    outline-width: 0
+}
+
+#msform .action-button {
+    width: 100px;
+    background: #673AB7;
+    font-weight: bold;
+    color: white;
+    border: 0 none;
+    border-radius: 0px;
+    cursor: pointer;
+    padding: 10px 5px;
+    margin: 10px 0px 10px 5px;
+    float: right
+}
+
+#msform .action-button:hover,
+#msform .action-button:focus {
+    background-color: #311B92
+}
+
+#msform .action-button-previous {
+    width: 100px;
+    background: #616161;
+    font-weight: bold;
+    color: white;
+    border: 0 none;
+    border-radius: 0px;
+    cursor: pointer;
+    padding: 10px 5px;
+    margin: 10px 5px 10px 0px;
+    float: right
+}
+
+#msform .action-button-previous:hover,
+#msform .action-button-previous:focus {
+    background-color: #000000
+}
+
+.card {
+    z-index: 0;
+    border: none;
+    position: relative
+}
+
+.fs-title {
+    font-size: 25px;
+    color: #673AB7;
+    margin-bottom: 15px;
+    font-weight: normal;
+    text-align: left
+}
+
+.purple-text {
+    color: #673AB7;
+    font-weight: normal
+}
+
+.steps {
+    font-size: 25px;
+    color: gray;
+    margin-bottom: 10px;
+    font-weight: normal;
+    text-align: right
+}
+
+.fieldlabels {
+    color: gray;
+    text-align: left
+}
+
+#progressbar {
+    margin-bottom: 30px;
+    overflow: hidden;
+    color: lightgrey
+}
+
+#progressbar .active {
+    color: #673AB7
+}
+
+#progressbar li {
+    list-style-type: none;
+    font-size: 15px;
+    width: 25%;
+    float: left;
+    position: relative;
+    font-weight: 400
+}
+
+#progressbar #account:before {
+    font-family: FontAwesome;
+    content: "\f13e"
+}
+
+#progressbar #personal:before {
+    font-family: FontAwesome;
+    content: "\f007"
+}
+
+#progressbar #payment:before {
+    font-family: FontAwesome;
+    content: "\f030"
+}
+
+#progressbar #confirm:before {
+    font-family: FontAwesome;
+    content: "\f00c"
+}
+
+#progressbar li:before {
+    width: 50px;
+    height: 50px;
+    line-height: 45px;
+    display: block;
+    font-size: 20px;
+    color: #ffffff;
+    background: lightgray;
+    border-radius: 50%;
+    margin: 0 auto 10px auto;
+    padding: 2px
+}
+
+#progressbar li:after {
+    content: '';
+    width: 100%;
+    height: 2px;
+    background: lightgray;
+    position: absolute;
+    left: 0;
+    top: 25px;
+    z-index: -1
+}
+
+#progressbar li.active:before,
+#progressbar li.active:after {
+    background: #673AB7
+}
+
+.progress {
+    height: 20px
+}
+
+.progress-bar {
+    background-color: #673AB7
+}
+
+.fit-image {
+    width: 100%;
+    object-fit: cover
+}
+</style>
+
+<div class="container">
+    {% if request %}
+    <h1 class="text-center my-5 py-5">
+        Request sent for verification.
+
+    </h1>
+{% else %}
+
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-11 col-sm-9 col-md-7 col-lg-6 col-xl-5 text-center p-0 mt-3 mb-2">
+                <div class="card px-0 pt-4 pb-0 mt-3 mb-3">
+                    <h2 id="heading">Membership </h2>
+                    <p>Fill all form field to go to next step</p>
+
 {% if not choices %}
-    <h1>Membership Form</h1>
-    <p>Please select the option below to carry on with membership.</p>
-    <form class="mb-5" action="{% url 'add_choice' %}" method="POST">
-        {% csrf_token %}
-        {{choice_form}}
-        <button type="submit" class="btn btn-primary my-2">Next</button>
-    </form>
+
+
+                <div id="msform">
+                    <!-- progressbar -->
+                    <ul id="progressbar">
+                        <li class="active" id="account"><strong>Membership</strong></li>
+                        <li id="personal"><strong>Books</strong></li>
+                        <li id="payment"><strong>Deposit</strong></li>
+                        <li id="confirm"><strong>Finish</strong></li>
+                    </ul>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div> <br> <!-- fieldsets -->
+                    <fieldset>
+                        <div class="form-card">
+                            <div class="row">
+                                <div class="col-7">
+                                    <h2 class="fs-title">Select an option:</h2>
+                                </div>
+                                <div class="col-5">
+                                    <h2 class="steps">Step 1 - 4</h2>
+                                </div>
+                            </div> 
+                            <form class="mb-5" action="{% url 'add_choice' %}" method="POST">
+                                {% csrf_token %}
+                                {{choice_form}}
+                                <button type="submit" class="next action-button my-2">Next</button>
+                            </form>                        
+                    </fieldset>
+                 
+                </div>
+
+
 {% else %}
 {% if choices.selection == 'I would like to deposit Rs. 1000 and pay Rs. 200' %}
+
+{% if total_deposit >= 1200.0 %}
+<div id="msform">
+    <!-- progressbar -->
+    <ul id="progressbar">
+        <li id="account"><strong>Membership</strong></li>
+        <li id="personal"><strong>Books</strong></li>
+        <li id="payment"><strong>Deposit</strong></li>
+        <li id="confirm" class="active"><strong>Finish</strong></li>
+    </ul>
+    <div class="progress">
+        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100" ></div>
+    </div> <br> <!-- fieldsets -->
+    <fieldset>
+        <div class="form-card">
+            <div class="row">
+                <div class="col-7">
+                    <h2 class="fs-title"></h2>
+                </div>
+                <div class="col-5">
+                    <h2 class="steps">Step 4 - 4</h2>
+                </div>
+            </div> 
+            <input class="" name="terms" type='checkbox' onclick="activateButton(this)">
+            <input disabled class="form-contorl" value='I agree to the terms and condition'>
+
+         
+            <a href="" class='btn btn-outlined--primary col-12 form-control' id='req'>Request Review</a>         
+           
+    </fieldset>
+ 
+</div>
+{% else %}
+
 <div class="text-center">
     Transfer Rs. 1000 as a deposit and Rs. 200 as your annual embership fee, via Khalti or eSewa to the following mobile number <br>
 <strong>9861446103</strong>
 </div>
-<div class="col-12 mb-5">
-    <div class="row">
-        {% if deposits %}
-        <div class="col-12">
-            <h2>Deposits</h2>
-
-        </div>
-        {% endif %}
-
-            {% for deposit in deposits %}
-            <div class="col-4">
-                <img src="{{ deposit.image.url }}" alt="">
-
-                {{deposit.deposit_date}}<br>
-                Rs {{deposit.amount}} : Status: {{deposit.verified}} <br>
-            </div>
-
-            {% endfor %}
-            {% if total_deposit >= 1200.0 %}
-
-            {%else%}
-        <div class="col-12 mt-5">
-            <h2>Upload Deposit Slip</h2>
-
+<div id="msform">
+    <!-- progressbar -->
+    <ul id="progressbar">
+        <li id="account"><strong>Membership</strong></li>
+        <li id="personal"><strong>Books</strong></li>
+        <li id="payment"  class="active"><strong>Deposit</strong></li>
+        <li id="confirm"><strong>Finish</strong></li>
+    </ul>
+    <div class="progress">
+        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100" ></div>
+    </div> <br> <!-- fieldsets -->
+    <fieldset>
+        <div class="form-card">
+            <div class="row">
+                <div class="col-7">
+                    <h2 class="fs-title">Select an option:</h2>
+                </div>
+                <div class="col-5">
+                    <h2 class="steps">Step 3 - 4</h2>
+                </div>
+            </div> 
             <form method="POST" action="{% url 'add_deposit' %}" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{deposit_form}}
-                <button type="submit" class='btn btn-outlined mt-3'>Deposit</button>
+                <button type="submit" class="next action-button my-2">Deposit</button>
 
-            </form>
-        </div>
-        {% endif %}
-
-        {% if deposits %}
-        <div class="col-12 my-5">
-            <h2 class="my-2">Final review</h2>
-            <a href="{% url 'request_review' %}" class='btn btn-outlined--primary'>Request Review</a>
-        </div>
-        {% endif %}
-    </div>
-
-
+            </form>      
+    </fieldset>
+ 
 </div>
+{% for deposit in deposits %}
+<div class="col-4">
+    <img src="{{ deposit.image.url }}" alt="">
+
+    {{deposit.deposit_date}}<br>
+    Rs {{deposit.amount}} : Status: {{deposit.verified}} <br>
+</div>
+
+{% endfor %}
+{% endif %}
 
 {% else %}
 <div class="row">
-    {% if object_list %}
-
-    <h2 class="">Books</h2>
-
-    {% else %}
+    {% if object_list|length == 0 %}
     <h2>You need to add three books</h2>
-{% endif %}
+    {% elif object_list|length == 1 %}
+    <h2>You need to add two more books</h2>
+    {% elif object_list|length == 2 %}
+    <h2>You need to add one more books</h2>
+    {% endif %}
 <div class="col-12">
 <div class="row">
 
-<div class="col-12">
 
-<div class="row">
+
+{% if object_list|length < 3 %}
+<div id="msform">
+    <!-- progressbar -->
+    <ul id="progressbar">
+        <li id="account"><strong>Membership</strong></li>
+        <li id="personal"  class="active"><strong>Books</strong></li>
+        <li id="payment"><strong>Deposit</strong></li>
+        <li id="confirm"><strong>Finish</strong></li>
+    </ul>
+    <div class="progress">
+        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100" ></div>
+    </div> <br> <!-- fieldsets -->
+    <fieldset>
+        <div class="form-card">
+            <div class="row">
+                <div class="col-7">
+                    <h2 class="fs-title">Upload book:</h2>
+                </div>
+                <div class="col-5">
+                    <h2 class="steps">Step 2 - 4</h2>
+                </div>
+            </div> 
+            <form method="POST" action="{% url 'add_new_book' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{book_form}}
+                <button type="submit" class="next action-button my-2">Add Book</button>
+            </form>              
+    </fieldset>
+ 
+</div>
+
 {% for object in object_list %}
     <div class="col-4 text-center">
         <h6><a href="{% url 'book_details' object.slug %}">{{object.book_name}}</a></h6>
@@ -95,72 +415,86 @@
     </div>
 
 {% endfor %}
-</div>
-</div>
 
-{% if object_list|length < 3 %}
+{% else %}
 
-<div class="col-12 mt-5">
-<p class="h2">Upload Book</p>
-<form method="POST" action="{% url 'add_new_book' %}" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{book_form}}
-    <button type="submit" class='btn btn-outlined mt-3'>Add Book</button>
-</form>
+{% if total_deposit >= 200.0 %}
+<div id="msform">
+    <!-- progressbar -->
+    <ul id="progressbar">
+        <li id="account"><strong>Membership</strong></li>
+        <li id="personal"><strong>Books</strong></li>
+        <li id="payment"><strong>Deposit</strong></li>
+        <li id="confirm" class="active"><strong>Finish</strong></li>
+    </ul>
+    <div class="progress">
+        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100" ></div>
+    </div> <br> <!-- fieldsets -->
+    <fieldset>
+        <div class="form-card">
+            <div class="row">
+                <div class="col-7">
+                    <h2 class="fs-title"></h2>
+                </div>
+                <div class="col-5">
+                    <h2 class="steps">Step 4 - 4</h2>
+                </div>
+            </div> 
+            <input class="" name="terms" type='checkbox' onclick="activateButton(this)">
+            <input disabled class="form-contorl" value='I agree to the terms and condition'>
+
+         
+            <a href="" class='btn btn-outlined--primary col-12 form-control' id='req'>Request Review</a>
+    </fieldset>
+ 
 </div>
 {% else %}
-<div class="col-12 my-5">
-    <div class="text-center mt-2">
-        Transfer Rs 200 as your annual membership fee, via Khalti or eSewa to the following mobile number <br> <strong>9861446103</strong>
-    </div>
+
+<div class="text-center">
+    Transfer Rs. 200 as your annual membership fee, via Khalti or eSewa to the following mobile number <br>
+<strong>9861446103</strong>
+</div>
+<div id="msform">
+    <!-- progressbar -->
+    <ul id="progressbar">
+        <li id="account"><strong>Membership</strong></li>
+        <li id="personal"><strong>Books</strong></li>
+        <li id="payment"  class="active"><strong>Deposit</strong></li>
+        <li id="confirm"><strong>Finish</strong></li>
+    </ul>
+    <div class="progress">
+        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100" ></div>
+    </div> <br> <!-- fieldsets -->
+    <fieldset>
+        <div class="form-card">
+            <div class="row">
+                <div class="col-7">
+                    <h2 class="fs-title">Upload deposit slip:</h2>
+                </div>
+                <div class="col-5">
+                    <h2 class="steps">Step 3 - 4</h2>
+                </div>
+            </div> 
+            <form method="POST" action="{% url 'add_deposit' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{deposit_form}}
+                <button type="submit" class="next action-button my-2">Deposit</button>
+
+            </form>      
+    </fieldset>
+ 
+</div>
+{% for deposit in deposits %}
+<div class="col-4">
+    <img src="{{ deposit.image.url }}" alt="">
+
+    {{deposit.deposit_date}}<br>
+    Rs {{deposit.amount}} : Status: {{deposit.verified}} <br>
 </div>
 
-<div class="col-12 mb-5">
-    <div class="row">
-        {% if deposits %}
-        <div class="col-12">
-            <h2>Deposits</h2>
+{% endfor %}
+{% endif %}
 
-        </div>
-        {% endif %}
-            {% for deposit in deposits %}
-            <div class="col-4">
-                <img src="{{ deposit.image.url }}" alt="">
-
-                {{deposit.deposit_date}}<br>
-                Rs {{deposit.amount}} : Status: {{deposit.verified}} <br>
-            </div>
-
-            {% endfor %}
-            {% if total_deposit >= 200.0 %}
-
-            {% else %}
-
-            <div class="col-12 mt-5">
-                <h2>Upload Deposit Slip</h2>
-
-                <form method="POST" action="{% url 'add_deposit' %}" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    {{deposit_form}}
-                    <button type="submit" class='btn btn-outlined mt-3'>Deposit</button>
-
-                </form>
-            </div>
-        {% endif %}
-
-        {% if deposits %}
-        <div class="col-12 my-5">
-            <h2 class="my-2">Final review</h2>
-            <a href="{% url 'request_review' %}" class='btn btn-outlined--primary'>Request Review</a>
-        </div>
-        {% endif %}
-    </div>
-
-
-</div>
-</div>
-
-</div>
 
 {% endif %}
 
@@ -168,7 +502,24 @@
 
 {% endif %}
 {% endif %}
+</div>
+</div>
+</div>
+</div>
+{% endif %}
 
 </div>
+<script>
+function activateButton(element) {
+
+if(element.checked) {
+  document.getElementById("req").href = "{% url 'request_review' %}";
+ }
+ else  {
+  document.getElementById("req").href = "#";
+}
+
+}
+</script>
 
 {% endblock %}

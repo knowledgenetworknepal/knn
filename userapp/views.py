@@ -84,7 +84,7 @@ class LoginPageView(BaseMixin, FormView):
 class LogoutView(View):
     def get(self, request):
         logout(request)
-        return redirect(reverse_lazy("registration"))
+        return redirect(reverse_lazy("login_view"))
 
 
 # view the user notificaiton

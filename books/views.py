@@ -12,7 +12,7 @@ from .forms import ReviewForm, CheckoutAddressForm, BookForm
 from django.db.models import Sum, F
 
 from userapp.forms import DepositForm, SignupChoiceForm
-from userapp.models import Deposit, Notification as Notice, SignupChoice
+from userapp.models import Deposit, Notification as Notice, SignupChoice, Request
 from base.models import Ads
 
 # if something is needed all over the palce, use this mixin
@@ -271,6 +271,7 @@ class NewUserView(LoginRequiredMixin, ListView):
         deposit = Deposit.objects.filter(user=user)
         context_data['deposits'] = Deposit.objects.filter(user=user)
         context_data['total_deposit'] = deposit.aggregate(Sum('amount'))['amount__sum']
+        context_data['request'] = Request.objects.filter(user=user, status=False).first()
         return context_data
     
     def get_queryset(self):
