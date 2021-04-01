@@ -8,7 +8,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import DeleteView
 from .models import Book, BookUpload, CartItem, Category, Review, CheckoutAddress, Order
-from .forms import ReviewForm, CheckoutAddressForm, BookForm
+from .forms import ReviewForm, CheckoutAddressForm, UserBookForm as BookForm
 from django.db.models import Sum, F
 
 from userapp.forms import DepositForm, SignupChoiceForm
