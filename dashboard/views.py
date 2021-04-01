@@ -49,7 +49,8 @@ class UnapprovedUserList(UserMixin):
 
 class UserSearch(UserMixin):
     def get_queryset(self):
-        return User.objects.filter(Q(username__icontains=self.request.GET.get("q")) | Q(contact__icontains=self.request.GET.get("q") | Q(email__icontains=self.request.GET.get("q")))).order_by('-id')        
+        data = str(self.request.GET.get("q"))
+        return User.objects.filter(Q(username__icontains=data) | Q(contact__icontains=data) | Q(email__icontains=data)).order_by('-id')        
 
 
 class UserDetail(BaseMixin, DetailView):
