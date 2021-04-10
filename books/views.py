@@ -87,8 +87,8 @@ class ListBooksView(BaseMixin, ListView):
         context_data = super().get_context_data(**kwargs)
         context_data['famous_books'] = Book.objects.filter(available__gt=0).order_by('-count')[0:12]
         context_data['featured_books'] = Book.objects.filter(featured=True).order_by('-id')[0:12]
-        context_data['cat1'] = Book.objects.filter(featured=True, category__category_name='Children').order_by('-id')[0:12]
-        context_data['cat2'] = Book.objects.filter(featured=True, category__category_name='Biography').order_by('-id')[0:12]
+        context_data['cat1'] = Book.objects.filter(category__category_name='Children', available__gt=0).order_by('-id')[0:12]
+        context_data['cat2'] = Book.objects.filter(category__category_name='Biography', available__gt=0).order_by('-id')[0:12]
 
         ads = Ads.objects.filter(status=True)
         context_data['hero_ads'] = ads.filter(ad_type='Hero')

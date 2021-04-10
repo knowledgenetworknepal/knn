@@ -56,6 +56,7 @@ class Book(models.Model):
             except:
                 self.slug = slugify(self.book_name)+random.randint(0,99999999)
                 super().save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.book_name
