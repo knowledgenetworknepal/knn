@@ -93,10 +93,13 @@
                             <span class="widget-label">Qty</span>
                             <input type="number" class="form-control text-center" value="{{object.available}}" disabled>
                         </div>
+                        {% if user.is_authenticated %}
+
                         <div class="add-cart-btn">
                             <a href="{% url 'add_to_cart' object.slug %}" class="btn btn-outlined--primary"><span class="plus-icon">+</span>Add to
                                 Cart</a>
                         </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>

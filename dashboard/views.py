@@ -69,7 +69,7 @@ class UserDetail(BaseMixin, DetailView):
         return get_object_or_404(User, username=self.kwargs.get('username'))
 
 
-class ApproveUser(View):
+class ApproveUser(BaseMixin, View):
     def get(self, request, *args, **kwargs):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
         req =  Request.objects.filter(user=user, status=False).order_by('-id')
@@ -80,7 +80,7 @@ class ApproveUser(View):
         return redirect(request.META.get('HTTP_REFERER'))
 
 
-class ReceiveBook(View):
+class ReceiveBook(BaseMixin, View):
     def get(self, request, *args, **kwargs):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
         uploads = BookUpload.objects.filter(added_by=user)
@@ -93,7 +93,7 @@ class ReceiveBook(View):
         return redirect(request.META.get('HTTP_REFERER'))
 
 
-class RejectUser(View):
+class RejectUser(BaseMixin, View):
     def get(self, request, *args, **kwargs):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
         user.approved = False
@@ -171,6 +171,7 @@ class UpdateBook(BaseMixin, UpdateView):
     form_class = AdminBookForm
 
     def get_success_url(self):
+        print('success')
         return reverse('dashboard:book_details',kwargs={'slug':self.get_object().slug})
 
 

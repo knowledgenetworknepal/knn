@@ -78,15 +78,18 @@ class AddNewBookView(BaseMixin, CreateView):
 class ListBooksView(BaseMixin, ListView):
     model = Book
     template_name = 'books/home.html'
-    queryset = Book.objects.all().order_by('-id')
+    queryset = Book.objects.filter(available__gt=0).order_by('-id')
     paginate_by = 12
     context_object_name = 'books'
 
     # this needs to list the featured books, newset books, popular books
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
-        context_data['famous_books'] = Book.objects.all().order_by('-count')[0:12]
+        context_data['famous_books'] = Book.objects.filter(available__gt=0).order_by('-count')[0:12]
         context_data['featured_books'] = Book.objects.filter(featured=True).order_by('-id')[0:12]
+        context_data['cat1'] = Book.objects.filter(featured=True, category__category_name='Children').order_by('-id')[0:12]
+        context_data['cat2'] = Book.objects.filter(featured=True, category__category_name='Biography').order_by('-id')[0:12]
+
         ads = Ads.objects.filter(status=True)
         context_data['hero_ads'] = ads.filter(ad_type='Hero')
         context_data['ads'] = ads
@@ -96,7 +99,7 @@ class ListBooksView(BaseMixin, ListView):
 class AllBooksView(BaseMixin, ListView):
     model = Book
     template_name = 'books/category.html'
-    queryset = Book.objects.all().order_by('-id')
+    queryset = Book.objects.filter(available__gt=0).order_by('-id')
     paginate_by = 12
 
 
@@ -114,7 +117,7 @@ class CategoryView(BaseMixin, ListView):
         return context_data
 
     def get_queryset(self, *args, **kwargs):
-        return Book.objects.filter(category=self.get_object())    
+        return Book.objects.filter(category=self.get_object(), available__gt=0)    
 
 
 # single book details

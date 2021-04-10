@@ -26,20 +26,20 @@ class BookForm(BaseForm):
     isbn_number = forms.CharField(max_length=200, required=True)
     class Meta:
         model = Book
-        fields = ('book_name','isbn_number','book_pages','book_description','price','image')
+        fields = ('book_name','isbn_number','category','book_pages','book_description','price','image')
 
 
 class UserBookForm(BaseForm):
     isbn_number = forms.CharField(max_length=200, required=True)
     class Meta:
         model = Book
-        fields = ('book_name','isbn_number','book_pages','price','image')
+        fields = ('book_name','isbn_number','category','book_pages','price','image')
 
 
 class AdminBookForm(BaseForm):
     class Meta:
         model = Book
-        fields = ('book_name','isbn','available','book_pages','book_description','price','image','featured')
+        fields = ('book_name','isbn','category','available','book_pages','book_description','price','image','featured')
 
 
 class CategoryForm(BaseForm):

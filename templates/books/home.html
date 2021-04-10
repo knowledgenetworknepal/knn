@@ -402,6 +402,55 @@
             </div>
         </div>
 
+                <!--=================================
+        CHILDREN’S BOOKS 
+        ===================================== -->
+        <section class="section-margin">
+            <div class="container">
+                <div class="section-title section-title--bordered">
+                    <h2>CHILDREN’S BOOKS</h2>
+                </div>
+                <div class="product-list-slider slider-two-column product-slider multiple-row sb-slick-slider slider-border-multiple-row"
+                    data-slick-setting='{
+                                            "autoplay": true,
+                                            "autoplaySpeed": 8000,
+                                            "slidesToShow":3,
+                                            "rows":2,
+                                            "dots":true
+                                        }' data-slick-responsive='[
+                                            {"breakpoint":1200, "settings": {"slidesToShow": 2} },
+                                            {"breakpoint":992, "settings": {"slidesToShow": 2} },
+                                            {"breakpoint":768, "settings": {"slidesToShow": 1} },
+                                            {"breakpoint":575, "settings": {"slidesToShow": 1} },
+                                            {"breakpoint":490, "settings": {"slidesToShow": 1} }
+                                        ]'>
+                                        {% for book in cat1 %}
+
+                    <div class="single-slide">
+                        <div class="product-card card-style-list">
+                            <a href="{% url 'book_details' book.slug %}">
+                            <div class="card-image">
+                                {% if book.image %}
+                                <img src="{{ book.image.url }}" alt="">
+                                {% endif %}  
+                            </div>
+                            <div class="product-card--body">
+                                <div class="product-header">
+                                    <h3><a href="{% url 'book_details' book.slug %}">{{book.book_name}}</a></h3>
+                                </div>
+                                <div class="price-block">
+                                    <span class="price">Rs 25.00</span>
+                                </div>
+                            </div>
+                        </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </section>
+
         <!--=================================
 
         Promotion Section Two
@@ -450,6 +499,74 @@
                 </div>
             </div>
         </div>
+
+                <!--=================================
+        ARTS & PHOTOGRAPHY BOOKS
+        ===================================== -->
+        <section class="section-margin">
+            <div class="container">
+                <div class="section-title section-title--bordered">
+                    <h2>Biography Books</h2>
+                </div>
+                <div class="product-slider sb-slick-slider slider-border-single-row" data-slick-setting='{
+                "autoplay": true,
+                "autoplaySpeed": 8000,
+                "slidesToShow": 5,
+                "dots":true
+            }' data-slick-responsive='[
+                {"breakpoint":1500, "settings": {"slidesToShow": 4} },
+                {"breakpoint":992, "settings": {"slidesToShow": 3} },
+                {"breakpoint":768, "settings": {"slidesToShow": 2} },
+                {"breakpoint":480, "settings": {"slidesToShow": 1} },
+                {"breakpoint":320, "settings": {"slidesToShow": 1} }
+            ]'>
+            {% for book in cat2 %}
+
+       
+            <div class="single-slide">
+                  <div class="product-card">
+                      <div class="product-header">
+                       
+                          <h3><a href="{% url 'book_details' book.slug %}">{{book.book_name}}</a></h3>
+                      </div>
+                      <div class="product-card--body">
+                          <div class="card-image">
+                              {% if book.image %}
+                              <img src="{{ book.image.url }}" alt="">
+                              {% endif %}
+                              <div class="hover-contents">
+                                  <a href="{% url 'book_details' book.slug %}" class="hover-image">
+                                      {% if book.image %}
+                                          <img src="{{ book.image.url }}" alt="">
+                                          {% endif %}        
+                                  </a>
+                                  {% if request.user.is_authenticated %}
+
+                                  <div class="hover-btns">
+                                      <a href="{% url 'add_to_cart' book.slug %}" class="single-btn">
+                                          <i class="fas fa-shopping-basket"></i>
+                                      </a>
+                                   
+                                      <a href="{% url 'book_details' book.slug %}"
+                                          class="single-btn">
+                                          <i class="fas fa-eye"></i>
+                                      </a>
+                                  </div>
+                                  {% endif %}
+
+                              </div>
+                          </div>
+                          <div class="price-block">
+                              <span class="price">Rs 25.00</span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              {% endfor %}
+                
+                </div>
+            </div>
+        </section>
 
 
         <!--=================================
