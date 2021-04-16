@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}  Knowledge Network Nepal {% endblock %}
+
+{% block content %} 
+
+<section class="breadcrumb-section">
+    <h2 class="sr-only">Site Breadcrumb</h2>
+    <div class="container">
+        <div class="breadcrumb-contents">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'list_books' %}">Home</a></li>
+                    <li class="breadcrumb-item active">{{category}}</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</section>
+<main class="inner-page-sec-padding-bottom">
+    <div class="container">
+<div class="shop-toolbar mb--30">
+    <div class="row align-items-center">
+        <div class="col-lg-9 col-md-2 col-sm-6">
+            <!-- Product View Mode -->
+            <div class="product-view-mode">
+                <a href="#" class="sorting-btn active" data-target="grid"><i class="fas fa-th"></i></a>
+                <a href="#" class="sorting-btn" data-target="grid-four">
+                    <span class="grid-four-icon">
+                        <i class="fas fa-grip-vertical"></i><i class="fas fa-grip-vertical"></i>
+                    </span>
+                </a>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-4 col-sm-6  mt--10 mt-sm--0 let">
+            <span class="toolbar-status">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+        </div>
+
+    </div>
+</div>
+
+
+        <div class="shop-product-wrap grid with-pagination row space-db--30 shop-border">
+            {% for book in object_list %}
+
+            <div class="col-lg-4 col-sm-6">
+
+                <div class="product-card">
+
+                    <div class="product-grid-content">
+                        <div class="product-header">
+                           
+                            <h3><a href="{% url 'book_details' book.slug %}">{{book.book_name}}</a></h3>
+                        </div>
+                        <div class="product-card--body">
+                            <div class="card-image">
+                                {% if book.image %}
+                                <img src="{{ book.image.url }}" alt="">
+                                {% endif %}                                   <div class="hover-contents">
+                                    <a href="{% url 'book_details' book.slug %}" class="hover-image">
+                                        {% if book.image %}
+                                        <img src="{{ book.image.url }}" alt="">
+                                        {% endif %}     
+                                    </a>
+                                    {% if request.user.is_authenticated %}
+      
+                                    <div class="hover-btns">
+                                        <a href="{% url 'add_to_cart' book.slug %}" class="single-btn">
+                                            <i class="fas fa-shopping-basket"></i>
+                                        </a>
+                                        <a href="wishlist.html" class="single-btn">
+                                            <i class="fas fa-heart"></i>
+                                        </a>
+                        
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="price-block">
+                                <span class="price">Rs 25.00</span>
+                            </div>
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+
+        {% include 'get_req_pagination.html' %}
+
+    </div>
+
+
+    </main>
+
+
+{% endblock %}

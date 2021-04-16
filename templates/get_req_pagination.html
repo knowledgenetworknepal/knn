@@ -1,0 +1,21 @@
+<div class="">
+    <div class="pagination d-flex justify-content-center mt-2">
+
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?search={{request.GET.search}}&page=1" class="btn btn-outline-primary">&laquo; First</a>
+                <a href="?search={{request.GET.search}}&page={{ page_obj.previous_page_number }}" class="btn btn-outline-primary">Previous</a>
+            {% endif %}
+    
+           
+    
+            {% if page_obj.has_next %}
+                <a href="?search={{request.GET.search}}&page={{ page_obj.next_page_number }}" class="btn btn-outline-primary">Next</a>
+                <a href="?search={{request.GET.search}}&page={{ page_obj.paginator.num_pages }}" class="btn btn-outline-primary">Last &raquo;</a>
+            {% endif %}
+        </span>
+</div>
+
+    
+</div>
+

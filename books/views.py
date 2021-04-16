@@ -284,7 +284,7 @@ class NewUserView(LoginRequiredMixin, ListView):
 
 class SearchView(BaseMixin, ListView):
     model = Book
-    template_name = 'books/category.html'
+    template_name = 'books/search.html'
     paginate_by = 12
 
     def get_context_data(self, **kwargs):
