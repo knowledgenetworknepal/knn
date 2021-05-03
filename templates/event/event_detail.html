@@ -24,10 +24,8 @@
             <div class="">
                 {{object.description}}
             </div>
-            {% if registered %}
-
+            {% if user.is_authenticated %}
             <div class="comment section text-center">
-
                 {% if registered == False %}
 
 
@@ -42,6 +40,7 @@
             </button>                      
               
                 {% endif %}
+
             </div>
             {% endif %}
 

@@ -1,0 +1,78 @@
+{% extends 'dashboard_base.html' %}
+{% load static %}
+
+
+{% block title %}  Knowledge Network Nepal {% endblock %}
+
+{% block content %} 
+<style>
+    .col-3{
+        min-height: 130px;
+    }
+    </style>
+<div class="inner">
+
+    <div class="card">
+    <div class="row text-center">
+        <div class="col-3 bg-success">
+            <a href="{% url 'dashboard:user_list' %}">
+
+            <div class=" py-5">
+                <div class="h2">
+                {{total_users}}
+                </div>
+                <p class="h5">
+                    Total Users
+                </p>
+            </div>
+             </a>
+        </div>
+        <div class="col-3 bg-dark text-light">
+            <a href="{% url 'dashboard:book_list' %}">
+
+            <div class=" py-5">
+                <div class="h2">
+                {{total_books}}
+                </div>
+                <p class="h5">
+                    Total Books
+                </p>
+            </div>
+            </a>
+        </div>
+        <div class="col-3 bg-warning">
+            <a href="{% url 'dashboard:request_list' %}">
+
+            <div class=" py-5">
+                <div class="h2">
+                {{new_request}}
+                </div>
+                <p class="h5">
+                    New Request
+                </p>
+            </div>
+            </a>
+        </div>
+        <div class="col-3 bg-info">
+            <a href="{% url 'dashboard:orders' %}">
+
+            <div class=" py-5">
+                <div class="h2">
+                {{new_order}}
+                </div>
+                <p class="h5">
+                    Orders
+                </p>
+            </div>
+            </a>
+        </div>
+    </div>
+    
+    </div>
+
+  </div>
+
+
+
+
+{% endblock %}

@@ -33,7 +33,7 @@ class UserBookForm(BaseForm):
     isbn_number = forms.CharField(max_length=200, required=True)
     class Meta:
         model = Book
-        fields = ('book_name','isbn_number','category','book_pages','price','image')
+        fields = ('book_name','isbn_number','category','image')
 
 
 class AdminBookForm(BaseForm):

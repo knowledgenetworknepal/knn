@@ -5,8 +5,9 @@ from .views import *
 app_name = 'dashboard'
 
 urlpatterns = [
+    path('', DashboardView.as_view(), name='home'),
     # user 
-    path('', UserListView.as_view(), name='user_list'),
+    path('user/', UserListView.as_view(), name='user_list'),
     path('user/approved/', ApprovedUserList.as_view(), name='approved_users'),
     path('user/unapproved/', UnapprovedUserList.as_view(), name='unapproved_users'),
     path('user/<str:username>/', UserDetail.as_view(), name='user_detail'),

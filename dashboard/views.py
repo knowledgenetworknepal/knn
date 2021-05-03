@@ -1,6 +1,7 @@
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, View
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
+from django.views.generic.base import TemplateView
 from django.views.generic.edit import DeleteView
  
 from .permissions import IsAdminMixin
@@ -26,6 +27,19 @@ class BaseMixin(IsAdminMixin):
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         context_data['notificaitons'] = Notice.objects.all().order_by('-id')
+        return context_data
+
+
+class DashboardView(BaseMixin, TemplateView):
+    template_name = 'dashboard/home.html'
+
+    def get_context_data(self, **kwargs):
+        context_data =  super().get_context_data(**kwargs)
+        context_data['total_users'] = User.objects.all().count()
+        context_data['total_books'] = Book.objects.all().count()
+        context_data['new_request'] = Request.objects.filter(status=False).count()
+        context_data['new_order'] = Order.objects.filter(delivery_status='none').count()
+
         return context_data
 
 
