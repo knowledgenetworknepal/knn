@@ -3,6 +3,7 @@ import random
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.text import slugify
+from ckeditor.fields import RichTextField
 
 
 User = get_user_model()
@@ -10,7 +11,7 @@ User = get_user_model()
 
 class Event(models.Model):
     name = models.CharField(max_length=100)
-    description = models.TextField(max_length=200)
+    description = RichTextField(blank=True, null=True)
     event_date = models.DateTimeField()
     slug = models.SlugField(unique=True)
     added_date = models.DateTimeField(auto_now=True)
